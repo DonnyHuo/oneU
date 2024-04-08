@@ -1,0 +1,100 @@
+@font-face {
+  font-family: Poppins-Regular;
+  src: url("../family/Poppins-Regular.ttf");
+}
+@font-face {
+  font-family: Poppins-Medium;
+  src: url("../family/Poppins-Medium.ttf");
+}
+@font-face {
+  font-family: Poppins-SemiBold;
+  src: url("../family/Poppins-SemiBold.ttf");
+}
+html,body {
+  font-family: Poppins-Medium;
+}
+._title {
+  color: #F4F3F9;
+  font-family: Poppins-SemiBold;
+}
+._active {
+  color: #A851FF;
+}
+._nav-title {
+  color: #B5B3C1;
+}
+._text {
+  color: #A39FAD;
+  font-family: Poppins-Regular;
+}
+._tip {
+  color: #6E697B;
+}
+._tip-yellow {
+  color: #E7BB41;
+}
+._border {
+  border: 1px solid #3D3952;
+}
+._borderS{
+  border: 1px solid #7F00FF;
+}
+._line {
+  border-bottom:1px solid #2A2539;
+}
+._background1 {
+  background-color: #0B051A;
+}
+._background2 {
+  background-color: #1C172A;
+}
+._background-gradient {
+  background: linear-gradient(#181327, #361A58);
+}
+
+._background-gradient2 {
+  background: linear-gradient(to right,#CE00FF, #7F00FF);
+}
+
+._background-gradient3 {
+  background: linear-gradient(to right, #361A58, #181327);
+}
+
+._background-home {
+  background-image: url('../img/homeBg.png');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 880px;
+}
+._background-home2 {
+  background-image: url('../img/homeBg2.png');
+  background-repeat: no-repeat;
+  /* background-position: ; */
+  background-size: 100%;
+}
+
+._background-referral {
+  background-image: url('../img/referralBg.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+._referralTitle {
+  background-image: url('../img/referralTitle.png');
+  background-repeat: no-repeat;
+  background-size: 135px;
+  background-position: 370px 58px;
+}
+
+._background-tutorials {
+  background-image: url('../img/tutorialsBg.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+._backgroundLine {
+  background-image: url('../img/line2.png');
+  background-repeat: no-repeat;
+  background-size: 2px 40px;
+  background-position: 6px 26px;
+}
+
