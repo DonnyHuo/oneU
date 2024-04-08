@@ -18,10 +18,10 @@ const projectId = "454269b43ef322b9349e9336c5df2477";
 
 // 2. Create wagmiConfig
 const metadata = {
-  name: "Web3Modal",
-  description: "Web3Modal Example",
-  url: "https://web3modal.com",
-  icons: ["https://avatars.githubusercontent.com/u/37784886"],
+  name: "oneU",
+  description: "oneU",
+  url: "",
+  icons: [""],
 };
 
 const chains = [mainnet, arbitrum];

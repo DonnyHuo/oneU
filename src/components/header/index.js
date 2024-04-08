@@ -9,6 +9,22 @@ const Header = () => {
   const { open } = useWeb3Modal();
   const { address } = useAccount();
   const { chain } = useNetwork();
+  console.log(chain)
+
+  const chainList =[
+    {
+      networkId: 1,
+      url: require('../../asserts/img/ETH.png')
+    },
+    {
+      networkId: 42161,
+      url: "https://cryptologos.cc/logos/arbitrum-arb-logo.png?v=029"
+    }
+  ]
+
+  const selectNetworkIcon = (id)=> {
+    return chainList.filter(list => list.networkId == id)[0]
+  }
 
   return (
     <div className="h-18 flex items-center justify-between pl-5 pr-5 border-spacing-1 text-white _background1 _line relative">
@@ -58,14 +74,15 @@ const Header = () => {
           Discord
         </a>
       </div>
-      <div>
+      <div className="flex items-center">
         {/* <w3m-button /> */}
         {chain && (
           <button
-            className="_border rounded-full p-2 pl-4 pr-4 text-sm mr-2"
+            className="_border rounded-full p-2 pl-4 pr-4 text-sm mr-2 flex items-center"
             onClick={() => open({ view: "Networks" })}
           >
-            {chain?.name}
+            <img className="w-5 mr-2" src={selectNetworkIcon(chain.id).url} />
+            <span>{chain?.name}</span>
           </button>
         )}
 
@@ -73,7 +90,14 @@ const Header = () => {
           className="_borderS rounded-full p-2 pl-4 pr-4 text-sm"
           onClick={() => open()}
         >
-          {address ? shortStr(address, 5, 4) : "Connect Wallet"}
+          {address ? (
+            <div className="flex items-center">
+              <img className="w-5" src={require("../../asserts/img/connect.png")} />
+              <span className="pl-2">{shortStr(address, 5, 4)}</span>
+            </div>
+          ) : (
+            "Connect Wallet"
+          )}
         </button>
       </div>
     </div>
