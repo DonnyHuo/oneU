@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useAccount, useNetwork } from "wagmi";
+import { useAccount, useNetwork, useEnsAvatar } from "wagmi";
 import { shortStr } from "../../utils";
 const Header = () => {
   const location = useLocation();
@@ -9,7 +9,10 @@ const Header = () => {
   const { open } = useWeb3Modal();
   const { address } = useAccount();
   const { chain } = useNetwork();
-  console.log(chain)
+  const ensAvatar = useEnsAvatar()
+  console.log('ensAvatar', ensAvatar)
+
+  console.log('chain', chain)
 
   const chainList =[
     {
@@ -81,7 +84,7 @@ const Header = () => {
             className="_border rounded-full p-2 pl-4 pr-4 text-sm mr-2 flex items-center"
             onClick={() => open({ view: "Networks" })}
           >
-            <img className="w-5 mr-2" src={selectNetworkIcon(chain.id).url} />
+            <img className="w-5 mr-2" src={selectNetworkIcon(chain.id)?.url} />
             <span>{chain?.name}</span>
           </button>
         )}
