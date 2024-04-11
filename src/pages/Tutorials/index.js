@@ -27,20 +27,20 @@ function Tutorials() {
     <div className="_background1 _title">
       <div className="_background-tutorials">
         <div
-          className="pt-20 pb-20 flex items-center justify-between"
+          className="pt-20 pb-20 flex items-center justify-between _flexNo _paddingTB"
           style={{
-            width: "1182px",
+            maxWidth: "1180px",
             margin: "0 auto",
           }}
         >
           <div>
-            <div className="text-5xl" style={{ lineHeight: "60px" }}>
+            <div className="text-5xl _lineHeight30 _referralTitle _size20">
               <p>Earn crypto lotteries</p>
               <p>simply, transparently</p>
               <p> and fairly.</p>
             </div>
             <div
-              className="flex items-center justify-between mt-10"
+              className="flex items-center justify-between mt-10 _hiddenM"
               style={{ width: "400px" }}
             >
               <button
@@ -52,9 +52,9 @@ function Tutorials() {
             </div>
           </div>
           <div
-            className="_border rounded-3xl p-8 _background2"
+            className="_border rounded-3xl p-8 _background2 _marginLR _padding10 _marginTop"
             style={{
-              width: "561px",
+              maxWidth: "561px",
               height: "277px",
               backgroundImage: `url(${require("../../asserts/img/wallet.png")})`,
               backgroundPosition: "98% 90%",
@@ -103,7 +103,7 @@ function Tutorials() {
             </div>
           </div>
         </div>
-        <div style={{ width: "1180px", margin: "0 auto" }}>
+        <div style={{ maxWidth: "1180px" }} className="_marginLR _marginAuto0 _paddingB20">
           <div className="text-2xl font-bold">Q&A</div>
           <div>
             {qaList.map((list, index) => {

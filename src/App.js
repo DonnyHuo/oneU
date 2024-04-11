@@ -14,14 +14,12 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Header />
-        <div>
-          <Routes>
+        <Routes>
             <Route path="/" element={<Lottery />}></Route>
             <Route path="/referral" element={<Referral />}></Route>
             <Route path="/tutorials" element={<Tutorials />}></Route>
             <Route path="/discord" element={<Discord />}></Route>
           </Routes>
-        </div>
         <Footer />
       </div>
     </BrowserRouter>

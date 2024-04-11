@@ -35,7 +35,7 @@ const Header = () => {
         <img className="h-5 mt-6 mb-6" src={logoIcon} />
       </div>
       <div
-        className="flex items-center font-medium"
+        className="flex items-center font-medium _hiddenM"
         style={{
           position: "absolute",
           top: "20px",
@@ -81,26 +81,29 @@ const Header = () => {
         {/* <w3m-button /> */}
         {chain && (
           <button
-            className="_border rounded-full p-2 pl-4 pr-4 text-sm mr-2 flex items-center"
+            className="_border rounded-full p-2 md:pl-4 md:pr-4 text-sm mr-2 flex items-center"
             onClick={() => open({ view: "Networks" })}
           >
-            <img className="w-5 mr-2" src={selectNetworkIcon(chain.id)?.url} />
-            <span>{chain?.name}</span>
+            <img className="w-5" src={selectNetworkIcon(chain.id)?.url} />
+            <span className="ml-2 _hiddenM">{chain?.name}</span>
           </button>
         )}
 
         <button
-          className="_borderS rounded-full p-2 pl-4 pr-4 text-sm"
+          className="_borderS rounded-full p-2 md:pl-4 md:pr-4 text-sm"
           onClick={() => open()}
         >
           {address ? (
             <div className="flex items-center">
               <img className="w-5" src={require("../../asserts/img/connect.png")} />
-              <span className="pl-2">{shortStr(address, 5, 4)}</span>
+              <span className="pl-2 _hiddenM">{shortStr(address, 5, 4)}</span>
             </div>
           ) : (
             "Connect Wallet"
           )}
+        </button>
+        <button className="flex items-center justify-center _borderS rounded-full p-2 ml-2 _hiddenP">
+          <img className="w-5" src={require("../../asserts/img/menu.png")} />
         </button>
       </div>
     </div>

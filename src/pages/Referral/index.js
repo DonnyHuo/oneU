@@ -4,28 +4,25 @@ function Referral() {
     <div className="_background1 _title">
       <div className="_background-referral">
         <div
-          className="pt-20 pb-20 flex items-center justify-between"
-          style={{
-            width: "1182px",
-            margin: "0 auto",
-            backgroundImage: `url(${union})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "420px",
-            backgroundPosition: "top right",
-          }}
+          className="pt-20 pb-20 flex items-center justify-between _referralHome _paddingTB"
+          style={{ backgroundImage: `url(${union})`}}
         >
           <div>
             <div
-              className="text-5xl _referralTitle"
-              style={{ lineHeight: "60px" }}
+              className="text-5xl _referralTitle _size20 _lineHeight30"
             >
               <p>Invite friends. Earn 3%</p>
-              <p>commission on each friend’s</p>
-              <p>participate.</p>
+              <p>commission on each friend’s participate.</p>
+            </div>
+            <div className="flex items-center justify-center _hiddenP">
+              <img
+                style={{ width: "300px", marginTop: '20px' }}
+                src={require("../../asserts/img/reward.png")}
+              />
             </div>
             <div
-              className="flex items-center justify-between mt-10"
-              style={{ width: "400px" }}
+              className="flex items-center justify-between mt-10 _marginAutoM"
+              style={{ maxWidth: "400px" }}
             >
               <div
                 className="h-10 _border flex items-center justify-between pr-3 pl-3 rounded-lg text-xs"
@@ -48,7 +45,7 @@ function Referral() {
               </button>
             </div>
           </div>
-          <div className="pr-4">
+          <div className="pr-4 _hiddenM">
             <img
               style={{ width: "352px" }}
               src={require("../../asserts/img/reward.png")}
@@ -57,7 +54,7 @@ function Referral() {
         </div>
         <div
           className="p-5 _background2 rounded-xl"
-          style={{ width: "1182px", margin: "0 auto" }}
+          style={{ maxWidth: "1182px", margin: "0 auto", overflow:'hidden' }}
         >
           <div className="flex items-start justify-between">
             <div
@@ -111,7 +108,7 @@ function Referral() {
         </div>
         <div
           className="p-5 _background2 rounded-xl"
-          style={{ width: "1182px", margin: "0 auto", marginTop: "50px" }}
+          style={{ maxWidth: "1182px", margin: "0 auto", marginTop: "50px", overflow:'hidden' }}
         >
           <div>Tips</div>
           <div className="text-xs _text flex items-start justify-between mt-6 relative pb-5">

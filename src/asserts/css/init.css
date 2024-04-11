@@ -10,90 +10,213 @@
   font-family: Poppins-SemiBold;
   src: url("../family/Poppins-SemiBold.ttf");
 }
-html,body {
+html,
+body {
   font-family: Poppins-Medium;
 }
 ._title {
-  color: #F4F3F9;
+  color: #f4f3f9;
 }
 ._active {
-  color: #A851FF;
+  color: #a851ff;
 }
 ._nav-title {
-  color: #B5B3C1;
+  color: #b5b3c1;
 }
 ._text {
-  color: #A39FAD;
+  color: #a39fad;
   font-family: Poppins-Regular;
 }
 ._tip {
-  color: #6E697B;
+  color: #6e697b;
 }
 ._tip-yellow {
-  color: #E7BB41;
+  color: #e7bb41;
 }
 ._border {
-  border: 1px solid #3D3952;
+  border: 1px solid #3d3952;
 }
-._borderS{
-  border: 1px solid #7F00FF;
+._borderS {
+  border: 1px solid #7f00ff;
 }
 ._line {
-  border-bottom:1px solid #2A2539;
+  border-bottom: 1px solid #2a2539;
 }
 ._background1 {
-  background-color: #0B051A;
+  background-color: #0b051a;
 }
 ._background2 {
-  background-color: #1C172A;
+  background-color: #1c172a;
 }
 ._background-gradient {
-  background: linear-gradient(#181327, #361A58);
+  background: linear-gradient(#181327, #361a58);
 }
 
 ._background-gradient2 {
-  background: linear-gradient(to right,#CE00FF, #7F00FF);
+  background: linear-gradient(to right, #ce00ff, #7f00ff);
 }
 
 ._background-gradient3 {
-  background: linear-gradient(to right, #361A58, #181327);
+  background: linear-gradient(to right, #361a58, #181327);
 }
 
 ._background-home {
-  background-image: url('../img/homeBg.png');
+  background-image: url("../img/homeBg.png");
   background-repeat: no-repeat;
   background-position: top center;
   background-size: 880px;
 }
 ._background-home2 {
-  background-image: url('../img/homeBg2.png');
+  background-image: url("../img/homeBg2.png");
   background-repeat: no-repeat;
   /* background-position: ; */
   background-size: 100%;
 }
 
 ._background-referral {
-  background-image: url('../img/referralBg.png');
+  background-image: url("../img/referralBg.png");
   background-repeat: no-repeat;
   background-size: 100%;
 }
 
 ._referralTitle {
-  background-image: url('../img/referralTitle.png');
+  background-image: url("../img/referralTitle.png");
   background-repeat: no-repeat;
   background-size: 135px;
   background-position: 370px 58px;
 }
 
 ._background-tutorials {
-  background-image: url('../img/tutorialsBg.png');
+  background-image: url("../img/tutorialsBg.png");
   background-repeat: no-repeat;
   background-size: 100%;
 }
 ._backgroundLine {
-  background-image: url('../img/line2.png');
+  background-image: url("../img/line2.png");
   background-repeat: no-repeat;
   background-size: 2px 40px;
   background-position: 6px 26px;
 }
 
+@media screen and (min-width: 0px) and (max-width: 480px) {
+  ._hiddenM {
+    display: none;
+  }
+  ._size20 {
+    font-size: 30px;
+    text-align: center;
+  }
+  ._size35 {
+    font-size: 35px;
+    line-height: 50px;
+    padding-top: 50px;
+  }
+  ._padding20 {
+    padding: 0 20px;
+  }
+  ._widthM {
+    margin: 40px 20px;
+  }
+  ._size12 {
+    font-size: 12px;
+  }
+  ._widthM-30 {
+    width: 33%;
+  }
+  ._footerM {
+    width: 100%;
+    padding: 30px 20px;
+  }
+  ._margin0 {
+    margin: 0;
+  }
+  ._flexNo {
+    display: block;
+  }
+  ._height20 {
+    height: 20px;
+  }
+  ._footerList {
+    width: 240px;
+    height: 30px;
+    margin: 10px 0;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+  ._paddingTop10 {
+    padding-top: 10px;
+  }
+  ._background-home {
+    background-size: 80%;
+  }
+  ._borderNo {
+    border: none;
+  }
+  ._paddingNo {
+    padding: 0;
+  }
+  ._marginBottom {
+    margin-bottom: 10px;
+  }
+  ._lineHeight30 {
+    line-height: 40px;
+  }
+  ._referralTitle {
+    background-size: 100px;
+    background-position: 80% 38px;
+  }
+  ._referralHome {
+    max-width: 1182px;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center center;
+  }
+  ._marginAutoM {
+    margin: 20px auto;
+  }
+  ._marginLR {
+    margin: 0 20px
+  }
+  ._padding10 {
+    padding: 20px;
+  }
+  ._marginTop{
+    margin-top: 40px;
+  }
+  ._paddingB20{
+    padding-bottom: 20px;
+  }
+  ._paddingTB{
+    padding: 50px 0;
+  }
+}
+
+@media screen and (min-width: 480px) and (max-width: 2000px) {
+  ._hiddenP {
+    display: none;
+  }
+  ._widthP {
+    max-width: 1100px;
+  }
+  ._widthPMax {
+    max-width: 1300px;
+  }
+  ._marginAuto {
+    margin: 100px auto;
+  }
+  ._marginAuto0 {
+    margin: 0 auto;
+  }
+  ._lineHeight30 {
+    line-height: 60px;
+  }
+  ._referralHome {
+    max-width: 1182px;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-size: 420px;
+    background-position: top right;
+  }
+}

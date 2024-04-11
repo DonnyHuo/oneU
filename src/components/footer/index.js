@@ -1,27 +1,22 @@
 function footer() {
   const logoIcon = require("../../asserts/img/logo.png");
   return (
-    <div
-      className="text-white _background1"
-      style={{ width: "100%" }}
-    >
-      <div
-        className="flex align-center justify-between pl-5 pr-5 pt-20 pb-10"
-        style={{ width: "1200px", margin: "0 auto" }}
-      >
-        <div>
-          <img className="h-5 mt-14 mb-14" src={logoIcon} />
-          <div className="text-xs text-slate-400 _nav-title">
-            © 2024 OneU, All Rights Reserved
-          </div>
-        </div>
-        <div>
-          <div className="flex items-center justify-around h-32 text-sm _title">
+    <div className="text-white _background1 pl-5 pr-5 pt-5 pb-10 _footerM">
+      {/* <div className="flex item-center justify-between pl-5 pr-5 pt-20 pb-10 _widthPMax _marginAuto0"> */}
+      <div className="_widthPMax _marginAuto0">
+        <div className="flex items-center justify-between _flexNo">
+          <img className="h-5 mt-14 mb-14 _margin0" src={logoIcon} />
+          <div className="w-80 flex items-center justify-around h-32 text-sm _title _footerList">
             <a href="">Terms</a>
             <a href="">Privacy Plicy</a>
             <a href="">Discord</a>
           </div>
+        </div>
+        <div className="flex items-center justify-between _flexNo">
           <div className="text-xs text-slate-400 _nav-title">
+            © 2024 OneU, All Rights Reserved
+          </div>
+          <div className="text-xs text-slate-400 _nav-title _paddingTop10">
             For any inquiries, contact us at contact@innoguild.com
           </div>
         </div>

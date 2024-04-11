@@ -50,37 +50,35 @@ function Lottery() {
   const [tab2, setTab2] = useState(0);
 
   return (
-    <div className="_background1 _background-home text-center  pb-10">
-      <div className="_background-home2 pt-32">
+    <div className="_background1 _background-home text-center pb-10">
+      <div className="_background-home2">
         <div className="text-white">
-          <div className="text-6xl font-bold _title">
+          <div className="text-6xl font-bold _title _size35 pt-32">
             Win Crypto Lotteries With OneU
           </div>
-          <div className="text-sm mt-5 _title">
+          <div className="text-sm mt-5 _title _hiddenM">
             Users can win crypto lotteries such as BTC/ETH/SOL assets with just
             1 USDT, trusted by the smart contract.
           </div>
-          <div
-            className="flex items-center justify-around"
-            style={{ width: "1100px", margin: "100px auto" }}
-          >
+          <div className="text-sm mt-5 _title _hiddenP pr-2 pl-2">
+            Users can win crypto lotteries such as USDT assets with just 1 USDT,
+            trusted by the smart contract.
+          </div>
+          <div className="flex items-start justify-around _widthP _marginAuto _widthM _size12">
             {descList.map((list, index) => {
               return (
-                <div key={index} className="w-3/12 text-center">
+                <div key={index} className="w-3/12 text-center _widthM-30">
                   <div className="flex items-center justify-center">
                     <img className="w-16" src={list.imgUrl} />
                   </div>
                   <div className="mt-5 mb-2 font-bold _title">{list.title}</div>
-                  <div className="text-sm _nav-title">{list.desc}</div>
+                  <div className="text-sm _nav-title _hiddenM">{list.desc}</div>
                 </div>
               );
             })}
           </div>
-          <div
-            className="_border p-8 rounded-xl mt-20"
-            style={{ width: "1080px", margin: "5rem auto" }}
-          >
-            <div className="flex items-center justify-between text-sm mb-10">
+          <div className="_border p-8 rounded-xl mt-20 _widthP _marginAuto0 _widthM _borderNo _paddingNo">
+            <div className="flex items-center justify-between text-sm mb-10 _marginBottom">
               <div className="flex items-center font-bold">
                 <button
                   className={!tab ? "_title" : "_text"}
@@ -88,23 +86,22 @@ function Lottery() {
                 >
                   Ongoing Lotteries
                 </button>
-                <button
+                {/* <button
                   className={`pl-4 ${tab ? "_title" : "_text"}`}
                   onClick={() => setTab(1)}
                 >
                   Participation&Reward History
-                </button>
+                </button> */}
               </div>
               <div className="_active">My Reward</div>
             </div>
             {!tab ? (
-              <div className="flex items-center justify-between">
+              <div className="">
                 {coinList.map((list, index) => {
                   return (
                     <div
                       key={index}
-                      className="rounded-xl p-6 _background-gradient"
-                      style={{ width: "320px" }}
+                      className="rounded-xl p-6 _background-gradient mt-6"
                     >
                       <div className="flex items-center justify-between">
                         <div className="_text text-xs">Epoch 1</div>
@@ -281,15 +278,12 @@ function Lottery() {
               </div>
             )}
           </div>
-          <div
-            className="_background2 flex items-center justify-between p-4 rounded-xl"
-            style={{ width: "1080px", margin: "0 auto" }}
-          >
+          {/* <div className="_background2 flex items-center justify-between p-4 rounded-xl _widthP _marginAuto _hiddenM">
             <div className="_title">Trusted By The Smart Contract</div>
             <div className="_text">
               Contract Address: 0x3cdc75A5aDa1504F8A2Cb4b88Cb66416317Eccf98
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
