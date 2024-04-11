@@ -52,7 +52,7 @@ function Referral() {
         </div>
         <div>
           <div
-          className="_tipsBox mt-10 _marginLR"
+            className="_tipsBox mt-10 _marginLR"
             style={{
               maxWidth: "1182px",
               margin: "0 auto",

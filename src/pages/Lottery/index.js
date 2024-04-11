@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Select, Progress } from "antd";
 
 function Lottery() {
   const descList = [
@@ -21,17 +22,15 @@ function Lottery() {
 
   const coinList = [
     {
-      name: "BTC",
+      name: "USDT",
       number: 1,
-      img: require("../../asserts/img/BTC.png"),
       participated: 400,
       total: 1000,
       endTime: "2 Days 12:30:59",
     },
     {
-      name: "ETH",
+      name: "USDT",
       number: 10,
-      img: require("../../asserts/img/ETH.png"),
       participated: 400,
       total: 1000,
       endTime: "2 Days 12:30:59",
@@ -39,7 +38,6 @@ function Lottery() {
     {
       name: "USDT",
       number: 10000,
-      img: require("../../asserts/img/USDT.png"),
       participated: 400,
       total: 1000,
       endTime: "2 Days 12:30:59",
@@ -47,7 +45,16 @@ function Lottery() {
   ];
 
   const [tab, setTab] = useState(0);
-  const [tab2, setTab2] = useState(0);
+
+  const [epoch] = useState([
+    { value: "1", label: "1" },
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+  ]);
+
+  const epochChange = (value) => {
+    console.log("value", value);
+  };
 
   return (
     <div className="_background1 _background-home text-center pb-10">
@@ -95,48 +102,118 @@ function Lottery() {
               </div>
               <div className="_active">My Reward</div>
             </div>
-            {!tab ? (
-              <div className="">
-                {coinList.map((list, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="rounded-xl p-6 _background-gradient mt-6"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="_text text-xs">Epoch 1</div>
-                        <div className="flex items-center">
-                          <img style={{ width: "24px" }} src={list.img} />
-                          <span className="text-xs pl-1 _title font-bold">
-                            {list.number} {list.name} Lottery
-                          </span>
+
+            <div className="">
+              {coinList.map((list, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="rounded-xl p-6 _background-gradient4 mt-6"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="_text text-xs">
+                        <span className="pr-2">Epoch</span>
+                        <Select
+                          popupClassName="epochSelect"
+                          className="w-20 h-6 _backgroundNo"
+                          defaultValue="1"
+                          onChange={epochChange}
+                          options={epoch}
+                          suffixIcon={
+                            <img
+                              style={{ width: "10px", marginRight: "10px" }}
+                              src={require("../../asserts/img/down.png")}
+                            />
+                          }
+                        />
+                        <span className="pl-2 _hiddenM">
+                          Next Epoch Start At: 2024/04/08 01:00:00
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-start justify-between _text text-sm mt-10 text-left _homeListM">
+                      <div className="h-24 flex flex-col justify-between">
+                        <div>Reward Pool</div>
+                        <div className="text-3xl _title">1,000 USDT</div>
+                        <div className="text-xs">Contract Address</div>
+                      </div>
+                      <div className="h-24 flex flex-col justify-between _hiddenM">
+                        <div className="_title">2024/04/08 00:00:00</div>
+                        <div className="text-xs">Draw Time</div>
+                        <div className="_title">To be drawn</div>
+                        <div className="text-xs">Winning Number</div>
+                      </div>
+                      <div className="_hiddenP pt-4 mt-4 pb-4 mb-8 _borderLine">
+                        <div className="flex item-center justify-between h-6">
+                          <div className="text-xs">Draw Time</div>
+                          <div className="_title">2024/04/08 00:00:00</div>
+                        </div>
+                        <div className="flex item-center justify-between h-6">
+                          <div className="text-xs">Winning Number</div>
+                          <div className="_title">To be drawn</div>
                         </div>
                       </div>
-                      <div className="mt-10 text-3xl font-bold">
-                        {list.number} {list.name}
+                      <div className="h-24 flex flex-col justify-between _title">
+                        <div>
+                          Win 1,000 USDT lottery with just{" "}
+                          <span className="_tip-yellow"> 1 USDT</span>.
+                        </div>
+                        <div>
+                          <Progress
+                            percent={30}
+                            strokeColor={
+                              "linear-gradient(180deg, #CE00FF 0%, #7F00FF 100%)"
+                            }
+                            trailColor={"rgba(163,159,173, 0.2)"}
+                          />
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>
+                            Tickets Purchased:
+                            <span className="_active">400</span>
+                          </span>
+                          <span className="ml-10">Total Tickets: 800</span>
+                        </div>
                       </div>
-                      <div className="_text mt-2">Pool</div>
-                      <div className="flex items-center justify-between text-sm mt-10">
-                        <div>Participated: {list.participated}</div>
-                        <div>Total: {list.total}</div>
+                      <div className="h-24 flex flex-col justify-between">
+                        <div>
+                          <button className="_borderS rounded-full p-2 pr-12 pl-12 h-10 _title _listBtn">
+                            Buy Tickets
+                          </button>
+                        </div>
+                        <div className="_title">
+                          Time to end: 2 Days 12:30:59
+                        </div>
+                        <div className="pl-2 _hiddenP">
+                          Next Epoch Start At: 2024/04/08 01:00:00
+                        </div>
                       </div>
-                      <div className="mt-10 _text text-xs">
-                        Win 1 BTC lottery with just{" "}
-                        <span className="_tip-yellow">
-                          {list.number / 1000} {list.name}
-                        </span>
-                        .
-                      </div>
-                      <button className="w-full _borderS rounded-full h-12 mt-4 mb-4">
-                        Participate
-                      </button>
-                      <div className="text-sm">Time to end: {list.endTime}</div>
                     </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div>
+                    {/* <div className="mt-10 text-3xl font-bold">
+                      {list.number} {list.name}
+                    </div>
+                    <div className="_text mt-2">Pool</div>
+                    <div className="flex items-center justify-between text-sm mt-10">
+                      <div>Participated: {list.participated}</div>
+                      <div>Total: {list.total}</div>
+                    </div>
+                    <div className="mt-10 _text text-xs">
+                      Win 1 BTC lottery with just{" "}
+                      <span className="_tip-yellow">
+                        {list.number / 1000} {list.name}
+                      </span>
+                      .
+                    </div>
+                    <button className="w-full _borderS rounded-full h-12 mt-4 mb-4">
+                      Participate
+                    </button>
+                    <div className="text-sm">Time to end: {list.endTime}</div> */}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* <div>
                 <div
                   className="h-10 rounded-xl flex items-center justify-between text-xs pl-1 pr-1"
                   style={{ backgroundColor: "#2A2539" }}
@@ -275,8 +352,7 @@ function Lottery() {
                     </table>
                   </div>
                 )}
-              </div>
-            )}
+              </div> */}
           </div>
           {/* <div className="_background2 flex items-center justify-between p-4 rounded-xl _widthP _marginAuto _hiddenM">
             <div className="_title">Trusted By The Smart Contract</div>
