@@ -108,7 +108,7 @@ function Lottery() {
                 return (
                   <div
                     key={index}
-                    className="rounded-xl p-6 _background-gradient4 mt-6"
+                    className="rounded-xl p-6 _background-gradient4 mt-6 _border"
                   >
                     <div className="flex items-center justify-between">
                       <div className="_text text-xs">
