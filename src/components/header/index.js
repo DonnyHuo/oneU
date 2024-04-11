@@ -122,7 +122,7 @@ const Header = () => {
           className="flex items-center justify-center _borderS rounded-full p-2 ml-2 _hiddenP"
           onClick={showDrawer}
         >
-          <img className="w-5" src={require("../../asserts/img/menu.png")} />
+          <img style={{ transform: openDrawer? 'rotate(90deg)': 'rotate(0deg)'}} className="w-5" src={require("../../asserts/img/menu.png")} />
         </button>
       </div>
       <Drawer

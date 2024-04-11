@@ -98,6 +98,7 @@ body {
   background-position: 6px 26px;
 }
 
+
 @media screen and (min-width: 0px) and (max-width: 480px) {
   ._hiddenM {
     display: none;
@@ -193,6 +194,47 @@ body {
   }
   ._borderS {
     border: 1px solid #3d3952;
+  }
+  ._tipsTitle {
+    font-size: 20px;
+  }
+  ._tipsBox {
+    width: 90%;
+  }
+  ._tips {
+    border: 1px solid #3d3952;
+    flex-direction: column;
+    padding: 20px 10px;
+    border-radius: 10px;
+  }
+  ._tipDiv {
+    width: 100%;
+    flex-direction: row;
+    padding-bottom: 40px;
+  }
+  ._desc {
+    margin-top: 0;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: left;
+    margin-left: 20px;
+  }
+  .w-16 {
+    width: 48px;
+  }
+  ._backgroundNo {
+    background-color: transparent;
+  }
+  ._paddingBNo {
+    padding-bottom: 0;
+  }
+  ._flexM {
+    flex-direction: column;
+  }
+  ._M100 {
+    margin: 0;
+    width: 100%;
+    margin-bottom: 20px;
   }
 }
 
