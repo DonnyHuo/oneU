@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Select, Progress } from "antd";
+import { Select, Progress, Popover } from "antd";
 
 function Lottery() {
   const descList = [
@@ -135,7 +135,14 @@ function Lottery() {
                       <div className="h-24 flex flex-col justify-between">
                         <div>Reward Pool</div>
                         <div className="text-3xl _title">1,000 USDT</div>
-                        <div className="text-xs">Contract Address</div>
+                        <Popover
+                          content={'0xe369aec574d5408604daa3d12e95d5624fae9112'}
+                          placement="top"
+                          trigger="click"
+                          overlayClassName="_popover"
+                        >
+                          <button className="leading-6 text-left text-xs underline decoration-slate-100 decoration-dotted _popoverBtn">Contract Address</button>
+                        </Popover>
                       </div>
                       <div className="h-24 flex flex-col justify-between _hiddenM">
                         <div className="_title">2024/04/08 00:00:00</div>

@@ -61,7 +61,7 @@ body {
 }
 
 ._background-gradient4 {
-  background: linear-gradient(to right, #1C172A 52.13%, #331951 101.14%);
+  background: linear-gradient(to right, #1c172a 52.13%, #331951 101.14%);
 }
 ._background-home {
   background-image: url("../img/homeBg.png");
@@ -115,7 +115,19 @@ body {
   color: #111;
   border: 1px solid #999;
 }
-
+._popover {
+  width: 200px;
+}
+._popover .ant-popover-inner {
+  background-color: rgba(61, 57, 82, 1);
+}
+._popover .ant-popover-inner-content {
+  color: rgba(244, 243, 249, 1);
+  word-break: break-all;
+}
+._popover .ant-popover-arrow:before {
+  background-color: rgba(61, 57, 82, 1);
+}
 
 @media screen and (min-width: 0px) and (max-width: 480px) {
   ._hiddenM {
@@ -196,18 +208,18 @@ body {
     margin: 20px auto;
   }
   ._marginLR {
-    margin: 0 20px
+    margin: 0 20px;
   }
   ._padding10 {
     padding: 20px;
   }
-  ._marginTop{
+  ._marginTop {
     margin-top: 40px;
   }
-  ._paddingB20{
+  ._paddingB20 {
     padding-bottom: 20px;
   }
-  ._paddingTB{
+  ._paddingTB {
     padding: 50px 0;
   }
   ._borderS {
@@ -259,7 +271,6 @@ body {
     margin-top: 10px;
     text-align: center;
     padding-bottom: 50px;
-
   }
   ._homeListM > div {
     width: 100%;
@@ -278,7 +289,11 @@ body {
   }
   ._borderLine {
     border-top: 1px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2)
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  ._popoverBtn {
+    text-align: center;
   }
 }
 
