@@ -1,3 +1,5 @@
+import { Button } from 'antd';
+
 function footer() {
   const logoIcon = require("../../asserts/img/logo.png");
   return (

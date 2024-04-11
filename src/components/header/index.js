@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useNetwork, useEnsAvatar } from "wagmi";
 import { shortStr } from "../../utils";
+import { Drawer } from "antd";
+
 const Header = () => {
   const location = useLocation();
   const logoIcon = require("../../asserts/img/logo.png");
@@ -9,25 +12,35 @@ const Header = () => {
   const { open } = useWeb3Modal();
   const { address } = useAccount();
   const { chain } = useNetwork();
-  const ensAvatar = useEnsAvatar()
-  console.log('ensAvatar', ensAvatar)
+  const ensAvatar = useEnsAvatar();
+  console.log("ensAvatar", ensAvatar);
 
-  console.log('chain', chain)
+  console.log("chain", chain);
 
-  const chainList =[
+  const chainList = [
     {
       networkId: 1,
-      url: require('../../asserts/img/ETH.png')
+      url: require("../../asserts/img/ETH.png"),
     },
     {
       networkId: 42161,
-      url: "https://cryptologos.cc/logos/arbitrum-arb-logo.png?v=029"
-    }
-  ]
+      url: "https://cryptologos.cc/logos/arbitrum-arb-logo.png?v=029",
+    },
+  ];
 
-  const selectNetworkIcon = (id)=> {
-    return chainList.filter(list => list.networkId == id)[0]
-  }
+  const selectNetworkIcon = (id) => {
+    return chainList.filter((list) => list.networkId == id)[0];
+  };
+
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  const showDrawer = () => {
+    setOpenDrawer(true);
+  };
+
+  const onClose = () => {
+    setOpenDrawer(false);
+  };
 
   return (
     <div className="h-18 flex items-center justify-between pl-5 pr-5 border-spacing-1 text-white _background1 _line relative">
@@ -95,17 +108,73 @@ const Header = () => {
         >
           {address ? (
             <div className="flex items-center">
-              <img className="w-5" src={require("../../asserts/img/connect.png")} />
+              <img
+                className="w-5"
+                src={require("../../asserts/img/connect.png")}
+              />
               <span className="pl-2 _hiddenM">{shortStr(address, 5, 4)}</span>
             </div>
           ) : (
             "Connect Wallet"
           )}
         </button>
-        <button className="flex items-center justify-center _borderS rounded-full p-2 ml-2 _hiddenP">
+        <button
+          className="flex items-center justify-center _borderS rounded-full p-2 ml-2 _hiddenP"
+          onClick={showDrawer}
+        >
           <img className="w-5" src={require("../../asserts/img/menu.png")} />
         </button>
       </div>
+      <Drawer
+        width={300}
+        closeIcon={false}
+        onClose={onClose}
+        open={openDrawer}
+      >
+        <div className="text-xl">
+          <p className="pt-5 pb-5" onClick={onClose}>
+            <Link
+              className={`ml-6 mr-6 ${
+                location.pathname === "/" ? "_active" : ""
+              }`}
+              to="/"
+            >
+              Lottery
+            </Link>
+          </p>
+          <p className="pt-5 pb-5" onClick={onClose}>
+            <Link
+              className={`ml-6 mr-6 ${
+                location.pathname === "/referral" ? "_active" : ""
+              }`}
+              to="/referral"
+            >
+              Referral
+            </Link>
+          </p>
+          <p className="pt-5 pb-5" onClick={onClose}>
+            <Link
+              className={`ml-6 mr-6 ${
+                location.pathname === "/tutorials" ? "_active" : ""
+              }`}
+              to="/tutorials"
+            >
+              Tutorials
+            </Link>
+          </p>
+          <p className="pt-5 pb-5" onClick={onClose}>
+            <a
+              target="_blank"
+              href="https://www.google.com"
+              className={`ml-6 mr-6 ${
+                location.pathname === "/discord" ? "_active" : ""
+              }`}
+            >
+              Discord
+            </a>
+          </p>
+        </div>
+      </Drawer>
     </div>
   );
 };
