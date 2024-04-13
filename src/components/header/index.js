@@ -71,7 +71,7 @@ const Header = () => {
     address && getUserId();
     // save address
     dispatch({ type: "CHANGE_ADDRESS", payload: address });
-  }, [address]);
+  }, [address, chainId]);
 
 
 
