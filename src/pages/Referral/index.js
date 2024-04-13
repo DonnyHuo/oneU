@@ -1,5 +1,18 @@
+import { useSelector } from "react-redux";
+import { message } from "antd";
+
 function Referral() {
   const union = require("../../asserts/img/union.png");
+  const address = useSelector((state) => state.address);
+  console.log("address1", address);
+  const userId = useSelector((state) => state.userId);
+
+  const [messageApi, contextHolder] = message.useMessage();
+  const copyInfo = () => {
+    messageApi.success("Copied successfully!");
+    navigator.clipboard.writeText(userId)
+  };
+
   return (
     <div className="_background1 _title">
       <div className="_background-referral">
@@ -28,9 +41,11 @@ function Referral() {
               >
                 <span className="_text font-medium">Invite Code</span>
                 <div className="flex items-center">
-                  <span className="pr-2">88888888</span>
+                  <span className="pr-2">{userId}</span>
+                  {contextHolder}
                   <img
-                    className="w-3"
+                    className="w-3 cursor-pointer"
+                    onClick={copyInfo}
                     src={require("../../asserts/img/copy.png")}
                   />
                 </div>

@@ -165,6 +165,21 @@ body {
   padding-top: 2px;
   margin-bottom: 30px;
 }
+.ant-btn {
+  font-family: Poppins-Medium;
+}
+.ant-btn:hover {
+  background: linear-gradient(to right, #ce00ff, #7f00ff)!important;
+  color: #fff!important;
+}
+.ant-message-notice-content {
+  font-family: Poppins-Medium;
+}
+.ant-message-custom-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @media screen and (min-width: 0px) and (max-width: 480px) {
   ._hiddenM {
@@ -331,6 +346,21 @@ body {
 
   ._popoverBtn {
     text-align: center;
+  }
+  .ant-drawer .ant-drawer-body {
+    padding: 0;
+  }
+  .ant-drawer .ant-drawer-content {
+    background: rgba(24, 20, 35, 1);
+    color: #ffffff;
+  }
+  .ant-drawer .drawerTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    padding: 20px;
+    border-bottom: 1px solid #331951;
   }
 }
 
