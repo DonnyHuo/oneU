@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Select, Progress, Popover } from "antd";
+import { Select, Progress, Popover, Modal } from "antd";
 
 function Lottery() {
   const descList = [
@@ -56,6 +56,11 @@ function Lottery() {
     console.log("value", value);
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
+  const [isRewardOpen, setIsRewardOpen] = useState(false);
+  
+
   return (
     <div className="_background1 _background-home text-center pb-10">
       <div className="_background-home2">
@@ -100,7 +105,9 @@ function Lottery() {
                   Participation&Reward History
                 </button> */}
               </div>
-              <div className="_active">My Reward</div>
+              <button onClick={() => setIsRewardOpen(true)} className="_active">
+                My Reward
+              </button>
             </div>
 
             <div className="">
@@ -118,6 +125,7 @@ function Lottery() {
                           className="w-20 h-6 _backgroundNo"
                           defaultValue="1"
                           onChange={epochChange}
+                          overlayClassName="dropdown-class"
                           options={epoch}
                           suffixIcon={
                             <img
@@ -136,12 +144,14 @@ function Lottery() {
                         <div>Reward Pool</div>
                         <div className="text-3xl _title">1,000 USDT</div>
                         <Popover
-                          content={'0xe369aec574d5408604daa3d12e95d5624fae9112'}
+                          content={"0xe369aec574d5408604daa3d12e95d5624fae9112"}
                           placement="top"
                           trigger="click"
                           overlayClassName="_popover"
                         >
-                          <button className="leading-6 text-left text-xs underline decoration-slate-100 decoration-dotted _popoverBtn">Contract Address</button>
+                          <button className="leading-6 text-left text-xs underline decoration-slate-100 decoration-dotted _popoverBtn">
+                            Contract Address
+                          </button>
                         </Popover>
                       </div>
                       <div className="h-24 flex flex-col justify-between _hiddenM">
@@ -184,7 +194,7 @@ function Lottery() {
                       </div>
                       <div className="h-24 flex flex-col justify-between">
                         <div>
-                          <button className="_borderS rounded-full p-2 pr-12 pl-12 h-10 _title _listBtn">
+                          <button className="_borderS rounded-full p-2 pr-12 pl-12 h-10 _title _listBtn" onClick={()=>setIsShareOpen(true)}>
                             Buy Tickets
                           </button>
                         </div>
@@ -369,6 +379,61 @@ function Lottery() {
           </div> */}
         </div>
       </div>
+      <Modal
+        title="Got an invite code?"
+        centered
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        footer={false}
+        closeIcon={<img className="w-6 mt-3 mr-2" src={require('../../asserts/img/closeModal.png')} />}
+        width={480}
+      >
+        <p className="mt-5 _nav-title">Get an invite code from an existing user to sign up.</p>
+        <div>
+          <input
+            className="w-full h-12 rounded-xl outline-none text-white pl-4 pr-4 text-sm mt-5"
+            style={{ background: "rgba(42, 37, 57, 1)" }}
+            placeholder="Enter invite code"
+          />
+        </div>
+        <button className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-sm pt-2 pb-2 pl-5 pr-5">Proceed</button>
+      </Modal>
+
+      <Modal
+        title="Buy Share"
+        centered
+        open={isShareOpen}
+        onCancel={() => setIsShareOpen(false)}
+        footer={false}
+        closeIcon={<img className="w-6 mt-3 mr-2" src={require('../../asserts/img/closeModal.png')} />}
+        width={480}
+      >
+        <p className="mt-5 _nav-title">Get an invite code from an existing user to sign up.</p>
+        <div>
+          <input
+            className="w-full h-12 rounded-xl outline-none text-white pl-4 pr-4 text-sm mt-5"
+            style={{ background: "rgba(42, 37, 57, 1)" }}
+            placeholder="Enter invite code"
+          />
+        </div>
+        <button className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-sm pt-2 pb-2 pl-5 pr-5">Proceed</button>
+      </Modal>
+      {/*  */}
+      <Modal
+        title="My Reward"
+        centered
+        open={isRewardOpen}
+        onCancel={() => setIsRewardOpen(false)}
+        footer={false}
+        closeIcon={<img className="w-6 mt-3 mr-2" src={require('../../asserts/img/closeModal.png')} />}
+        width={480}
+      >
+        <p className="mt-5 _nav-title">Unclaimed Reward</p>
+        <div>
+          
+        </div>
+        <button className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-sm pt-2 pb-2 pl-5 pr-5">Claim</button>
+      </Modal>
     </div>
   );
 }

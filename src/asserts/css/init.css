@@ -39,6 +39,9 @@ body {
 ._borderS {
   border: 1px solid #7f00ff;
 }
+._borderS:hover {
+  background: linear-gradient(to right, #ce00ff, #7f00ff);
+}
 ._line {
   border-bottom: 1px solid #2a2539;
 }
@@ -109,12 +112,34 @@ body {
   color: #fff;
   border-radius: 30px;
   width: 70px;
-  border-color: #e5e7eb;
+  border-color: #6e6e6f;
 }
 .epochSelect {
   color: #111;
   border: 1px solid #999;
+  box-shadow: none;
 }
+.ant-select-focused.ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
+  border-color: #6e6e6f;
+}
+.ant-select-selector:hover {
+  border-color: #cccccc!important;
+}
+
+.ant-select-dropdown {
+  border: 1px solid #3d3952;
+  background: linear-gradient(to bottom, #1c172a 52.13%, #331951 101.14%);
+  text-align: center;
+}
+.ant-select-dropdown .ant-select-item {
+  color: #fff;
+  font-weight: 100;
+}
+.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: transparent;
+  color: #fff;
+}
+
 ._popover {
   width: 200px;
 }
@@ -127,6 +152,18 @@ body {
 }
 ._popover .ant-popover-arrow:before {
   background-color: rgba(61, 57, 82, 1);
+}
+.ant-modal-root .ant-modal-content {
+  font-family: Poppins-Regular;
+  background-color: rgba(28, 23, 42, 1);
+  color: #fff;
+}
+.ant-modal .ant-modal-title {
+  background-color: rgba(28, 23, 42, 1);
+  color: #fff;
+  text-align: center;
+  padding-top: 2px;
+  margin-bottom: 30px;
 }
 
 @media screen and (min-width: 0px) and (max-width: 480px) {
