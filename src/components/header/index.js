@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
-
-import { shortStr, getContract } from "../../utils";
-import { Drawer } from "antd";
-
+import { shortStr, getContract, getWriteContractLoad } from "../../utils";
+import { Drawer, message, Button, Modal } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
+
 
 const Header = () => {
   const location = useLocation();
   const logoIcon = require("../../asserts/img/logo.png");
   const { address, chainId, isConnected } = useWeb3ModalAccount()
   
+  const { walletProvider } = useWeb3ModalProvider();
 
   const { open } = useWeb3Modal();
   
@@ -49,8 +48,6 @@ const Header = () => {
     setOpenDrawer(false);
   };
 
-  const { walletProvider } = useWeb3ModalProvider()
-
   // get userID fun
   const dispatch = useDispatch();
   const inviteContract = useSelector((state) => state.inviteContract);
@@ -75,6 +72,47 @@ const Header = () => {
     // save address
     dispatch({ type: "CHANGE_ADDRESS", payload: address });
   }, [address]);
+
+
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [code, setCode] = useState("");
+  const [signUpLoading, setSignUpLoading] = useState(false);
+
+  const userId = useSelector((state) => state.userId);
+
+  useEffect(() => {
+    setIsModalOpen(userId * 1 === 0 ? true : false);
+  }, [userId]);
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  // user signup
+  const signUp = () => {
+    setSignUpLoading(true);
+    getWriteContractLoad(
+      walletProvider,
+      inviteContract,
+      inviteAbi,
+      "signUp",
+      code ? code * 1 : 0
+    )
+      .then((res) => {
+        console.log(res);
+        setSignUpLoading(false);
+        setIsModalOpen(false)
+        setCode('')
+        messageApi.success("registration success!");
+        getUserId()
+      })
+      .catch((err) => {
+        setSignUpLoading(false);
+        messageApi.error("registration failed!");
+        console.log(err);
+      });
+  };
 
   return (
     <div className="h-18 flex items-center justify-between pl-5 pr-5 border-spacing-1 text-white _background1 _line relative">
@@ -232,6 +270,41 @@ const Header = () => {
           </p>
         </div>
       </Drawer>
+      <Modal
+        title="Got an invite code?"
+        centered
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        footer={false}
+        closeIcon={
+          <img
+            className="w-6 mt-3 mr-2"
+            src={require("../../asserts/img/closeModal.png")}
+          />
+        }
+        width={480}
+      >
+        <p className="mt-5 _nav-title">
+          Get an invite code from an existing user to sign up.
+        </p>
+        <div>
+          <input
+            value={code}
+            onChange={(value) => setCode(value.target.value)}
+            className="w-full h-12 rounded-xl outline-none text-white pl-4 pr-4 text-sm mt-5"
+            style={{ background: "rgba(42, 37, 57, 1)" }}
+            placeholder="Enter invite code"
+          />
+        </div>
+        {contextHolder}
+        <Button
+          className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-sm pt-2 pb-2 pl-5 pr-5 border-0"
+          loading={signUpLoading}
+          onClick={signUp}
+        >
+          Proceed
+        </Button>
+      </Modal>
     </div>
   );
 };

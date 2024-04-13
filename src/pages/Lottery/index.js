@@ -1,14 +1,8 @@
-import { useEffect, useState } from "react";
-import { Select, Progress, Popover, Modal, Button } from "antd";
-import { useSelector, useDispatch } from "react-redux";
-import { getContract, getWriteContractLoad } from "../../utils";
-import inviteAbi from "../../asserts/abi/inviteAbi.json";
-import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
-import { message } from "antd";
-import { flare } from "viem/chains";
+import { useState } from "react";
+import { Select, Progress, Popover, Modal } from "antd";
+
 
 function Lottery() {
-  const { walletProvider } = useWeb3ModalProvider();
 
   const descList = [
     {
@@ -64,63 +58,9 @@ function Lottery() {
     console.log("value", value);
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isRewardOpen, setIsRewardOpen] = useState(false);
-
-  const [code, setCode] = useState("");
-  const [signUpLoading, setSignUpLoading] = useState(false);
-
-  const userId = useSelector((state) => state.userId);
-  const dispatch= useDispatch()
-
-  useEffect(() => {
-    setIsModalOpen(userId * 1 === 0 ? true : false);
-  }, [userId]);
-
-  const [messageApi, contextHolder] = message.useMessage();
-
-  // getUserId
-  const address = useSelector((state) => state.address);
-  const getUserId = async () => {
-    console.log('address', address)
-    const userId = await getContract(
-      walletProvider,
-      inviteContract,
-      inviteAbi,
-      "getUserId",
-      address
-    );
-    dispatch({ type: "CHANGE_USER", payload: userId.toString() });
-    console.log('userId', userId.toString())
-  };
-  // user signup
-  const inviteContract = useSelector((state) => state.inviteContract);
-
-
-  const signUp = () => {
-    setSignUpLoading(true);
-    getWriteContractLoad(
-      walletProvider,
-      inviteContract,
-      inviteAbi,
-      "signUp",
-      code ? code * 1 : 0
-    )
-      .then((res) => {
-        console.log(res);
-        setSignUpLoading(false);
-        setIsModalOpen(false)
-        setCode('')
-        messageApi.success("registration success!");
-        getUserId()
-      })
-      .catch((err) => {
-        setSignUpLoading(false);
-        messageApi.error("registration failed!");
-        console.log(err);
-      });
-  };
+  
 
   return (
     <div className="_background1 _background-home text-center pb-10">
@@ -443,41 +383,7 @@ function Lottery() {
           </div> */}
         </div>
       </div>
-      <Modal
-        title="Got an invite code?"
-        centered
-        open={isModalOpen}
-        onCancel={() => setIsModalOpen(false)}
-        footer={false}
-        closeIcon={
-          <img
-            className="w-6 mt-3 mr-2"
-            src={require("../../asserts/img/closeModal.png")}
-          />
-        }
-        width={480}
-      >
-        <p className="mt-5 _nav-title">
-          Get an invite code from an existing user to sign up.
-        </p>
-        <div>
-          <input
-            value={code}
-            onChange={(value) => setCode(value.target.value)}
-            className="w-full h-12 rounded-xl outline-none text-white pl-4 pr-4 text-sm mt-5"
-            style={{ background: "rgba(42, 37, 57, 1)" }}
-            placeholder="Enter invite code"
-          />
-        </div>
-        {contextHolder}
-        <Button
-          className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-sm pt-2 pb-2 pl-5 pr-5 border-0"
-          loading={signUpLoading}
-          onClick={signUp}
-        >
-          Proceed
-        </Button>
-      </Modal>
+     
 
       <Modal
         title="Buy Share"
