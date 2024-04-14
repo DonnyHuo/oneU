@@ -82,7 +82,7 @@ body {
 ._background-referral {
   background-image: url("../img/referralBg.png");
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: 100% 50%;
 }
 
 ._referralTitle {
@@ -95,13 +95,16 @@ body {
 ._background-tutorials {
   background-image: url("../img/tutorialsBg.png");
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: 100% 50%;
 }
 ._backgroundLine {
   background-image: url("../img/line2.png");
   background-repeat: no-repeat;
   background-size: 2px 40px;
   background-position: 6px 26px;
+}
+._background-code {
+  background-color: rgba(42, 37, 57, 1);
 }
 .ant-progress .ant-progress-text {
   font-size: 12px;
@@ -274,9 +277,10 @@ body {
   ._paddingTB {
     padding: 50px 0;
   }
-  ._borderS {
+  ._borderW {
     border: 1px solid #3d3952;
   }
+
   ._tipsTitle {
     font-size: 20px;
   }
@@ -358,9 +362,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 10px;
-    padding: 20px;
-    border-bottom: 1px solid #331951;
+    padding: 0 20px;
+    border-bottom: 1px solid #2a2539;
   }
 }
 

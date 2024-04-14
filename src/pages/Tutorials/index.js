@@ -134,7 +134,7 @@ function Tutorials() {
                       style={{
                         width: "18px",
                         transform: `${
-                          list.active ? "rotate(90deg)" : "rotate(0deg)"
+                          list.active ? "rotate(270deg)" : "rotate(0deg)"
                         }`,
                       }}
                       src={require("../../asserts/img/right.png")}

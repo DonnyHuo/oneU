@@ -32,16 +32,16 @@ function Referral() {
               />
             </div>
             <div
-              className="flex items-center justify-between mt-10 _marginAutoM"
-              style={{ maxWidth: "400px" }}
+              className="flex items-center mt-10 _marginAutoM"
+              style={{ maxWidth: "500px" }}
             >
               <div
-                className="h-10 _border flex items-center justify-between pr-3 pl-3 rounded-lg text-xs"
-                style={{ width: "242px" }}
+                className="h-10 _border flex items-center justify-between pr-3 pl-3 rounded-lg text-sm _background-code"
+                style={{ width: "70%" }}
               >
                 <span className="_text font-medium">Invite Code</span>
                 <div className="flex items-center">
-                  <span className="pr-2">{userId}</span>
+                  <span className="pr-4">{userId}</span>
                   {contextHolder}
                   <img
                     className="w-3 cursor-pointer"
@@ -51,10 +51,9 @@ function Referral() {
                 </div>
               </div>
               <button
-                className="_borderS h-10 pr-3 pl-3 rounded-lg flex items-center justify-center text-xs font-bold"
-                style={{ width: "140px" }}
+                className="_borderS h-10 pr-6 pl-6 rounded-lg ml-6 flex items-center justify-center text-sm"
               >
-                Invite Friends
+                Invite <span className="_hiddenM pl-1"> Friends</span>
               </button>
             </div>
           </div>

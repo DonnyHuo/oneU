@@ -175,7 +175,7 @@ const Header = () => {
         )}
 
         <button
-          className="_borderS rounded-full p-2 md:pl-4 md:pr-4 text-sm"
+          className="_border rounded-full p-2 md:pl-4 md:pr-4 text-sm _borderW"
           onClick={() => open()}
         >
           {address ? (
@@ -191,7 +191,7 @@ const Header = () => {
           )}
         </button>
         <button
-          className="flex items-center justify-center _borderS rounded-full p-2 ml-2 _hiddenP"
+          className="flex items-center justify-center _borderW rounded-full p-2 ml-2 _hiddenP"
           onClick={showDrawer}
         >
           <img
@@ -201,9 +201,9 @@ const Header = () => {
           />
         </button>
       </div>
-      <Drawer width={300} closeIcon={false} onClose={onClose} open={openDrawer}>
+      <Drawer width={'80vw'} closeIcon={false} onClose={onClose} open={openDrawer}>
         <div className="drawerTitle">
-          <img className="w-20" src={require("../../asserts/img/logo.png")} />
+          <img className="h-5 mt-6 mb-6" src={require("../../asserts/img/logo.png")} />
           <img
             className="w-5 mr-1"
             src={require("../../asserts/img/drawerClose.png")}
