@@ -5,7 +5,7 @@ import {
   useWeb3ModalAccount,
   useWeb3ModalProvider,
 } from "@web3modal/ethers5/react";
-import { shortStr, getContract, getWriteContractLoad } from "../../utils";
+import { shortStr, getContract, getWriteContractLoad, chainList } from "../../utils";
 import { Drawer, message, Button, Modal } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
@@ -18,24 +18,6 @@ const Header = () => {
   const { walletProvider } = useWeb3ModalProvider();
 
   const { open } = useWeb3Modal();
-
-  const chainList = [
-    {
-      networkId: 1,
-      name: "Ethereum",
-      url: require("../../asserts/img/ETH.png"),
-    },
-    {
-      networkId: 42161,
-      name: "Arbitrum",
-      url: "https://cryptologos.cc/logos/arbitrum-arb-logo.png?v=029",
-    },
-    {
-      networkId: 11155111,
-      name: "Sepolia",
-      url: require("../../asserts/img/ETH.png"),
-    },
-  ];
 
   const selectNetworkIcon = (chainId) => {
     return chainList.filter((list) => list.networkId == chainId)[0];

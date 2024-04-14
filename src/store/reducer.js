@@ -1,7 +1,7 @@
 const initState = {
   address: "",
   userId: -1,
-  inviteContract: "0x3ac45D38391E59F1b1C1Fc49B12CDC003295cD1b",
+  inviteContract: "0xeafc4f68773B9e130678267105c5df65c44B5E9f",
 };
 
 const reducer = (state = initState, action) => {
