@@ -280,6 +280,9 @@ body {
   ._borderW {
     border: 1px solid #3d3952;
   }
+  ._borderS {
+    border: 1px solid #7f00ff;
+  }
 
   ._tipsTitle {
     font-size: 20px;

@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import {
+  useWeb3Modal,
+  useWeb3ModalAccount,
+  useWeb3ModalProvider,
+} from "@web3modal/ethers5/react";
 import { shortStr, getContract, getWriteContractLoad } from "../../utils";
 import { Drawer, message, Button, Modal } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
 
-
 const Header = () => {
   const location = useLocation();
   const logoIcon = require("../../asserts/img/logo.png");
-  const { address, chainId, isConnected } = useWeb3ModalAccount()
-  
+  const { address, chainId, isConnected } = useWeb3ModalAccount();
+
   const { walletProvider } = useWeb3ModalProvider();
 
   const { open } = useWeb3Modal();
-  
+
   const chainList = [
     {
       networkId: 1,
@@ -61,9 +64,8 @@ const Header = () => {
       address
     );
     dispatch({ type: "CHANGE_USER", payload: userId.toString() });
-    
-    
-    console.log('userId', userId.toString())
+
+    console.log("userId", userId.toString());
   };
 
   useEffect(() => {
@@ -72,9 +74,6 @@ const Header = () => {
     // save address
     dispatch({ type: "CHANGE_ADDRESS", payload: address });
   }, [address, chainId]);
-
-
-
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -102,10 +101,10 @@ const Header = () => {
       .then((res) => {
         console.log(res);
         setSignUpLoading(false);
-        setIsModalOpen(false)
-        setCode('')
+        setIsModalOpen(false);
+        setCode("");
         messageApi.success("registration success!");
-        getUserId()
+        getUserId();
       })
       .catch((err) => {
         setSignUpLoading(false);
@@ -170,12 +169,16 @@ const Header = () => {
             onClick={() => open({ view: "Networks" })}
           >
             <img className="w-5" src={selectNetworkIcon(chainId)?.url} />
-            <span className="ml-2 _hiddenM">{selectNetworkIcon(chainId)?.name}</span>
+            <span className="ml-2 _hiddenM">
+              {selectNetworkIcon(chainId)?.name}
+            </span>
           </button>
         )}
 
         <button
-          className="_border rounded-full p-2 md:pl-4 md:pr-4 text-sm _borderW"
+          className={`_border rounded-full p-2 md:pl-4 md:pr-4 text-sm ${
+            address ? "_borderW" : "_borderS pl-4 pr-4"
+          }`}
           onClick={() => open()}
         >
           {address ? (
@@ -201,9 +204,17 @@ const Header = () => {
           />
         </button>
       </div>
-      <Drawer width={'80vw'} closeIcon={false} onClose={onClose} open={openDrawer}>
+      <Drawer
+        width={"80vw"}
+        closeIcon={false}
+        onClose={onClose}
+        open={openDrawer}
+      >
         <div className="drawerTitle">
-          <img className="h-5 mt-6 mb-6" src={require("../../asserts/img/logo.png")} />
+          <img
+            className="h-5 mt-6 mb-6"
+            src={require("../../asserts/img/logo.png")}
+          />
           <img
             className="w-5 mr-1"
             src={require("../../asserts/img/drawerClose.png")}
