@@ -7,7 +7,7 @@ function footer() {
       {/* <div className="flex item-center justify-between pl-5 pr-5 pt-20 pb-10 _widthPMax _marginAuto0"> */}
       <div className="_widthPMax _marginAuto0">
         <div className="flex items-center justify-between _flexNo">
-          <img className="h-5 mt-14 mb-14 _margin0" src={logoIcon} />
+          <img className="h-5 mt-14 mb-14 _margin0" src={logoIcon} alt="" />
           <div className="w-80 flex items-center justify-around h-32 text-sm _title _footerList">
             <a href="">Terms</a>
             <a href="">Privacy Plicy</a>

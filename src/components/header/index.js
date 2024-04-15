@@ -98,7 +98,7 @@ const Header = () => {
   return (
     <div className="h-18 flex items-center justify-between pl-5 pr-5 border-spacing-1 text-white _background1 _line relative">
       <div>
-        <img className="h-5 mt-6 mb-6" src={logoIcon} />
+        <img className="h-5 mt-6 mb-6" src={logoIcon} alt="" />
       </div>
       <div
         className="flex items-center font-medium _hiddenM"
@@ -150,7 +150,7 @@ const Header = () => {
             className="_border rounded-full p-2 md:pl-4 md:pr-4 text-sm mr-2 flex items-center"
             onClick={() => open({ view: "Networks" })}
           >
-            <img className="w-5" src={selectNetworkIcon(chainId)?.url} />
+            <img className="w-5" src={selectNetworkIcon(chainId)?.url} alt="" />
             <span className="ml-2 _hiddenM">
               {selectNetworkIcon(chainId)?.name}
             </span>
@@ -168,6 +168,7 @@ const Header = () => {
               <img
                 className="w-5"
                 src={require("../../asserts/img/connect.png")}
+                alt=""
               />
               <span className="pl-2 _hiddenM">{shortStr(address, 5, 4)}</span>
             </div>
@@ -183,6 +184,7 @@ const Header = () => {
             style={{ transform: openDrawer ? "rotate(90deg)" : "rotate(0deg)" }}
             className="w-5"
             src={require("../../asserts/img/menu.png")}
+            alt=""
           />
         </button>
       </div>
@@ -196,11 +198,13 @@ const Header = () => {
           <img
             className="h-5 mt-6 mb-6"
             src={require("../../asserts/img/logo.png")}
+            alt=""
           />
           <img
             className="w-5 mr-1"
             src={require("../../asserts/img/drawerClose.png")}
             onClick={onClose}
+            alt=""
           />
         </div>
         <div className="text-lg">
@@ -215,6 +219,7 @@ const Header = () => {
               <img
                 className="w-4"
                 src={require("../../asserts/img/drawerRight.png")}
+                alt=""
               />
             </Link>
           </p>
@@ -229,6 +234,7 @@ const Header = () => {
               <img
                 className="w-4"
                 src={require("../../asserts/img/drawerRight.png")}
+                alt=""
               />
             </Link>
           </p>
@@ -243,6 +249,7 @@ const Header = () => {
               <img
                 className="w-4"
                 src={require("../../asserts/img/drawerRight.png")}
+                alt=""
               />
             </Link>
           </p>
@@ -258,6 +265,7 @@ const Header = () => {
               <img
                 className="w-4"
                 src={require("../../asserts/img/drawerRight.png")}
+                alt=""
               />
             </a>
           </p>
@@ -273,6 +281,7 @@ const Header = () => {
           <img
             className="w-6 mt-3 mr-2"
             src={require("../../asserts/img/closeModal.png")}
+            alt=""
           />
         }
         width={480}

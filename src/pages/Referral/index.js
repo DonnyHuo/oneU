@@ -29,6 +29,7 @@ function Referral() {
               <img
                 style={{ width: "300px", marginTop: "20px" }}
                 src={require("../../asserts/img/reward.png")}
+                alt=""
               />
             </div>
             <div
@@ -47,6 +48,7 @@ function Referral() {
                     className="w-3 cursor-pointer"
                     onClick={copyInfo}
                     src={require("../../asserts/img/copy.png")}
+                    alt=""
                   />
                 </div>
               </div>
@@ -61,6 +63,7 @@ function Referral() {
             <img
               style={{ width: "352px" }}
               src={require("../../asserts/img/reward.png")}
+              alt=""
             />
           </div>
         </div>
@@ -81,6 +84,7 @@ function Referral() {
                       <img
                         className="w-8 pr-2"
                         src={require("../../asserts/img/USDT.png")}
+                        alt=""
                       />
                       <span className="text-2xl text-white">1000 USDT</span>
                     </div>
@@ -96,6 +100,7 @@ function Referral() {
                       <img
                         className="w-8 pr-2"
                         src={require("../../asserts/img/USDT.png")}
+                        alt=""
                       />
                       <span className="text-2xl text-white">1000 USDT</span>
                     </div>
@@ -122,60 +127,6 @@ function Referral() {
             </div>
           </div>
         </div>
-        {/* <div
-          className="p-5 _background2 rounded-xl"
-          style={{ maxWidth: "1182px", margin: "0 auto", overflow: "hidden" }}
-        >
-          <div className="flex items-start justify-between">
-            <div
-              className="w-1/2 pr-10"
-              style={{ borderRight: "1px solid #333" }}
-            >
-              <div className="mb-4">Unclaimed comission</div>
-              <div className="text-xs font-bold">
-                <div className="h-10 flex items-center justify-between">
-                  <span className="flex items-center">
-                    <img
-                      className="w-6"
-                      src={require("../../asserts/img/ETH.png")}
-                    />
-                    <span className="pl-2">ETH</span>
-                  </span>
-                  <span>10</span>
-                </div>
-                <div className="h-10 flex items-center justify-between">
-                  <span className="flex items-center">
-                    <img
-                      className="w-6"
-                      src={require("../../asserts/img/USDT.png")}
-                    />
-                    <span className="pl-2">USDT</span>
-                  </span>
-                  <span>10000</span>
-                </div>
-              </div>
-            </div>
-            <div className="w-1/2 pl-10">
-              <div>Number of invitees</div>
-              <div className="flex items-center text-xs">
-                <div>
-                  <div className="_active text-2xl font-medium pt-5 pb-4">
-                    10000
-                  </div>
-                  <div className="_nav-title">Friends</div>
-                </div>
-                <div className="pl-20">
-                  <div className="_active text-2xl font-medium pt-5 pb-4">
-                    100
-                  </div>
-                  <div className="_nav-title">
-                    Friends Who Started Participating
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
         <div
           className="_tipsBox"
           style={{
@@ -191,19 +142,20 @@ function Referral() {
               <img
                 className="w-16 text-center"
                 src={require("../../asserts/img/i1.png")}
+                alt=""
               />
               <div className="text-center mt-4 _desc">
                 1. Share your invite code with friends.
               </div>
             </div>
             <div className="w-1/4 flex flex-col items-center _tipDiv">
-              <img className="w-16" src={require("../../asserts/img/i2.png")} />
+              <img className="w-16" src={require("../../asserts/img/i2.png")} alt="" />
               <div className="text-center mt-4 _desc">
                 2. Invite friends to sign up and enter your invite code.
               </div>
             </div>
             <div className="w-1/4 flex flex-col items-center _tipDiv _paddingBNo">
-              <img className="w-16" src={require("../../asserts/img/i3.png")} />
+              <img className="w-16" src={require("../../asserts/img/i3.png")} alt="" />
               <div className="text-center mt-4 _desc">
                 3. Receive commission from each friend’s participate.
               </div>
@@ -215,11 +167,13 @@ function Referral() {
               <img
                 style={{ width: "300px", height: "1px" }}
                 src={require("../../asserts/img/line.png")}
+                alt=""
               />
               <img
                 className="ml-1"
                 style={{ width: "5px" }}
                 src={require("../../asserts/img/icon.png")}
+                alt=""
               />
             </div>
             <div
@@ -229,11 +183,13 @@ function Referral() {
               <img
                 style={{ width: "300px", height: "1px" }}
                 src={require("../../asserts/img/line.png")}
+                alt=""
               />
               <img
                 className="ml-1"
                 style={{ width: "5px" }}
                 src={require("../../asserts/img/icon.png")}
+                alt=""
               />
             </div>
           </div>

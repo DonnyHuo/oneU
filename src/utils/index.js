@@ -1,11 +1,31 @@
 import { ethers } from "ethers";
 
-export { chainList } from './config'
+export { chainList } from "./config";
 
 export const shortStr = (address, first = 7, last = 5) => {
   return address.slice(0, first) + "..." + address.slice(-last);
 };
 
+export const isMobile = window.innerWidth <= 768;
+
+/*
+ *思路：每次随机从数组抽出一个数放进新的数组，然后将这个数从原数组中剔除，这个就不会抽到重复的数了
+ */
+export const makeRandomArr = (arrList, num) => {
+  if (num > arrList.length) {
+    return;
+  }
+  //    var tempArr=arrList.concat();
+  var tempArr = arrList.slice(0);
+  var newArrList = [];
+  for (var i = 0; i < num; i++) {
+    var random = Math.floor(Math.random() * (tempArr.length - 1));
+    var arr = tempArr[random];
+    tempArr.splice(random, 1);
+    newArrList.push(arr);
+  }
+  return newArrList;
+};
 
 /**
  * 读取合约方法
@@ -15,7 +35,13 @@ export const shortStr = (address, first = 7, last = 5) => {
  * @param  {...any} params 传入的参数
  * @returns promise
  */
-export function getContract(walletProvider, contractAddress, abi, funcName, ...params) {
+export function getContract(
+  walletProvider,
+  contractAddress,
+  abi,
+  funcName,
+  ...params
+) {
   const provider = new ethers.providers.Web3Provider(walletProvider);
   const contract = new ethers.Contract(contractAddress, abi, provider);
   return new Promise((resolve, reject) => {
@@ -40,7 +66,13 @@ export function getContract(walletProvider, contractAddress, abi, funcName, ...p
  * @param  {...any} params 传入的参数
  * @returns promise
  */
-export function getWriteContract(walletProvider, contractAddress, abi, funcName, ...params) {
+export function getWriteContract(
+  walletProvider,
+  contractAddress,
+  abi,
+  funcName,
+  ...params
+) {
   const provider = new ethers.providers.Web3Provider(walletProvider);
   const contract = new ethers.Contract(contractAddress, abi, provider);
   const contractWithSigner = contract.connect(provider.getSigner());
@@ -64,7 +96,13 @@ export function getWriteContract(walletProvider, contractAddress, abi, funcName,
  * @param  {...any} params 传入的参数
  * @returns promise
  */
-export function getContractLoad(walletProvider, contractAddress, abi, funcName, ...params) {
+export function getContractLoad(
+  walletProvider,
+  contractAddress,
+  abi,
+  funcName,
+  ...params
+) {
   const provider = new ethers.providers.Web3Provider(walletProvider);
   const contract = new ethers.Contract(contractAddress, abi, provider);
   return new Promise((resolve, reject) => {

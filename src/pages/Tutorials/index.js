@@ -68,6 +68,7 @@ function Tutorials() {
                 <img
                   className="w-4 mr-3 mt-1"
                   src={require("../../asserts/img/point.png")}
+                  alt=""
                 />
                 <div>
                   <p className="_title font-bold">Step 1</p>
@@ -80,6 +81,7 @@ function Tutorials() {
                 <img
                   className="w-4 mr-3 mt-1"
                   src={require("../../asserts/img/point.png")}
+                  alt=""
                 />
                 <div>
                   <p className="_title font-bold">Step 2</p>
@@ -92,6 +94,7 @@ function Tutorials() {
                 <img
                   className="w-4 mr-3 mt-1"
                   src={require("../../asserts/img/point.png")}
+                  alt=""
                 />
                 <div>
                   <p className="_title font-bold">Step 3</p>
@@ -138,6 +141,7 @@ function Tutorials() {
                         }`,
                       }}
                       src={require("../../asserts/img/right.png")}
+                      alt=""
                     />
                   </div>
                   {list.active && <div className="_text mt-4">{list.desc}</div>}
