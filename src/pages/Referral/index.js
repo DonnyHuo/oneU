@@ -1,16 +1,94 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { message } from "antd";
+import { message, Button } from "antd";
+import { getContract, getWriteContractLoad } from "../../utils";
+import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
+import erc20Abi from "../../asserts/abi/erc20Abi.json";
+import { ethers } from "ethers";
 
 function Referral() {
+  const { walletProvider } = useWeb3ModalProvider();
   const union = require("../../asserts/img/union.png");
   const address = useSelector((state) => state.address);
-  console.log("address1", address);
   const userId = useSelector((state) => state.userId);
 
   const [messageApi, contextHolder] = message.useMessage();
   const copyInfo = () => {
     messageApi.success("Copied successfully!");
-    navigator.clipboard.writeText(userId)
+    navigator.clipboard.writeText(userId);
+  };
+
+  const poolManager = useSelector((state) => state.poolManager);
+
+  // get ReferralReward
+  const [rewardAccumulated, setRewardAccumulated] = useState(0);
+  const [rewardAccrued, setRewardAccrued] = useState(0);
+  const [usdtSymbol, setUsdtSymbol] = useState("USDT");
+  const referralRewardAccumulated = async () => {
+    // 获取usdt信息
+    const usdt = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "usdt"
+    );
+
+    const decimals = await getContract(
+      walletProvider,
+      usdt,
+      erc20Abi,
+      "decimals"
+    );
+    const symbol = await getContract(walletProvider, usdt, erc20Abi, "symbol");
+    setUsdtSymbol(symbol);
+
+    const rewardAccumulated = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "referralRewardAccumulated",
+      address
+    );
+    setRewardAccumulated(
+      ethers.utils.formatUnits(rewardAccumulated, decimals) * 1
+    );
+
+    const rewardAccrued = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "referralRewardAccured",
+      address
+    );
+    setRewardAccrued(ethers.utils.formatUnits(rewardAccrued, decimals) * 1);
+  };
+
+  useEffect(() => {
+    address && referralRewardAccumulated();
+  }, [address]);
+
+  // collectReferralReward
+  const [rewardLoading, setRewardLoading] = useState(false);
+  const collectReferralReward = async () => {
+    setRewardLoading(true);
+    await getWriteContractLoad(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "collectReferralReward",
+      address
+    )
+      .then((res) => {
+        setRewardLoading(false);
+        messageApi.success("Claim Success!");
+        referralRewardAccumulated();
+      })
+      .catch((err) => {
+        setRewardLoading(false);
+        messageApi.error("Claim Fail!");
+        console.log(err);
+      });
   };
 
   return (
@@ -52,9 +130,7 @@ function Referral() {
                   />
                 </div>
               </div>
-              <button
-                className="_borderS h-10 pr-6 pl-6 rounded-lg ml-6 flex items-center justify-center text-sm"
-              >
+              <button className="_borderS h-10 pr-6 pl-6 rounded-lg ml-6 flex items-center justify-center text-sm">
                 Invite <span className="_hiddenM pl-1"> Friends</span>
               </button>
             </div>
@@ -86,13 +162,21 @@ function Referral() {
                         src={require("../../asserts/img/USDT.png")}
                         alt=""
                       />
-                      <span className="text-2xl text-white">1000 USDT</span>
+                      <span className="text-2xl text-white">
+                        {rewardAccrued} {usdtSymbol}
+                      </span>
                     </div>
                     <p className="pt-4 text-xs">Unclaimed comission</p>
                   </div>
-                  <button className="_background-gradient2 h-10 pr-10 pl-10 rounded-full flex items-center justify-center text-sm text-white">
+                  {contextHolder}
+                  <Button
+                    disabled={!rewardAccrued}
+                    loading={rewardLoading}
+                    onClick={collectReferralReward}
+                    className="_background-gradient2 h-10 pr-10 pl-10 rounded-full flex items-center justify-center text-sm text-white"
+                  >
                     Claim
-                  </button>
+                  </Button>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="pt-4">
@@ -102,9 +186,11 @@ function Referral() {
                         src={require("../../asserts/img/USDT.png")}
                         alt=""
                       />
-                      <span className="text-2xl text-white">1000 USDT</span>
+                      <span className="text-2xl text-white">
+                        {rewardAccumulated - rewardAccrued} {usdtSymbol}
+                      </span>
                     </div>
-                    <p className="pt-4 text-xs">Unclaimed comission</p>
+                    <p className="pt-4 text-xs">Claimed comission</p>
                   </div>
                 </div>
               </div>
@@ -133,11 +219,12 @@ function Referral() {
             maxWidth: "1182px",
             margin: "0 auto",
             marginTop: "50px",
+            paddingBottom:'100px',
             overflow: "hidden",
           }}
         >
           <div className="_tipsTitle text-lg">Tips</div>
-          <div className="text-xs _text flex items-start justify-between mt-6 relative pb-10 pt-10 _tips  _background2 rounded-xl _border">
+          <div className="text-xs _text flex items-start justify-between mt-6 relative pb-10 pt-10 _tips _background2 rounded-xl _border">
             <div className="w-1/4 flex flex-col items-center _tipDiv">
               <img
                 className="w-16 text-center"
@@ -149,13 +236,21 @@ function Referral() {
               </div>
             </div>
             <div className="w-1/4 flex flex-col items-center _tipDiv">
-              <img className="w-16" src={require("../../asserts/img/i2.png")} alt="" />
+              <img
+                className="w-16"
+                src={require("../../asserts/img/i2.png")}
+                alt=""
+              />
               <div className="text-center mt-4 _desc">
                 2. Invite friends to sign up and enter your invite code.
               </div>
             </div>
             <div className="w-1/4 flex flex-col items-center _tipDiv _paddingBNo">
-              <img className="w-16" src={require("../../asserts/img/i3.png")} alt="" />
+              <img
+                className="w-16"
+                src={require("../../asserts/img/i3.png")}
+                alt=""
+              />
               <div className="text-center mt-4 _desc">
                 3. Receive commission from each friend’s participate.
               </div>

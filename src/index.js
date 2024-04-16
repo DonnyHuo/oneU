@@ -81,7 +81,7 @@ const networks = [
     name: "Sepolia",
     currency: "SepoliaETH",
     explorerUrl: "https://sepolia.etherscan.io",
-    rpcUrl: "https://eth-sepolia-public.unifra.io",
+    rpcUrl: "https://rpc.sepolia.org",
   },
 ];
 

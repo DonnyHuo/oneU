@@ -5,7 +5,12 @@ import {
   useWeb3ModalAccount,
   useWeb3ModalProvider,
 } from "@web3modal/ethers5/react";
-import { shortStr, getContract, getWriteContractLoad, chainList } from "../../utils";
+import {
+  shortStr,
+  getContract,
+  getWriteContractLoad,
+  chainList,
+} from "../../utils";
 import { Drawer, message, Button, Modal } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
@@ -37,6 +42,11 @@ const Header = () => {
   const dispatch = useDispatch();
   const inviteContract = useSelector((state) => state.inviteContract);
 
+  const reModalOpen = useSelector(
+    (state) => state.reModalOpen,
+    (pre, next) => pre === next
+  );
+
   const getUserId = async () => {
     const userId = await getContract(
       walletProvider,
@@ -46,8 +56,6 @@ const Header = () => {
       address
     );
     dispatch({ type: "CHANGE_USER", payload: userId.toString() });
-
-    console.log("userId", userId.toString());
   };
 
   useEffect(() => {
@@ -57,15 +65,13 @@ const Header = () => {
     dispatch({ type: "CHANGE_ADDRESS", payload: address });
   }, [address, chainId]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [code, setCode] = useState("");
   const [signUpLoading, setSignUpLoading] = useState(false);
 
   const userId = useSelector((state) => state.userId);
 
   useEffect(() => {
-    setIsModalOpen(userId * 1 === 0 ? true : false);
+    dispatch({ type: "CHANGE_REMODAL", payload: userId * 1 === 0 });
   }, [userId]);
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -83,9 +89,9 @@ const Header = () => {
       .then((res) => {
         console.log(res);
         setSignUpLoading(false);
-        setIsModalOpen(false);
+        dispatch({ type: "CHANGE_REMODAL", payload: false });
         setCode("");
-        messageApi.success("registration success!");
+        messageApi.success("Registration Success!");
         getUserId();
       })
       .catch((err) => {
@@ -98,7 +104,9 @@ const Header = () => {
   return (
     <div className="h-18 flex items-center justify-between pl-5 pr-5 border-spacing-1 text-white _background1 _line relative">
       <div>
-        <img className="h-5 mt-6 mb-6" src={logoIcon} alt="" />
+        <Link to="/">
+          <img className="h-5 mt-6 mb-6" src={logoIcon} alt="" />
+        </Link>
       </div>
       <div
         className="flex items-center font-medium _hiddenM"
@@ -211,7 +219,7 @@ const Header = () => {
           <p className="pt-5 pb-5" onClick={onClose}>
             <Link
               className={`ml-6 mr-6 flex items-center justify-between ${
-                location.pathname === "/" ? "_active" : ""
+                location.pathname === "/" && location.search === "" ? "_active" : ""
               }`}
               to="/"
             >
@@ -223,6 +231,7 @@ const Header = () => {
               />
             </Link>
           </p>
+          
           <p className="pt-5 pb-5" onClick={onClose}>
             <Link
               className={`ml-6 mr-6  flex items-center justify-between ${
@@ -253,6 +262,24 @@ const Header = () => {
               />
             </Link>
           </p>
+          {
+            console.log('location.pathname', location)
+          }
+          <p className="pt-5 pb-5" onClick={onClose}>
+            <Link
+              className={`ml-6 mr-6 flex items-center justify-between ${
+                location.pathname === "/" && location.search === "?reward" ? "_active" : ""
+              }`}
+              to="/?reward"
+            >
+              <span>My Reward</span>
+              <img
+                className="w-4"
+                src={require("../../asserts/img/drawerRight.png")}
+                alt=""
+              />
+            </Link>
+          </p>
           <p className="pt-5 pb-5" onClick={onClose}>
             <a
               target="_blank"
@@ -274,8 +301,10 @@ const Header = () => {
       <Modal
         title="Got an invite code?"
         centered
-        open={isModalOpen}
-        onCancel={() => setIsModalOpen(false)}
+        open={reModalOpen}
+        onCancel={() => {
+          dispatch({ type: "CHANGE_REMODAL", payload: false });
+        }}
         footer={false}
         closeIcon={
           <img
@@ -284,7 +313,8 @@ const Header = () => {
             alt=""
           />
         }
-        width={480}
+        width={420}
+        zIndex={10000}
       >
         <p className="mt-5 _nav-title">
           Get an invite code from an existing user to sign up.

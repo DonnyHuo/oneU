@@ -1,8 +1,6 @@
 import Header from "./components/header";
-import Footer from "./components/footer";
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Lottery from "./pages/Lottery";
 import Referral from "./pages/Referral";
 import Tutorials from "./pages/Tutorials";
@@ -21,7 +19,6 @@ function App() {
             <Route path="/discord" element={<Discord />}></Route>
           </Routes>
         </div>
-        <Footer />
       </div>
     </BrowserRouter>
   );

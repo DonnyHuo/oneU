@@ -249,13 +249,50 @@ body {
   border-radius: 16px;
 }
 
+.ant-btn-default:disabled {
+  background-color: #434356;
+  color: #fff;
+}
+.ant-btn-default:hover {
+  background-color: #434356 !important;
+  color: #fff !important;
+}
+._winNumber {
+  font-size: 20px;
+  color: #a851ff;
+}
+._roundStatus {
+  height: 24px;
+  line-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #fff;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+._roundStatus1 {
+  background-color: #1EAF67;
+}
+._roundStatus2 {
+  background-color: #e6a62c;
+}
+._roundStatus3 {
+  background-color: #6C697B;
+}
+.ant-btn-default {
+  background: linear-gradient(to right, #ce00ff, #7f00ff);
+  color: #fff;
+}
+
 @media screen and (min-width: 0px) and (max-width: 480px) {
   .ant-skeleton .ant-skeleton-content .ant-skeleton-paragraph > li {
     height: 390px;
     margin-top: 20px;
-  }
-  .h-12 {
-    height: 40px;
   }
   .pl-16 {
     padding-left: 30px;
@@ -350,7 +387,7 @@ body {
     background-position: center center;
   }
   ._marginAutoM {
-    margin: 20px auto;
+    margin: 40px auto 0 auto;
   }
   ._marginLR {
     margin: 0 20px;
@@ -516,10 +553,6 @@ body {
 @media screen and (min-width: 480px) and (max-width: 5000px) {
   .ant-modal-root .ant-modal-centered .ant-modal {
     width: 420px !important;
-  }
-  .content {
-    min-height: calc(100vh - 277px);
-    background-color: #0b051a;
   }
   .h-24 {
     height: 6rem;

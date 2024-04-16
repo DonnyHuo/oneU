@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Tutorials() {
   const [qaList, setQaList] = useState([
@@ -43,12 +44,14 @@ function Tutorials() {
               className="flex items-center justify-between mt-10 _hiddenM"
               style={{ width: "400px" }}
             >
-              <button
-                className="_background-gradient2 h-10 pr-3 pl-3 rounded-full flex items-center justify-center text-sm font-bold"
-                style={{ width: "180px" }}
-              >
-                Play Now
-              </button>
+              <Link to="/">
+                <button
+                  className="_background-gradient2 h-10 pr-3 pl-3 rounded-full flex items-center justify-center text-sm font-bold"
+                  style={{ width: "180px" }}
+                >
+                  Play Now
+                </button>
+              </Link>
             </div>
           </div>
           <div
@@ -106,12 +109,18 @@ function Tutorials() {
             </div>
           </div>
         </div>
-        <div style={{ maxWidth: "1180px" }} className="_marginLR _marginAuto0 _paddingB20">
+        <div
+          style={{ maxWidth: "1180px" }}
+          className="_marginLR _marginAuto0 _paddingB20"
+        >
           <div className="text-2xl font-bold">Q&A</div>
-          <div>
+          <div className="pb-20">
             {qaList.map((list, index) => {
               return (
-                <div key={index} className="_background2 rounded-xl mt-4 p-4">
+                <div
+                  key={index}
+                  className="_background2 rounded-xl mt-4 p-4 cursor-pointer"
+                >
                   <div
                     className={`_title flex items-center justify-between ${
                       list.active && "pb-4"

@@ -8,6 +8,28 @@ export const shortStr = (address, first = 7, last = 5) => {
 
 export const isMobile = window.innerWidth <= 768;
 
+export function formate(time) {
+  return `${time < 10 ? "0" : ""}${time}`;
+}
+
+export const computeCountdownInfo = (remainTime) => {
+  // 这里用了一个比较笨的方法，一个个进行计算，后续可以优化试试看
+  const day = Math.floor(remainTime / (24 * 60 * 60));
+  const hours = Math.floor((remainTime / (60 * 60)) % 24);
+  const hoursStr = formate(hours);
+  const minutes = Math.floor((remainTime / 60) % 60);
+  const minutesStr = formate(minutes);
+  const seconds = Math.floor(remainTime % 60);
+  const secondsStr = formate(seconds);
+
+  // 组合成需要返回的时间信息
+  const timeInfo = `${day ? day + "days " : ""} ${
+    hours ? hoursStr + ":" : "00:"
+  }${minutes ? minutesStr + ":" : "00:"}${seconds ? secondsStr : "00"}`;
+
+  return timeInfo;
+};
+
 /*
  *思路：每次随机从数组抽出一个数放进新的数组，然后将这个数从原数组中剔除，这个就不会抽到重复的数了
  */
