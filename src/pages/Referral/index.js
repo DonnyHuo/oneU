@@ -139,7 +139,9 @@ function Referral() {
               >
                 <span className="_text font-medium">Invite Code</span>
                 <div className="flex items-center">
-                  <span className="pr-4">{userId}</span>
+                  <span className="pr-4">
+                    {userId * 1 === -1 ? "--" : userId}
+                  </span>
                   {contextHolder}
                   <img
                     className="w-3 cursor-pointer"

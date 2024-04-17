@@ -113,6 +113,10 @@ function Lottery() {
     setMaxTicketsPerBuy(maxTicketsPerBuy);
   };
 
+  useEffect(() => {
+    getMaxTicketsPerBuy();
+  });
+
   const [accountBalance, setAccountBalance] = useState(0);
   const getAccountBalance = async () => {
     const usdt = await getContract(
@@ -142,7 +146,7 @@ function Lottery() {
   };
 
   useEffect(() => {
-    address && getAccountBalance();
+    address ? getAccountBalance() : setAccountBalance(0);
   }, [address]);
 
   const getPoolList = async () => {
@@ -155,8 +159,6 @@ function Lottery() {
       "getAllPoolIds"
     );
     setRows(allPools.length);
-
-    getMaxTicketsPerBuy();
 
     // 获取usdt信息
     const usdt = await getContract(
@@ -382,16 +384,20 @@ function Lottery() {
   const nowDate = Math.floor(new Date().getTime() / 1000);
 
   const maxBuyFun = () => {
-    if (accountBalance / selectPool?.pricePerTicket >= 1) {
-      return setTicketAmount(
-        Math.min(
-          Math.floor(accountBalance / selectPool?.pricePerTicket),
-          maxTicketsPerBuy,
-          selectPool?.roundInfo?.leftTickets
-        )
-      );
+    if (address) {
+      if (accountBalance / selectPool?.pricePerTicket >= 1) {
+        return setTicketAmount(
+          Math.min(
+            Math.floor(accountBalance / selectPool?.pricePerTicket),
+            maxTicketsPerBuy,
+            selectPool?.roundInfo?.leftTickets
+          )
+        );
+      } else {
+        setTicketAmount(0);
+      }
     } else {
-      setTicketAmount(0);
+      setTicketAmount(maxTicketsPerBuy);
     }
   };
   // 获取总奖励数
@@ -867,7 +873,9 @@ function Lottery() {
                     </tbody>
                   </table>
                   {participationRecords.length == 0 && (
-                    <div className="text-center w-full h-28 flex items-center justify-center">No Data</div>
+                    <div className="text-center w-full h-28 flex items-center justify-center">
+                      No Data
+                    </div>
                   )}
                 </div>
                 <div className="_hiddenP">
