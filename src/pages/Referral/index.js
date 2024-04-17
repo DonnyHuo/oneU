@@ -16,7 +16,7 @@ function Referral() {
 
   const [messageApi, contextHolder] = message.useMessage();
   const copyInfo = () => {
-    messageApi.success("Copied successfully!");
+    messageApi.success("Copied Success!");
     navigator.clipboard.writeText(userId);
   };
 
@@ -107,7 +107,7 @@ function Referral() {
   };
 
   useEffect(() => {
-    address && userId > -1 && getChildrenCountOf();
+    address && userId > -1 ? getChildrenCountOf() : setChildrenCountOf('--');
   }, [address, userId]);
 
   return (
@@ -188,7 +188,7 @@ function Referral() {
                         alt=""
                       />
                       <span className="text-2xl text-white">
-                        {rewardAccumulated - rewardAccrued} {usdtSymbol}
+                        {address ? rewardAccumulated - rewardAccrued : '0'} {usdtSymbol}
                       </span>
                     </div>
                     <p className="pt-4 text-xs">Claimed comission</p>

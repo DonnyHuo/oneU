@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import poolManagerAbi from '../../asserts/abi/poolManagerAbi.json'
-import { getContract } from '../../utils'
 
 function Tutorials() {
   const [qaList, setQaList] = useState([
@@ -27,22 +24,6 @@ function Tutorials() {
       desc: "For every share purchased by a friend you invite, you will receive a 3% commission from the purchase amount.",
     },
   ]);
-
-  const poolManager = useSelector((state) => state.poolManager);
-
-  const getPoolList = async () => {
-    const usdt = await getContract(
-      '',
-      poolManager,
-      poolManagerAbi,
-      "usdt"
-    );
-    console.log("usdt", usdt);
-  };
-
-  useEffect(()=>{
-    getPoolList()
-  })
 
   return (
     <div className="_background1 _title">
