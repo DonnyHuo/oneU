@@ -284,7 +284,7 @@ function Lottery() {
     for (let i = 1; i <= list * 1; i++) {
       let option = {
         value: i,
-        label: i,
+        label: i == list? 'Current Epoch': i,
       };
       options.push(option);
     }
