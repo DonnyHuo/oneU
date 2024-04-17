@@ -776,7 +776,7 @@ function Lottery() {
                         </div>
                         <div
                           className="h-24 flex flex-col justify-between"
-                          style={{ minWidth: "200px" }}
+                          style={{ minWidth: "232px" }}
                         >
                           <div className="text-center">
                             <Button
@@ -802,9 +802,11 @@ function Lottery() {
                               {list?.roundInfo?.status == 1 && (
                                 <>
                                   Time to start:{" "}
-                                  {moment(
-                                    list?.roundInfo?.startTime * 1000
-                                  ).format("YYYY-MM-DD HH:mm:ss")}
+                                  <CountDown
+                                    offsetTimestamp={
+                                      nowDate - list?.roundInfo?.startTime
+                                    }
+                                  />
                                 </>
                               )}
                               {list?.roundInfo?.status == 3 && (
@@ -812,7 +814,7 @@ function Lottery() {
                                   Time to end:{" "}
                                   {moment(
                                     list?.roundInfo?.endTime * 1000
-                                  ).format("YYYY-MM-DD HH:mm:ss")}
+                                  ).format("YYYY/MM/DD HH:mm:ss")}
                                 </>
                               )}
                             </span>
