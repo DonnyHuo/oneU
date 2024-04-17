@@ -224,7 +224,7 @@ body {
   border-radius: 16px;
   padding: 0 30px;
   border: 1px solid #9c00ff;
-  background: #361a58;
+  background: #361a58!important;
   color: #fff;
 }
 .tableBtn:hover {

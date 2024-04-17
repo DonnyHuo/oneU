@@ -987,7 +987,7 @@ function Lottery() {
                                     setSelectTickets(list.tickets);
                                   }}
                                 >
-                                  check number
+                                  Check
                                   {/* {list.tickets.join(",")} */}
                                 </Button>
                               </td>
@@ -1007,7 +1007,7 @@ function Lottery() {
                     {participationRecords &&
                       participationRecords.map((list) => {
                         return (
-                          <div className="mb-4 mt-4">
+                          <div className="mb-8 mt-4">
                             <div
                               className="flex items-center justify-between"
                               key={list.ticket}
@@ -1033,7 +1033,7 @@ function Lottery() {
                                 }}
                                 className="_active"
                               >
-                                check number
+                                Check Number
                               </span>
                             </div>
                             <div className="flex items-center justify-between _nav-title font-thin mt-2">
