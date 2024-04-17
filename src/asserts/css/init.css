@@ -203,7 +203,7 @@ body {
 .ant-progress-text {
   position: absolute;
   top: calc(50% - 5px);
-  left: calc(50% - 10px);
+  left: calc(50% - 12px);
   font-family: Poppins-Regular;
   font-size: 12px;
 }
