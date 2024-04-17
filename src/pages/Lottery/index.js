@@ -776,7 +776,7 @@ function Lottery() {
                         </div>
                         <div
                           className="h-24 flex flex-col justify-between"
-                          style={{ minWidth: "232px" }}
+                          style={{ minWidth: "200px" }}
                         >
                           <div className="text-center">
                             <Button
