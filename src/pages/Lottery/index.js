@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import { useWeb3ModalProvider, useWeb3Modal } from "@web3modal/ethers5/react";
 import {
   Select,
   Progress,
@@ -26,7 +26,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 function Lottery() {
   const { walletProvider } = useWeb3ModalProvider();
-
+  const { open } = useWeb3Modal();
   const descList = [
     {
       imgUrl: require("../../asserts/img/square.png"),
@@ -77,6 +77,7 @@ function Lottery() {
   const [isRewardOpen, setIsRewardOpen] = useState(false);
   const [USDTAddress, setUSDTAddress] = useState("");
   const [USDTDecimals, setUSDTDecimals] = useState("6");
+  const [USDTSymbol, setUSDTSymbol] = useState("USDT");
 
   const [pools, setPools] = useState([]);
 
@@ -112,6 +113,38 @@ function Lottery() {
     setMaxTicketsPerBuy(maxTicketsPerBuy);
   };
 
+  const [accountBalance, setAccountBalance] = useState(0);
+  const getAccountBalance = async () => {
+    const usdt = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "usdt"
+    );
+    const decimals = await getContract(
+      walletProvider,
+      usdt,
+      erc20Abi,
+      "decimals"
+    );
+    const balanceOf = await getContract(
+      walletProvider,
+      usdt,
+      erc20Abi,
+      "balanceOf",
+      address
+    );
+
+    getAllowance(usdt);
+
+    const balance = ethers.utils.formatUnits(balanceOf, decimals) * 1;
+    setAccountBalance(balance);
+  };
+
+  useEffect(() => {
+    address && getAccountBalance();
+  }, [address]);
+
   const getPoolList = async () => {
     // 获取所有池子的信息
     const pools = [];
@@ -135,8 +168,9 @@ function Lottery() {
 
     setUSDTAddress(usdt);
 
-    getAllowance(usdt);
     const symbol = await getContract(walletProvider, usdt, erc20Abi, "symbol");
+
+    setUSDTSymbol(symbol);
 
     const decimals = await getContract(
       walletProvider,
@@ -146,15 +180,6 @@ function Lottery() {
     );
 
     setUSDTDecimals(decimals.toString());
-
-    const balanceOf = await getContract(
-      walletProvider,
-      usdt,
-      erc20Abi,
-      "balanceOf",
-      address
-    );
-    const balance = ethers.utils.formatUnits(balanceOf, decimals) * 1;
 
     for (let i = 0; i < allPools.length; i++) {
       const pool = await getContract(
@@ -176,7 +201,6 @@ function Lottery() {
 
       const resetPool = {
         USDTAddress: usdt,
-        USDTBalance: balance,
         contractAddress: allPools[i],
         currentRound: pool.currentRound.toString(),
         pricePerTicket: ethers.utils.formatUnits(pool.pricePerTicket, decimals),
@@ -211,8 +235,8 @@ function Lottery() {
   };
 
   useEffect(() => {
-    walletProvider && address && getPoolList();
-  }, [walletProvider, address]);
+    getPoolList();
+  }, [walletProvider]);
 
   const epochOptions = (list) => {
     const options = [];
@@ -251,6 +275,10 @@ function Lottery() {
   const [approveLoading, setApproveLoading] = useState(false);
 
   const approveTicketFun = async (usdtAddress) => {
+    if (!address) {
+      setIsShareOpen(false);
+      return open();
+    }
     setApproveLoading(true);
     await getWriteContractLoad(
       walletProvider,
@@ -294,6 +322,10 @@ function Lottery() {
   const dispatch = useDispatch();
 
   const buyTicketFun = async (selectPool, amount) => {
+    if (!address) {
+      setIsShareOpen(false);
+      return open();
+    }
     if (userId * 1 === 0) {
       return dispatch({ type: "CHANGE_REMODAL", payload: true });
     }
@@ -303,7 +335,7 @@ function Lottery() {
     if (!reg.test(ticketAmount * 1)) {
       return messageApi.error("please enter correct amount!");
     }
-    if (amount * 1 > selectPool.USDTBalance * 1) {
+    if (amount * 1 > accountBalance * 1) {
       return messageApi.error("Insufficient balance!");
     }
     if (amount * 1 > selectPool.roundInfo.leftTickets * 1) {
@@ -350,10 +382,10 @@ function Lottery() {
   const nowDate = Math.floor(new Date().getTime() / 1000);
 
   const maxBuyFun = () => {
-    if (selectPool?.USDTBalance / selectPool?.pricePerTicket >= 1) {
+    if (accountBalance / selectPool?.pricePerTicket >= 1) {
       return setTicketAmount(
         Math.min(
-          selectPool?.USDTBalance / selectPool?.pricePerTicket,
+          Math.floor(accountBalance / selectPool?.pricePerTicket),
           maxTicketsPerBuy,
           selectPool?.roundInfo?.leftTickets
         )
@@ -362,6 +394,24 @@ function Lottery() {
       setTicketAmount(0);
     }
   };
+  // 获取总奖励数
+  const [wonParticipationRecords, setWonParticipationRecords] = useState(0);
+  const getWonParticipationRecords = async () => {
+    const wonParticipationRecords = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "getWonParticipationRecords",
+      address
+    );
+    setWonParticipationRecords(
+      ethers.utils.formatUnits(
+        wonParticipationRecords.totalPrizes,
+        USDTDecimals
+      ) * 1
+    );
+  };
+
   // 获取参与奖励
   const [unclaimedPrizes, setUnclaimedPrizes] = useState(0);
   const [unclaimedInfo, setUnclaimedInfo] = useState([]);
@@ -395,6 +445,7 @@ function Lottery() {
     if (address) {
       getParticipationRecords();
       getUnclaimedPrizes();
+      getWonParticipationRecords();
     }
   }, [address]);
 
@@ -431,6 +482,12 @@ function Lottery() {
       case 3:
         return "Ended";
     }
+  };
+
+  const clickBuyBtnFun = (list) => {
+    setIsShareOpen(true);
+    setSelectPool(list);
+    setTicketAmount("");
   };
 
   return (
@@ -622,11 +679,7 @@ function Lottery() {
                             <Button
                               disabled={list?.roundInfo?.status * 1 !== 2}
                               className="_borderS rounded-full p-2 pr-12 pl-12 h-10 _title _listBtn"
-                              onClick={() => {
-                                setIsShareOpen(true);
-                                setSelectPool(list);
-                                setTicketAmount("");
-                              }}
+                              onClick={() => clickBuyBtnFun(list)}
                             >
                               Buy Tickets
                             </Button>
@@ -725,7 +778,9 @@ function Lottery() {
                         src={require("../../asserts/img/USDT.png")}
                         alt=""
                       />
-                      <span className="text-2xl">{unclaimedPrizes} USDT</span>
+                      <span className="text-2xl">
+                        {wonParticipationRecords} {USDTSymbol}
+                      </span>
                     </div>
                     <div className="_nav-title text-sm text-left pt-4">
                       Total Reward
@@ -741,7 +796,7 @@ function Lottery() {
                             alt=""
                           />
                           <span className="text-2xl">
-                            {unclaimedPrizes} USDT
+                            {unclaimedPrizes} {USDTSymbol}
                           </span>
                         </div>
                         <div className="_nav-title text-sm text-left pt-4">
@@ -777,7 +832,7 @@ function Lottery() {
                       </tr>
                     </thead>
                     <tbody>
-                      {participationRecords &&
+                      {participationRecords.length > 0 &&
                         participationRecords.map((list, index) => {
                           return (
                             <tr className="h-14" key={index}>
@@ -795,11 +850,15 @@ function Lottery() {
                                 </Popover>
                               </td>
                               <td>{list.roundId.toString()}</td>
-                              <td>{1}</td>
-                              <td>--</td>
+                              <td>{list.ticketsCount.toString()}</td>
+                              <td>
+                                {moment(
+                                  list.timestamp.toString() * 1000
+                                ).format("YYYY-MM-DD HH:mm:ss")}
+                              </td>
                               <td className="text-right">
                                 <Button className="tableBtn min-w-24">
-                                  {list.ticket}
+                                  {list.tickets.join(",")}
                                 </Button>
                               </td>
                             </tr>
@@ -807,6 +866,9 @@ function Lottery() {
                         })}
                     </tbody>
                   </table>
+                  {participationRecords.length == 0 && (
+                    <div className="text-center w-full h-28 flex items-center justify-center">No Data</div>
+                  )}
                 </div>
                 <div className="_hiddenP">
                   <div className="text-sm">
@@ -831,11 +893,18 @@ function Lottery() {
                                 </Popover>
                                 ; Epoch {list.roundId.toString()}
                               </span>
-                              <span className="_active">{list.ticket}</span>
+                              {/* <span className="_active">{list.tickets.join(',')}</span> */}
+                              <span className="_active">check number</span>
                             </div>
                             <div className="flex items-center justify-between _nav-title font-thin mt-2">
-                              <span>1 tickets </span>
-                              <span> -- </span>
+                              <span>
+                                {list.ticketsCount.toString()} tickets
+                              </span>
+                              <span>
+                                {moment(
+                                  list.timestamp.toString() * 1000
+                                ).format("YYYY-MM-DD HH:mm:ss")}
+                              </span>
                             </div>
                           </div>
                         );
@@ -889,7 +958,7 @@ function Lottery() {
             </span>
           </span>
           <span>
-            Balance: {selectPool?.USDTBalance} {selectPool?.rewardSymbol}
+            Balance: {accountBalance} {selectPool?.rewardSymbol}
           </span>
         </div>
         {contextHolder}

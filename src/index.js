@@ -87,10 +87,10 @@ const networks = [
 
 // 3. Create a metadata object
 const metadata = {
-  name: "My Website",
-  description: "My Website description",
-  url: "https://mywebsite.com", // origin must match your domain & subdomain
-  icons: ["https://avatars.mywebsite.com/"],
+  name: "oneU",
+  description: "Win crypro lotteries with just One Usdt.",
+  url: "https://one-u.vercel.app", // origin must match your domain & subdomain
+  icons: [""],
 };
 
 // 4. Create Ethers config

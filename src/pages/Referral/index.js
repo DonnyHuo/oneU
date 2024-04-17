@@ -4,6 +4,7 @@ import { message, Button } from "antd";
 import { getContract, getWriteContractLoad } from "../../utils";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
+import inviteAbi from "../../asserts/abi/inviteAbi.json";
 import erc20Abi from "../../asserts/abi/erc20Abi.json";
 import { ethers } from "ethers";
 
@@ -90,6 +91,24 @@ function Referral() {
         console.log(err);
       });
   };
+
+  const [childrenCountOf, setChildrenCountOf] = useState(0);
+  const inviteContract = useSelector((state) => state.inviteContract);
+  //获取参与人数
+  const getChildrenCountOf = async () => {
+    const childrenCountOf = await getContract(
+      walletProvider,
+      inviteContract,
+      inviteAbi,
+      "childrenCountOf",
+      userId
+    );
+    setChildrenCountOf(childrenCountOf.toString());
+  };
+
+  useEffect(() => {
+    address && userId > -1 && getChildrenCountOf();
+  }, [address, userId]);
 
   return (
     <div className="_background1 _title">
@@ -197,13 +216,13 @@ function Referral() {
               <div className="w-1/2 rounded-xl p-5 _background2 ml-5 _M100 _border">
                 <div className="flex items-center justify-between _line pb-4">
                   <div>
-                    <div className="text-2xl _active">1000</div>
+                    <div className="text-2xl _active">{childrenCountOf}</div>
                     <p className="pt-4 text-xs">Friends</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-between pt-4">
                   <div>
-                    <div className="text-2xl _active">100</div>
+                    <div className="text-2xl _active">--</div>
                     <p className="pt-4 text-xs">
                       Friends Who Started Participating
                     </p>
@@ -219,7 +238,7 @@ function Referral() {
             maxWidth: "1182px",
             margin: "0 auto",
             marginTop: "50px",
-            paddingBottom:'100px',
+            paddingBottom: "100px",
             overflow: "hidden",
           }}
         >

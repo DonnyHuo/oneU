@@ -391,7 +391,13 @@
         "components": [
           { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
           { "internalType": "uint256", "name": "roundId", "type": "uint256" },
-          { "internalType": "uint32", "name": "ticket", "type": "uint32" }
+          { "internalType": "uint256", "name": "timestamp", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "ticketsCount",
+            "type": "uint256"
+          },
+          { "internalType": "uint32[]", "name": "tickets", "type": "uint32[]" }
         ],
         "internalType": "struct IPoolManager.ParticipationRecord[]",
         "name": "",
@@ -444,9 +450,7 @@
       { "internalType": "uint256", "name": "roundId", "type": "uint256" }
     ],
     "name": "getSoldTickets",
-    "outputs": [
-      { "internalType": "uint32[]", "name": "soldTickets", "type": "uint32[]" }
-    ],
+    "outputs": [{ "internalType": "uint32[]", "name": "", "type": "uint32[]" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -486,12 +490,19 @@
         "components": [
           { "internalType": "bytes32", "name": "poolId", "type": "bytes32" },
           { "internalType": "uint256", "name": "roundId", "type": "uint256" },
-          { "internalType": "uint32", "name": "ticket", "type": "uint32" }
+          { "internalType": "uint256", "name": "timestamp", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "ticketsCount",
+            "type": "uint256"
+          },
+          { "internalType": "uint32[]", "name": "tickets", "type": "uint32[]" }
         ],
         "internalType": "struct IPoolManager.ParticipationRecord[]",
         "name": "records",
         "type": "tuple[]"
-      }
+      },
+      { "internalType": "uint256", "name": "totalPrizes", "type": "uint256" }
     ],
     "stateMutability": "view",
     "type": "function"

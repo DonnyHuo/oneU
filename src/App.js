@@ -7,6 +7,7 @@ import Tutorials from "./pages/Tutorials";
 import Discord from "./pages/Discord";
 
 function App() {
+  console.log('process.env.PUBLIC_URL', process.env.PUBLIC_URL)
   return (
     <BrowserRouter>
       <div className="App">

@@ -551,6 +551,10 @@ body {
 }
 
 @media screen and (min-width: 480px) and (max-width: 5000px) {
+  .content {
+    min-height: 100vh;
+    background-color: #0b051a;
+  }
   .ant-modal-root .ant-modal-centered .ant-modal {
     width: 420px !important;
   }

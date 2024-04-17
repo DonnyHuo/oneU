@@ -49,6 +49,11 @@ export const makeRandomArr = (arrList, num) => {
   return newArrList;
 };
 
+const infuraProvider = new ethers.providers.InfuraProvider(
+  "sepolia",
+  "98f811d089bc44b7a1dc0fee4aa8655c"
+);
+
 /**
  * 读取合约方法
  * @param {*} contractAddress 合约地址
@@ -64,7 +69,9 @@ export function getContract(
   funcName,
   ...params
 ) {
-  const provider = new ethers.providers.Web3Provider(walletProvider);
+  const provider = walletProvider
+    ? new ethers.providers.Web3Provider(walletProvider)
+    : infuraProvider;
   const contract = new ethers.Contract(contractAddress, abi, provider);
   return new Promise((resolve, reject) => {
     contract[funcName](...params).then(
@@ -95,7 +102,9 @@ export function getWriteContract(
   funcName,
   ...params
 ) {
-  const provider = new ethers.providers.Web3Provider(walletProvider);
+  const provider = walletProvider
+    ? new ethers.providers.Web3Provider(walletProvider)
+    : infuraProvider;
   const contract = new ethers.Contract(contractAddress, abi, provider);
   const contractWithSigner = contract.connect(provider.getSigner());
   return new Promise((resolve, reject) => {
@@ -125,7 +134,9 @@ export function getContractLoad(
   funcName,
   ...params
 ) {
-  const provider = new ethers.providers.Web3Provider(walletProvider);
+  const provider = walletProvider
+  ? new ethers.providers.Web3Provider(walletProvider)
+  : infuraProvider;
   const contract = new ethers.Contract(contractAddress, abi, provider);
   return new Promise((resolve, reject) => {
     contract[funcName](...params).then(
@@ -177,7 +188,9 @@ export function getWriteContractLoad(
   funcName,
   ...params
 ) {
-  const provider = new ethers.providers.Web3Provider(walletProvider);
+  const provider = walletProvider
+  ? new ethers.providers.Web3Provider(walletProvider)
+  : infuraProvider;
   const contract = new ethers.Contract(contractAddress, abi, provider);
   const contractWithSigner = contract.connect(provider.getSigner());
   return new Promise((resolve, reject) => {
