@@ -87,7 +87,6 @@ const Header = () => {
       code ? code * 1 : 0
     )
       .then((res) => {
-        console.log(res);
         setSignUpLoading(false);
         dispatch({ type: "CHANGE_REMODAL", payload: false });
         setCode("");
@@ -262,9 +261,6 @@ const Header = () => {
               />
             </Link>
           </p>
-          {
-            console.log('location.pathname', location)
-          }
           <p className="pt-5 pb-5" onClick={onClose}>
             <Link
               className={`ml-6 mr-6 flex items-center justify-between ${

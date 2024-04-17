@@ -177,15 +177,12 @@ function Lottery() {
       newRememberSelect.push(roundInformation);
     }
     setRememberSelect(newRememberSelect);
-    console.log("232321");
   };
   useEffect(() => {
     upDataSelectRound();
   }, []);
 
   const getPoolList = async () => {
-    console.log("rememberSelect", rememberSelect);
-
     // 获取所有池子的信息
     const pools = [];
     const allPools = await getContract(
@@ -284,7 +281,7 @@ function Lottery() {
     for (let i = 1; i <= list * 1; i++) {
       let option = {
         value: i,
-        label: i == list? 'Current Epoch': i,
+        label: i == list ? "Current Epoch" : i,
       };
       options.push(option);
     }
@@ -330,7 +327,6 @@ function Lottery() {
       }
       return select;
     });
-    console.log("newRememberSelect", newRememberSelect);
     setRememberSelect(newRememberSelect);
   };
 
@@ -527,7 +523,17 @@ function Lottery() {
       "getParticipationRecords",
       address
     );
-    setParticipationRecords(participationRecords);
+    const newRecords = participationRecords.map((list) => {
+      const newList = {
+        poolId: list.poolId,
+        roundId: list.roundId.toString(),
+        tickets: list.tickets,
+        ticketsCount: list.ticketsCount.toString(),
+        timestamp: list.timestamp.toString(),
+      };
+      return newList;
+    });
+    setParticipationRecords(newRecords.reverse());
   };
 
   useEffect(() => {
@@ -1007,9 +1013,9 @@ function Lottery() {
                 <div className="_hiddenP">
                   <div className="text-sm">
                     {participationRecords &&
-                      participationRecords.map((list) => {
+                      participationRecords.map((list,index) => {
                         return (
-                          <div className="mb-8 mt-4">
+                          <div key={index} className="mb-8 mt-4">
                             <div
                               className="flex items-center justify-between"
                               key={list.ticket}
@@ -1025,7 +1031,7 @@ function Lottery() {
                                     {shortStr(list.poolId)}
                                   </span>
                                 </Popover>
-                                ; Epoch {list.roundId.toString()}
+                                ; Epoch {list.roundId}
                               </span>
                               {/* <span className="_active">{list.tickets.join(',')}</span> */}
                               <span
@@ -1040,11 +1046,11 @@ function Lottery() {
                             </div>
                             <div className="flex items-center justify-between _nav-title font-thin mt-2">
                               <span>
-                                {list.ticketsCount.toString()} tickets
+                                {list.ticketsCount} tickets
                               </span>
                               <span>
                                 {moment(
-                                  list.timestamp.toString() * 1000
+                                  list.timestamp * 1000
                                 ).format("YYYY-MM-DD HH:mm:ss")}
                               </span>
                             </div>
@@ -1179,7 +1185,7 @@ function Lottery() {
                   <div className="text-center mt-4 text-6xl flex items-center justify-center">
                     {transferFun(list).map((number) => {
                       return (
-                        <div className=" w-14 border border-purple-400 rounded-lg mx-2 p-2 box-border">
+                        <div key={number} className="w-14 border border-purple-400 rounded-lg mx-2 p-2 box-border">
                           {number}
                         </div>
                       );
