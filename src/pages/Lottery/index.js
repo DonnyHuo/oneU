@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useWeb3ModalProvider, useWeb3Modal } from "@web3modal/ethers5/react";
 import {
   Select,
@@ -8,6 +8,7 @@ import {
   Button,
   message,
   Skeleton,
+  Carousel,
 } from "antd";
 import {
   getContract,
@@ -23,6 +24,7 @@ import moment from "moment";
 import CountDown from "../../components/countDown";
 import Footer from "../../components/footer";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useInterval } from "../../hooks/useInterval";
 
 function Lottery() {
   const { walletProvider } = useWeb3ModalProvider();
@@ -62,16 +64,6 @@ function Lottery() {
       setTab(0);
     }
   }, [location]);
-
-  const [epoch] = useState([
-    { value: "1", label: "1" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
-  ]);
-
-  const epochChange = (value) => {
-    console.log("value", value);
-  };
 
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isRewardOpen, setIsRewardOpen] = useState(false);
@@ -149,7 +141,51 @@ function Lottery() {
     address ? getAccountBalance() : setAccountBalance(0);
   }, [address]);
 
+  const [rememberSelect, setRememberSelect] = useState([
+    {
+      contractAddress:
+        "0x2fe1b04034022f529fa2264153facf69d3312ea8d8d1c41531facba6577b33a8",
+      selectRound: "1",
+    },
+    {
+      contractAddress:
+        "0xc272160d22272d287b99b2713013df2641e28b3a91a252fa35ccaa970eed6173",
+      selectRound: "2",
+    },
+  ]);
+
+  const upDataSelectRound = async () => {
+    const allPools = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "getAllPoolIds"
+    );
+    const newRememberSelect = [];
+    for (let i = 0; i < allPools.length; i++) {
+      const pool = await getContract(
+        walletProvider,
+        poolManager,
+        poolManagerAbi,
+        "getPoolInfo",
+        allPools[i]
+      );
+      const roundInformation = {
+        contractAddress: allPools[i].toString(),
+        selectRound: pool.currentRound.toString(),
+      };
+      newRememberSelect.push(roundInformation);
+    }
+    setRememberSelect(newRememberSelect);
+    console.log("232321");
+  };
+  useEffect(() => {
+    upDataSelectRound();
+  }, []);
+
   const getPoolList = async () => {
+    console.log("rememberSelect", rememberSelect);
+
     // 获取所有池子的信息
     const pools = [];
     const allPools = await getContract(
@@ -198,7 +234,7 @@ function Lottery() {
         poolManagerAbi,
         "getRoundInfo",
         allPools[i],
-        pool.currentRound
+        rememberSelect[i]?.selectRound || pool.currentRound
       );
 
       const resetPool = {
@@ -227,14 +263,17 @@ function Lottery() {
         },
       };
 
-      console.log("resetPool", resetPool);
-
       pools.push(resetPool);
     }
     setLoading(false);
 
     setPools(pools);
   };
+
+  // const countRef = useRef(rememberSelect);
+  useInterval(() => {
+    getPoolList();
+  }, 5000);
 
   useEffect(() => {
     getPoolList();
@@ -250,6 +289,49 @@ function Lottery() {
       options.push(option);
     }
     return options;
+  };
+
+  const epochChange = async (value, list) => {
+    const roundInfo = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "getRoundInfo",
+      list.contractAddress,
+      value
+    );
+
+    const realRoundInfo = {
+      endTime: roundInfo.endTime.toString(),
+      status:
+        roundInfo.endTime.toString() * 1 < nowDate
+          ? 3
+          : roundInfo.startTime.toString() * 1 > nowDate
+          ? 1
+          : 2,
+      isClaimed: roundInfo.isClaimed,
+      leftTickets: roundInfo.leftTickets.toString(),
+      startTime: roundInfo.startTime.toString(),
+      vrfRequestId: roundInfo.vrfRequestId.toString(),
+      winNumber: roundInfo.winNumber.toString(),
+    };
+
+    const newPool = pools.map((pool) => {
+      if (pool.contractAddress == list.contractAddress) {
+        pool.roundInfo = realRoundInfo;
+      }
+      return pool;
+    });
+    setPools(newPool);
+
+    const newRememberSelect = rememberSelect.map((select) => {
+      if (select.contractAddress == list.contractAddress) {
+        select.selectRound = value.toString();
+      }
+      return select;
+    });
+    console.log("newRememberSelect", newRememberSelect);
+    setRememberSelect(newRememberSelect);
   };
 
   const [selectPool, setSelectPool] = useState({});
@@ -353,6 +435,7 @@ function Lottery() {
     const realTickets = await getRealTickets(selectPool, amount);
 
     setBuyLoading(true);
+
     // let overrides = {
     //   gasLimit: 1000000,
     //   gasPrice: ethers.utils.parseUnits("10", "gwei"),
@@ -448,15 +531,14 @@ function Lottery() {
   };
 
   useEffect(() => {
-    if (address) {
-      getParticipationRecords();
-      getUnclaimedPrizes();
-      getWonParticipationRecords();
-    }
+    address ? getParticipationRecords() : setParticipationRecords([]);
+    address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
+    address ? getWonParticipationRecords() : setWonParticipationRecords(0);
   }, [address]);
 
   // claim prize
   const [claimLoading, setClaimLoading] = useState(false);
+
   const claimPrizes = async () => {
     setClaimLoading(true);
     await getWriteContractLoad(
@@ -470,6 +552,7 @@ function Lottery() {
     )
       .then((res) => {
         setClaimLoading(false);
+        getParticipationRecords();
         messageApi.success("Claim Success!");
       })
       .catch((err) => {
@@ -494,6 +577,17 @@ function Lottery() {
     setIsShareOpen(true);
     setSelectPool(list);
     setTicketAmount("");
+  };
+
+  const [selectTickets, setSelectTickets] = useState([]);
+
+  const onChangeCarousel = (value) => {
+    console.log(value);
+  };
+
+  const transferFun = (list) => {
+    let numArr = Array.from(list.toString()).map(Number);
+    return numArr;
   };
 
   return (
@@ -561,8 +655,11 @@ function Lottery() {
                           <Select
                             popupClassName="epochSelect"
                             className="w-20 h-6 _backgroundNo"
-                            defaultValue="1"
-                            onChange={epochChange}
+                            value={
+                              rememberSelect[index]?.selectRound ||
+                              list.currentRound
+                            }
+                            onChange={(value) => epochChange(value, list)}
                             overlayClassName="dropdown-class"
                             options={epochOptions(list.currentRound)}
                             suffixIcon={
@@ -692,12 +789,32 @@ function Lottery() {
                           </div>
                           <div className="_title _justB text-center">
                             <span>
-                              Time to end:{" "}
-                              <CountDown
-                                offsetTimestamp={
-                                  list?.roundInfo?.endTime - nowDate
-                                }
-                              />
+                              {list?.roundInfo?.status == 2 && (
+                                <>
+                                  Time to end:{" "}
+                                  <CountDown
+                                    offsetTimestamp={
+                                      list?.roundInfo?.endTime - nowDate
+                                    }
+                                  />
+                                </>
+                              )}
+                              {list?.roundInfo?.status == 1 && (
+                                <>
+                                  Time to start:{" "}
+                                  {moment(
+                                    list?.roundInfo?.startTime * 1000
+                                  ).format("YYYY-MM-DD HH:mm:ss")}
+                                </>
+                              )}
+                              {list?.roundInfo?.status == 3 && (
+                                <>
+                                  Time to end:{" "}
+                                  {moment(
+                                    list?.roundInfo?.endTime * 1000
+                                  ).format("YYYY-MM-DD HH:mm:ss")}
+                                </>
+                              )}
                             </span>
                             <button
                               className="_hiddenP _yellow font-bold"
@@ -863,8 +980,15 @@ function Lottery() {
                                 ).format("YYYY-MM-DD HH:mm:ss")}
                               </td>
                               <td className="text-right">
-                                <Button className="tableBtn min-w-24">
-                                  {list.tickets.join(",")}
+                                <Button
+                                  className="tableBtn min-w-24"
+                                  onClick={() => {
+                                    setIsRewardOpen(true);
+                                    setSelectTickets(list.tickets);
+                                  }}
+                                >
+                                  check number
+                                  {/* {list.tickets.join(",")} */}
                                 </Button>
                               </td>
                             </tr>
@@ -883,7 +1007,7 @@ function Lottery() {
                     {participationRecords &&
                       participationRecords.map((list) => {
                         return (
-                          <div className="mb-4">
+                          <div className="mb-4 mt-4">
                             <div
                               className="flex items-center justify-between"
                               key={list.ticket}
@@ -902,7 +1026,15 @@ function Lottery() {
                                 ; Epoch {list.roundId.toString()}
                               </span>
                               {/* <span className="_active">{list.tickets.join(',')}</span> */}
-                              <span className="_active">check number</span>
+                              <span
+                                onClick={() => {
+                                  setIsRewardOpen(true);
+                                  setSelectTickets(list.tickets);
+                                }}
+                                className="_active"
+                              >
+                                check number
+                              </span>
                             </div>
                             <div className="flex items-center justify-between _nav-title font-thin mt-2">
                               <span>
@@ -970,22 +1102,37 @@ function Lottery() {
           </span>
         </div>
         {contextHolder}
-        {allowance ? (
+
+        {!address ? (
           <Button
-            loading={buyLoading}
-            className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
-            onClick={() => buyTicketFun(selectPool, ticketAmount)}
+            className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-base pt-2 pb-2 pl-5 pr-5"
+            onClick={() => {
+              setIsShareOpen(false);
+              open();
+            }}
           >
-            Buy
+            Connect Wallet
           </Button>
         ) : (
-          <Button
-            loading={approveLoading}
-            className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
-            onClick={() => approveTicketFun(selectPool.USDTAddress)}
-          >
-            Approve
-          </Button>
+          <>
+            {allowance ? (
+              <Button
+                loading={buyLoading}
+                className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
+                onClick={() => buyTicketFun(selectPool, ticketAmount)}
+              >
+                Buy
+              </Button>
+            ) : (
+              <Button
+                loading={approveLoading}
+                className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
+                onClick={() => approveTicketFun(selectPool.USDTAddress)}
+              >
+                Approve
+              </Button>
+            )}
+          </>
         )}
 
         <div className="text-center mt-5 mb-5 font-bold text-sm">
@@ -1002,7 +1149,7 @@ function Lottery() {
       </Modal>
       {/*  */}
       <Modal
-        title="My Reward"
+        title="Your lottery number"
         centered
         open={isRewardOpen}
         onCancel={() => setIsRewardOpen(false)}
@@ -1014,13 +1161,35 @@ function Lottery() {
             alt=""
           />
         }
-        width={480}
+        width={420}
       >
-        <p className="mt-5 _nav-title">Unclaimed Reward</p>
-        <div></div>
-        <button className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-sm pt-2 pb-2 pl-5 pr-5">
-          Claim
-        </button>
+        <Carousel afterChange={onChangeCarousel}>
+          {selectTickets &&
+            selectTickets.map((list) => {
+              return (
+                <div
+                  key={list}
+                  className="w-full text-white h-56 flex items-center justify-center _backgroundTickets p-6"
+                >
+                  <div className="_yellow block text-center text-lg">
+                    1 lottery number
+                  </div>
+                  <div className="text-center mt-4 text-6xl flex items-center justify-center">
+                    {transferFun(list).map((number) => {
+                      return (
+                        <div className=" w-14 border border-purple-400 rounded-lg mx-2 p-2 box-border">
+                          {number}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+        </Carousel>
+        <div className="text-center _nav-title">
+          A total of {selectTickets.length} lottery numbers
+        </div>
       </Modal>
 
       <Footer />

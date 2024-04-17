@@ -173,10 +173,29 @@ function Referral() {
             }}
           >
             <div className="_tipsTitle text-lg mb-6">Number of invitees</div>
-            <div className="text-xs _text flex items-center justify-between _flexM">
-              <div className="w-1/2 rounded-xl p-5 _background2 mr-5 _M100 _border">
-                <div className="flex items-center justify-between _line">
-                  <div className="pb-4">
+            <div className="text-xs _text ">
+              <div className="rounded-xl px-5 py-12 _background2 _M100 _border flex items-center justify-between text-center _flexM">
+                <div className="w-1/4 border-r border-zinc-700">
+                  <div className="text-2xl _active">{childrenCountOf}</div>
+                  <p className="pt-4 text-xs">Friends</p>
+                </div>
+                <div className="w-1/4 flex items-center justify-center border-r border-zinc-700">
+                  <div className="">
+                    <div className="flex items-center">
+                      <img
+                        className="w-8 pr-2"
+                        src={require("../../asserts/img/USDT.png")}
+                        alt=""
+                      />
+                      <span className="text-2xl text-white">
+                        {rewardAccumulated - rewardAccrued} {usdtSymbol}
+                      </span>
+                    </div>
+                    <p className="pt-4 text-xs">Claimed comission</p>
+                  </div>
+                </div>
+                <div className="w-1/2 flex items-end justify-center">
+                  <div className="">
                     <div className="flex items-center">
                       <img
                         className="w-8 pr-2"
@@ -194,41 +213,10 @@ function Referral() {
                     disabled={!rewardAccrued}
                     loading={rewardLoading}
                     onClick={collectReferralReward}
-                    className="_background-gradient2 h-10 pr-10 pl-10 rounded-full flex items-center justify-center text-sm text-white"
+                    className="_background-gradient2 h-10 pr-12 pl-12 rounded-full flex items-center justify-center text-sm text-white ml-10"
                   >
                     Claim
                   </Button>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="pt-4">
-                    <div className="flex items-center">
-                      <img
-                        className="w-8 pr-2"
-                        src={require("../../asserts/img/USDT.png")}
-                        alt=""
-                      />
-                      <span className="text-2xl text-white">
-                        {rewardAccumulated - rewardAccrued} {usdtSymbol}
-                      </span>
-                    </div>
-                    <p className="pt-4 text-xs">Claimed comission</p>
-                  </div>
-                </div>
-              </div>
-              <div className="w-1/2 rounded-xl p-5 _background2 ml-5 _M100 _border">
-                <div className="flex items-center justify-between _line pb-4">
-                  <div>
-                    <div className="text-2xl _active">{childrenCountOf}</div>
-                    <p className="pt-4 text-xs">Friends</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between pt-4">
-                  <div>
-                    <div className="text-2xl _active">--</div>
-                    <p className="pt-4 text-xs">
-                      Friends Who Started Participating
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>

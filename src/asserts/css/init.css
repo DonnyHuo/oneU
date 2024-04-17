@@ -16,6 +16,7 @@ body {
 }
 ._title {
   color: #f4f3f9;
+  font-family: Poppins-Medium;
 }
 ._active {
   color: #a851ff;
@@ -79,12 +80,6 @@ body {
   background-size: 100%;
 }
 
-._background-referral {
-  background-image: url("../img/referralBg.png");
-  background-repeat: no-repeat;
-  background-size: 100% 50%;
-}
-
 ._referralTitle {
   background-image: url("../img/referralTitle.png");
   background-repeat: no-repeat;
@@ -144,6 +139,10 @@ body {
 .ant-select-dropdown
   .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
   background-color: transparent;
+  color: #fff;
+}
+
+.ant-select-single.ant-select-open .ant-select-selection-item {
   color: #fff;
 }
 
@@ -252,6 +251,7 @@ body {
 .ant-btn-default:disabled {
   background-color: #434356;
   color: #fff;
+  border: #999;
 }
 .ant-btn-default:hover {
   background-color: #434356 !important;
@@ -272,7 +272,7 @@ body {
   color: #fff;
   border-bottom-left-radius: 10px;
   border-top-right-radius: 10px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
 }
 ._roundStatus1 {
@@ -288,8 +288,17 @@ body {
   background: linear-gradient(to right, #ce00ff, #7f00ff);
   color: #fff;
 }
+._backgroundTickets {
+  background-image: url("../../asserts/img/number.png");
+  background-repeat: no-repeat;
+  background-size: 100% 80%;
+  background-position: top center;
+}
 
 @media screen and (min-width: 0px) and (max-width: 480px) {
+  .h-56 {
+    height: 220px;
+  }
   .ant-skeleton .ant-skeleton-content .ant-skeleton-paragraph > li {
     height: 390px;
     margin-top: 20px;
@@ -445,7 +454,20 @@ body {
     padding-bottom: 0;
   }
   ._flexM {
-    flex-direction: column;
+    flex-direction: column-reverse;
+    padding:0 20px;
+    text-align: left;
+
+  }
+  ._flexM > div {
+    width: 100%;
+    border: none;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid #2A2539;
+  }
+  ._flexM > div:first-child{
+    border-bottom: none;
   }
   ._M100 {
     margin: 0;
