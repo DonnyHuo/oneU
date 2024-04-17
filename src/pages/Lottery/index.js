@@ -814,7 +814,7 @@ function Lottery() {
                                   Time to end:{" "}
                                   {moment(
                                     list?.roundInfo?.endTime * 1000
-                                  ).format("YYYY/MM/DD HH:mm:ss")}
+                                  ).format("MM-DD HH:mm:ss")}
                                 </>
                               )}
                             </span>
