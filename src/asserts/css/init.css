@@ -295,6 +295,10 @@ body {
   background-position: top center;
 }
 
+._background-gradient5{
+  background: linear-gradient(180deg, rgba(28, 23, 42, 0) 0%, #1C172A 100%);
+}
+
 @media screen and (min-width: 0px) and (max-width: 480px) {
   .h-56 {
     height: 220px;

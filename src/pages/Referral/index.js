@@ -174,7 +174,7 @@ function Referral() {
           >
             <div className="_tipsTitle text-lg mb-6">Number of invitees</div>
             <div className="text-xs _text ">
-              <div className="rounded-xl px-5 py-12 _background2 _M100 _border flex items-center justify-between text-center _flexM">
+              <div className="rounded-xl px-5 py-12 _background-gradient5 _M100 _border flex items-center justify-between text-center _flexM">
                 <div className="w-1/4 border-r border-zinc-700">
                   <div className="text-2xl _active">{childrenCountOf}</div>
                   <p className="pt-4 text-xs">Friends</p>
@@ -233,7 +233,7 @@ function Referral() {
           }}
         >
           <div className="_tipsTitle text-lg">Tips</div>
-          <div className="text-xs _text flex items-start justify-between mt-6 relative pb-10 pt-10 _tips _background2 rounded-xl _border">
+          <div className="text-xs _text flex items-start justify-between mt-6 relative pb-10 pt-10 _tips _background-gradient5 rounded-xl _border">
             <div className="w-1/4 flex flex-col items-center _tipDiv">
               <img
                 className="w-16 text-center"
