@@ -141,18 +141,7 @@ function Lottery() {
     address ? getAccountBalance() : setAccountBalance(0);
   }, [address]);
 
-  const [rememberSelect, setRememberSelect] = useState([
-    {
-      contractAddress:
-        "0x2fe1b04034022f529fa2264153facf69d3312ea8d8d1c41531facba6577b33a8",
-      selectRound: "1",
-    },
-    {
-      contractAddress:
-        "0xc272160d22272d287b99b2713013df2641e28b3a91a252fa35ccaa970eed6173",
-      selectRound: "2",
-    },
-  ]);
+  const [rememberSelect, setRememberSelect] = useState([]);
 
   const upDataSelectRound = async () => {
     const allPools = await getContract(
@@ -810,7 +799,7 @@ function Lottery() {
                                   Time to start:{" "}
                                   <CountDown
                                     offsetTimestamp={
-                                      nowDate - list?.roundInfo?.startTime
+                                      list?.roundInfo?.startTime - nowDate
                                     }
                                   />
                                 </>
@@ -1013,7 +1002,7 @@ function Lottery() {
                 <div className="_hiddenP">
                   <div className="text-sm">
                     {participationRecords &&
-                      participationRecords.map((list,index) => {
+                      participationRecords.map((list, index) => {
                         return (
                           <div key={index} className="mb-8 mt-4">
                             <div
@@ -1045,13 +1034,11 @@ function Lottery() {
                               </span>
                             </div>
                             <div className="flex items-center justify-between _nav-title font-thin mt-2">
+                              <span>{list.ticketsCount} tickets</span>
                               <span>
-                                {list.ticketsCount} tickets
-                              </span>
-                              <span>
-                                {moment(
-                                  list.timestamp * 1000
-                                ).format("YYYY-MM-DD HH:mm:ss")}
+                                {moment(list.timestamp * 1000).format(
+                                  "YYYY-MM-DD HH:mm:ss"
+                                )}
                               </span>
                             </div>
                           </div>
@@ -1185,7 +1172,10 @@ function Lottery() {
                   <div className="text-center mt-4 text-6xl flex items-center justify-center">
                     {transferFun(list).map((number) => {
                       return (
-                        <div key={number} className="w-14 border border-purple-400 rounded-lg mx-2 p-2 box-border">
+                        <div
+                          key={number}
+                          className="w-14 border border-purple-400 rounded-lg mx-2 p-2 box-border"
+                        >
                           {number}
                         </div>
                       );
