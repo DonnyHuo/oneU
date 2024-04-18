@@ -56,9 +56,8 @@ function Tutorials() {
             </div>
           </div>
           <div
-            className="_border rounded-3xl p-8 _background2 _marginLR _padding10 _marginTop"
+            className="_border rounded-3xl p-8 _background2 _marginLR _padding10 _marginTop _tutorialsInfo"
             style={{
-              maxWidth: "561px",
               height: "277px",
               backgroundImage: `url(${require("../../asserts/img/wallet.png")})`,
               backgroundPosition: "98% 90%",

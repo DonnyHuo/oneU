@@ -547,7 +547,8 @@ function Lottery() {
     )
       .then((res) => {
         setClaimLoading(false);
-        getParticipationRecords();
+        getUnclaimedPrizes();
+        getWonParticipationRecords();
         messageApi.success("Claim Success!");
       })
       .catch((err) => {
@@ -613,8 +614,8 @@ function Lottery() {
               );
             })}
           </div>
-          <div className="_border p-8 rounded-xl mt-20 _widthP _marginAuto0 _widthM _borderNo _paddingNo">
-            <div className="flex items-center text-sm mb-10 _marginBottom _justA">
+          <div className="_border px-6 pt-8 pb-6 rounded-xl mt-10 _widthP _marginAuto0 _widthM _borderNo _paddingNo">
+            <div className="flex items-center text-lg mb-6 _marginBottom _justA">
               <div className="flex items-center font-bold">
                 <button
                   className={!tab ? "_title" : "_text"}
@@ -674,7 +675,7 @@ function Lottery() {
                           </span>
                         </div>
                       </div>
-                      <div className="flex items-start justify-between _text text-sm mt-10 text-left _homeListM">
+                      <div className="flex items-start justify-between _text text-sm mt-5 text-left _homeListM">
                         <div className="h-24 flex flex-col justify-between">
                           <div>Reward Pool</div>
                           <div className="text-3xl _title _pt-20 _pb-20">
@@ -694,14 +695,14 @@ function Lottery() {
                           </Popover>
                         </div>
                         <div className="h-24 flex flex-col justify-between _hiddenM">
-                          <div className="_title">
+                          <div className="_title leading-4">
                             {moment(list?.roundInfo?.endTime * 1000).format(
                               "YYYY-MM-DD HH:mm:ss"
                             )}
                           </div>
-                          <div className="text-xs">Draw Time</div>
+                          <div className="text-xs leading-4">End Time</div>
                           <div
-                            className={`_title ${
+                            className={`_title mt-2 leading-4 ${
                               list?.roundInfo?.winNumber * 1 !== 0 &&
                               "_winNumber"
                             }`}
@@ -710,7 +711,7 @@ function Lottery() {
                               ? "To be drawn"
                               : list?.roundInfo?.winNumber}
                           </div>
-                          <div className="text-xs">Winning Number</div>
+                          <div className="text-xs leading-4">Winning Number</div>
                         </div>
                         <div className="_hiddenP pt-4 mt-4 pb-4 mb-8 _borderLine _hiddenM">
                           <div className="flex item-center justify-between h-6">
@@ -773,10 +774,10 @@ function Lottery() {
                           className="h-24 flex flex-col justify-between"
                           style={{ minWidth: "200px" }}
                         >
-                          <div className="text-center">
+                          <div className="text-right">
                             <Button
                               disabled={list?.roundInfo?.status * 1 !== 2}
-                              className="_borderS rounded-full p-2 pr-12 pl-12 h-10 _title _listBtn"
+                              className="rounded-full p-2 pr-12 pl-12 h-10 _title _listBtn"
                               onClick={() => clickBuyBtnFun(list)}
                             >
                               Buy Tickets
@@ -898,8 +899,8 @@ function Lottery() {
                         src={require("../../asserts/img/USDT.png")}
                         alt=""
                       />
-                      <span className="text-2xl">
-                        {wonParticipationRecords} {USDTSymbol}
+                      <span className="text-2xl font-bold">
+                        {address ? wonParticipationRecords : "--"} {USDTSymbol}
                       </span>
                     </div>
                     <div className="_nav-title text-sm text-left pt-4">
@@ -915,8 +916,8 @@ function Lottery() {
                             src={require("../../asserts/img/USDT.png")}
                             alt=""
                           />
-                          <span className="text-2xl">
-                            {unclaimedPrizes} {USDTSymbol}
+                          <span className="text-2xl font-bold">
+                            {address ? unclaimedPrizes : "--"} {USDTSymbol}
                           </span>
                         </div>
                         <div className="_nav-title text-sm text-left pt-4">
@@ -938,10 +939,10 @@ function Lottery() {
                 <div className="text-left mt-8">
                   <div className="pt-4 pb-4 _borderT font-bold">History</div>
                 </div>
-                <div className="max-h-80 overflow-auto">
+                <div className="max-h-80 mb-2 overflow-auto">
                   <table className="w-full text-left _table _hiddenM">
                     <thead className="text-sm h-10 ">
-                      <tr className="_nav-title">
+                      <tr className="_nav-title _tableTitle">
                         <th className="font-thin">Pool</th>
                         <th className="font-thin">Epoch</th>
                         <th className="font-thin">Purchased tickets</th>
@@ -994,8 +995,9 @@ function Lottery() {
                     </tbody>
                   </table>
                   {participationRecords.length == 0 && (
-                    <div className="text-center w-full h-28 flex items-center justify-center">
-                      No Data
+                    <div className="text-center w-full h-56 flex flex-col items-center justify-center _tip">
+                      <img className="w-16" src={require('../../asserts/img/noData.png')} />
+                      <div className="mt-2 text-sm">No Data</div>
                     </div>
                   )}
                 </div>
@@ -1071,20 +1073,20 @@ function Lottery() {
           <span>1 Ticket = {selectPool.pricePerTicket * 1}U</span>
         </div>
         <div
-          className="w-full h-12 rounded-xl text-white pl-4 pr-4 text-sm mt-5 flex items-center justify-between"
+          className="w-full h-12 rounded-xl text-white pl-4 pr-4 text-sm mt-3 flex items-center justify-between"
           style={{ background: "rgba(42, 37, 57, 1)" }}
         >
           <input
             value={ticketAmount}
             onChange={(value) => setTicketAmount(value.target.value)}
-            className="h-12 outline-none bg-transparent w-4/5"
+            className="h-12 outline-none bg-transparent w-4/5 _inputStyle"
             placeholder="Enter amount"
           />
           <button className="_yellow text-base" onClick={maxBuyFun}>
             Max
           </button>
         </div>
-        <div className="flex items-center justify-between mt-5 _nav-title">
+        <div className="flex items-center justify-between mt-3 _nav-title">
           <span>
             Remaining tickets:{" "}
             <span className="_active">
@@ -1100,7 +1102,7 @@ function Lottery() {
 
         {!address ? (
           <Button
-            className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-base pt-2 pb-2 pl-5 pr-5"
+            className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base pt-2 pb-2 pl-5 pr-5"
             onClick={() => {
               setIsShareOpen(false);
               open();
@@ -1113,7 +1115,7 @@ function Lottery() {
             {allowance ? (
               <Button
                 loading={buyLoading}
-                className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
+                className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
                 onClick={() => buyTicketFun(selectPool, ticketAmount)}
               >
                 Buy
@@ -1121,7 +1123,7 @@ function Lottery() {
             ) : (
               <Button
                 loading={approveLoading}
-                className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
+                className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
                 onClick={() => approveTicketFun(selectPool.USDTAddress)}
               >
                 Approve

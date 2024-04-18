@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { message, Button } from "antd";
 import { getContract, getWriteContractLoad } from "../../utils";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
@@ -107,7 +107,7 @@ function Referral() {
   };
 
   useEffect(() => {
-    address && userId > -1 ? getChildrenCountOf() : setChildrenCountOf('--');
+    address && userId > -1 ? getChildrenCountOf() : setChildrenCountOf("--");
   }, [address, userId]);
 
   return (
@@ -143,12 +143,7 @@ function Referral() {
                     {userId * 1 === -1 ? "--" : userId}
                   </span>
                   {contextHolder}
-                  <img
-                    className="w-3 cursor-pointer"
-                    onClick={copyInfo}
-                    src={require("../../asserts/img/copy.png")}
-                    alt=""
-                  />
+                  <button className="mx-1 _active" onClick={copyInfo}>Copy</button>
                 </div>
               </div>
               <button className="_borderS h-10 pr-6 pl-6 rounded-lg ml-6 flex items-center justify-center text-sm">
@@ -172,14 +167,14 @@ function Referral() {
               margin: "0 auto",
             }}
           >
-            <div className="_tipsTitle text-lg mb-6">Number of invitees</div>
+            <div className="_tipsTitle text-lg mb-6">My Comission</div>
             <div className="text-xs _text ">
-              <div className="rounded-xl px-5 py-12 _background-gradient5 _M100 _border flex items-center justify-between text-center _flexM">
-                <div className="w-1/4 border-r border-zinc-700">
-                  <div className="text-2xl _active">{childrenCountOf}</div>
+              <div className="rounded-xl px-5 py-12 _background-gradient5 _M100 _border flex items-center text-center _flexM">
+                <div className="w-3/12 border-r border-zinc-800">
+                  <div className="text-2xl _active font-bold">{childrenCountOf}</div>
                   <p className="pt-4 text-xs">Friends</p>
                 </div>
-                <div className="w-1/4 flex items-center justify-center border-r border-zinc-700">
+                <div className="w-4/12 flex items-center justify-center border-r border-zinc-800">
                   <div className="">
                     <div className="flex items-center">
                       <img
@@ -187,14 +182,15 @@ function Referral() {
                         src={require("../../asserts/img/USDT.png")}
                         alt=""
                       />
-                      <span className="text-2xl text-white">
-                        {address ? rewardAccumulated - rewardAccrued : '0'} {usdtSymbol}
+                      <span className="text-2xl text-white font-bold">
+                        {address ? rewardAccumulated - rewardAccrued : "--"}{" "}
+                        {usdtSymbol}
                       </span>
                     </div>
                     <p className="pt-4 text-xs">Claimed comission</p>
                   </div>
                 </div>
-                <div className="w-1/2 flex items-end justify-center">
+                <div className="w-5/12 flex items-end justify-center">
                   <div className="">
                     <div className="flex items-center">
                       <img
@@ -202,8 +198,8 @@ function Referral() {
                         src={require("../../asserts/img/USDT.png")}
                         alt=""
                       />
-                      <span className="text-2xl text-white">
-                        {rewardAccrued} {usdtSymbol}
+                      <span className="text-2xl text-white font-bold">
+                        {address ? rewardAccrued : "--"} {usdtSymbol}
                       </span>
                     </div>
                     <p className="pt-4 text-xs">Unclaimed comission</p>

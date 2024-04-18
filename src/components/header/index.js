@@ -60,7 +60,7 @@ const Header = () => {
 
   useEffect(() => {
     // get userId
-    address && getUserId();
+    address ? getUserId() : dispatch({ type: "CHANGE_USER", payload: "--" });
     // save address
     dispatch({ type: "CHANGE_ADDRESS", payload: address });
   }, [address, chainId]);
@@ -218,7 +218,9 @@ const Header = () => {
           <p className="pt-5 pb-5" onClick={onClose}>
             <Link
               className={`ml-6 mr-6 flex items-center justify-between ${
-                location.pathname === "/" && location.search === "" ? "_active" : ""
+                location.pathname === "/" && location.search === ""
+                  ? "_active"
+                  : ""
               }`}
               to="/"
             >
@@ -230,7 +232,7 @@ const Header = () => {
               />
             </Link>
           </p>
-          
+
           <p className="pt-5 pb-5" onClick={onClose}>
             <Link
               className={`ml-6 mr-6  flex items-center justify-between ${
@@ -264,7 +266,9 @@ const Header = () => {
           <p className="pt-5 pb-5" onClick={onClose}>
             <Link
               className={`ml-6 mr-6 flex items-center justify-between ${
-                location.pathname === "/" && location.search === "?reward" ? "_active" : ""
+                location.pathname === "/" && location.search === "?reward"
+                  ? "_active"
+                  : ""
               }`}
               to="/?reward"
             >
