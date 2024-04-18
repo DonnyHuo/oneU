@@ -202,7 +202,7 @@ body {
 .ant-progress .ant-progress-inner {
   width: 100%;
   background-color: transparent!important;
-  border: 1px solid #A851FF;
+  border: 1px solid rgba(168, 81, 255, 0.4);
 }
 .ant-progress-text {
   position: absolute;
@@ -319,6 +319,7 @@ body {
 
 .ant-select-single.ant-select-show-arrow .ant-select-selection-item {
   text-align: left;
+  color: #F4F3F9;
 }
 .ant-select-dropdown .ant-select-item-option-content {
   padding-right: 6px;
