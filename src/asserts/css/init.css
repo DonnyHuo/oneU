@@ -579,10 +579,10 @@ body {
     align-items: center;
     justify-content: space-between;
   }
-  ._orderInfo > div > span:last-child {
+  /* ._orderInfo > div > span:last-child {
     color: #fff;
     font-weight: 500;
-  }
+  } */
   ._orderInfo > div > button {
     color: #fff;
     font-weight: 500;

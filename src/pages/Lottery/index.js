@@ -77,6 +77,10 @@ function Lottery() {
     const newArr = pools.map((list, ind) => {
       if (index == ind) {
         list.showMore = !list.showMore;
+        setRememberSelect((select) => {
+          select[ind].showMore = !select[ind].showMore;
+          return select;
+        });
         return list;
       } else {
         return list;
@@ -232,6 +236,7 @@ function Lottery() {
         roundDuration: pool.roundDuration.toString(),
         roundGapTime: pool.roundGapTime.toString(),
         totalTickets: pool.totalTickets.toString(),
+        showMore: rememberSelect[i]?.showMore || false,
         rewardSymbol: symbol,
         roundInfo: {
           endTime: roundInfo.endTime.toString(),
@@ -711,7 +716,9 @@ function Lottery() {
                               ? "To be drawn"
                               : list?.roundInfo?.winNumber}
                           </div>
-                          <div className="text-xs leading-4">Winning Number</div>
+                          <div className="text-xs leading-4">
+                            Winning Number
+                          </div>
                         </div>
                         <div className="_hiddenP pt-4 mt-4 pb-4 mb-8 _borderLine _hiddenM">
                           <div className="flex item-center justify-between h-6">
@@ -824,8 +831,8 @@ function Lottery() {
                           {list.showMore && (
                             <div className="_hiddenP _orderInfo">
                               <div>
-                                <span>Draw Time</span>
-                                <span>
+                                <span>End Time</span>
+                                <span className="text-white">
                                   {moment(
                                     list?.roundInfo?.endTime * 1000
                                   ).format("YYYY-MM-DD HH:mm:ss")}
@@ -852,15 +859,14 @@ function Lottery() {
                                   trigger="click"
                                   overlayClassName="_popover"
                                 >
-                                  <button className="leading-6 text-left text-xs underline decoration-slate-400 decoration-1 _popoverBtn">
+                                  <button className="leading-6 text-left text-xs text-white underline decoration-slate-400 decoration-1 _popoverBtn">
                                     {shortStr(list.contractAddress)}
                                   </button>
                                 </Popover>
                               </div>
                               <div>
                                 <span>Next Epoch Start At</span>
-                                <span>
-                                  {" "}
+                                <span className="text-white">
                                   {moment(
                                     list?.roundInfo?.endTime * 1000 +
                                       list?.roundGapTime * 1000
@@ -981,8 +987,8 @@ function Lottery() {
                                 <Button
                                   className="tableBtn min-w-24"
                                   onClick={() => {
-                                    setIsRewardOpen(true);
                                     setSelectTickets(list.tickets);
+                                    setIsRewardOpen(true);
                                   }}
                                 >
                                   Check
@@ -996,7 +1002,10 @@ function Lottery() {
                   </table>
                   {participationRecords.length == 0 && (
                     <div className="text-center w-full h-56 flex flex-col items-center justify-center _tip">
-                      <img className="w-16" src={require('../../asserts/img/noData.png')} />
+                      <img
+                        className="w-16"
+                        src={require("../../asserts/img/noData.png")}
+                      />
                       <div className="mt-2 text-sm">No Data</div>
                     </div>
                   )}
@@ -1027,8 +1036,8 @@ function Lottery() {
                               {/* <span className="_active">{list.tickets.join(',')}</span> */}
                               <span
                                 onClick={() => {
-                                  setIsRewardOpen(true);
                                   setSelectTickets(list.tickets);
+                                  setIsRewardOpen(true);
                                 }}
                                 className="_active"
                               >
@@ -1172,14 +1181,14 @@ function Lottery() {
                     1 lottery number
                   </div>
                   <div className="text-center mt-4 text-6xl flex items-center justify-center">
-                    {transferFun(list).map((number) => {
+                    {transferFun(list).map((number, index) => {
                       return (
-                        <div
-                          key={number}
+                        <span
+                          key={index}
                           className="w-14 border border-purple-400 rounded-lg mx-2 p-2 box-border"
                         >
                           {number}
-                        </div>
+                        </span>
                       );
                     })}
                   </div>
