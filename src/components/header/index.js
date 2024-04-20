@@ -304,6 +304,7 @@ const Header = () => {
         open={reModalOpen}
         onCancel={() => {
           dispatch({ type: "CHANGE_REMODAL", payload: false });
+          setCode("")
         }}
         footer={false}
         closeIcon={

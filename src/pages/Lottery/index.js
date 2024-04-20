@@ -142,7 +142,10 @@ function Lottery() {
   };
 
   useEffect(() => {
-    address ? getAccountBalance() : setAccountBalance(0);
+    const timer = setInterval(() => {
+      address ? getAccountBalance() : setAccountBalance(0);
+    }, 2000);
+    return () => clearInterval(timer);
   }, [address]);
 
   const [rememberSelect, setRememberSelect] = useState([]);
@@ -446,6 +449,7 @@ function Lottery() {
         messageApi.success("Buy Success!");
         getPoolList();
         getParticipationRecords();
+        getAccountBalance();
       })
       .catch((err) => {
         setBuyLoading(false);
@@ -531,9 +535,13 @@ function Lottery() {
   };
 
   useEffect(() => {
-    address ? getParticipationRecords() : setParticipationRecords([]);
-    address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
-    address ? getWonParticipationRecords() : setWonParticipationRecords(0);
+    const timer = setInterval(() => {
+      address ? getParticipationRecords() : setParticipationRecords([]);
+      address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
+      address ? getWonParticipationRecords() : setWonParticipationRecords(0);
+    }, 5000);
+
+    return () => clearInterval(timer);
   }, [address]);
 
   // claim prize
@@ -578,6 +586,32 @@ function Lottery() {
     setIsShareOpen(true);
     setSelectPool(list);
     setTicketAmount("");
+  };
+
+  const [lotteryDrawLoading, setLotteryDrawLoading] = useState(false);
+
+  const clickLotteryDraw = async (list, index) => {
+    rememberSelect((state) => {
+      state[index].lotteryDrawLoading = true;
+    });
+    await getWriteContractLoad(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "drawEndedRoundAndOpenNewRound",
+      list.contractAddress
+    )
+      .then((res) => {
+        rememberSelect((state) => {
+          state[index].lotteryDrawLoading = false;
+        });
+      })
+      .catch((err) => {
+        rememberSelect((state) => {
+          state[index].lotteryDrawLoading = false;
+        });
+        console.log(err);
+      });
   };
 
   const [selectTickets, setSelectTickets] = useState([]);
@@ -656,6 +690,7 @@ function Lottery() {
                           <Select
                             popupClassName="epochSelect"
                             className="w-20 h-6 _backgroundNo"
+                            defaultValue={list.currentRound}
                             value={
                               rememberSelect[index]?.selectRound ||
                               list.currentRound
@@ -783,11 +818,31 @@ function Lottery() {
                         >
                           <div className="text-right">
                             <Button
-                              disabled={list?.roundInfo?.status * 1 !== 2}
+                              loading={
+                                rememberSelect[index]?.lotteryDrawLoading ||
+                                false
+                              }
+                              disabled={
+                                list?.roundInfo?.status * 1 == 1 ||
+                                list?.roundInfo?.vrfRequestId * 1 !== 0
+                              }
                               className="rounded-full p-2 pr-12 pl-12 h-10 _title _listBtn"
-                              onClick={() => clickBuyBtnFun(list)}
+                              onClick={() => {
+                                if (list?.roundInfo?.status * 1 == 2) {
+                                  clickBuyBtnFun(list);
+                                }
+                                if (
+                                  list?.roundInfo?.status * 1 == 3 &&
+                                  list?.roundInfo?.vrfRequestId * 1 == 0
+                                ) {
+                                  clickLotteryDraw(list);
+                                }
+                              }}
                             >
-                              Buy Tickets
+                              {list?.roundInfo?.status * 1 == 3 &&
+                              list?.roundInfo?.vrfRequestId * 1 == 0
+                                ? "Lottery Draw"
+                                : "Buy Tickets"}
                             </Button>
                           </div>
                           <div className="_title _justB text-center">

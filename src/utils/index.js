@@ -51,7 +51,7 @@ export const makeRandomArr = (arrList, num) => {
 
 const infuraProvider = new ethers.providers.InfuraProvider(
   "sepolia",
-  "98f811d089bc44b7a1dc0fee4aa8655c"
+  "f9eae046939d4b969a42a377d109d17a"
 );
 
 /**

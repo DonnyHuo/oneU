@@ -96,6 +96,7 @@ function Referral() {
   const inviteContract = useSelector((state) => state.inviteContract);
   //获取参与人数
   const getChildrenCountOf = async () => {
+    console.log("userId", userId);
     const childrenCountOf = await getContract(
       walletProvider,
       inviteContract,
@@ -103,11 +104,12 @@ function Referral() {
       "childrenCountOf",
       userId
     );
+    console.log("childrenCountOf", childrenCountOf);
     setChildrenCountOf(childrenCountOf.toString());
   };
 
   useEffect(() => {
-    address && userId > -1 ? getChildrenCountOf() : setChildrenCountOf("--");
+    address && userId > 0 ? getChildrenCountOf() : setChildrenCountOf("--");
   }, [address, userId]);
 
   return (
@@ -139,11 +141,11 @@ function Referral() {
               >
                 <span className="_text font-medium">Invite Code</span>
                 <div className="flex items-center">
-                  <span className="pr-4">
-                    {userId * 1 === -1 ? "--" : userId}
-                  </span>
+                  <span className="pr-4">{userId * 1 > 0 ? userId : "--"}</span>
                   {contextHolder}
-                  <button className="mx-1 _active" onClick={copyInfo}>Copy</button>
+                  <button className="mx-1 _active" onClick={copyInfo}>
+                    Copy
+                  </button>
                 </div>
               </div>
               <button className="_borderS h-10 pr-6 pl-6 rounded-lg ml-6 flex items-center justify-center text-sm">
@@ -171,7 +173,9 @@ function Referral() {
             <div className="text-xs _text ">
               <div className="rounded-xl px-5 py-12 _background-gradient5 _M100 _border flex items-center text-center _flexM">
                 <div className="w-3/12 border-r border-zinc-800">
-                  <div className="text-2xl _active font-bold">{childrenCountOf}</div>
+                  <div className="text-2xl _active font-bold">
+                    {childrenCountOf}
+                  </div>
                   <p className="pt-4 text-xs">Friends</p>
                 </div>
                 <div className="w-4/12 flex items-center justify-center border-r border-zinc-800">
@@ -183,7 +187,11 @@ function Referral() {
                         alt=""
                       />
                       <span className="text-2xl text-white font-bold">
-                        {address ? rewardAccumulated - rewardAccrued : "--"}{" "}
+                        {userId > 0
+                          ? parseFloat(
+                              (rewardAccumulated - rewardAccrued).toFixed(2)
+                            )
+                          : "--"}{" "}
                         {usdtSymbol}
                       </span>
                     </div>
@@ -199,7 +207,8 @@ function Referral() {
                         alt=""
                       />
                       <span className="text-2xl text-white font-bold">
-                        {address ? rewardAccrued : "--"} {usdtSymbol}
+                        {userId > 0 ? rewardAccrued : "--"}{" "}
+                        {usdtSymbol}
                       </span>
                     </div>
                     <p className="pt-4 text-xs">Unclaimed comission</p>
