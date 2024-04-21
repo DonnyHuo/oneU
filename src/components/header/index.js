@@ -151,7 +151,20 @@ const Header = () => {
         </a>
       </div>
       <div className="flex items-center">
-        {/* <w3m-button /> */}
+        <a
+          target="_blank"
+          href="https://www.alchemy.com/faucets/ethereum-sepolia"
+        >
+          <button className="_border rounded-full p-2 md:pl-4 md:pr-4 text-sm mr-2 flex items-center">
+            <img
+              className="h-5"
+              src={require("../../asserts/img/faucets.png")}
+              alt=""
+            />
+            <span className="ml-2 _hiddenM">Faucets</span>
+          </button>
+        </a>
+
         {isConnected && (
           <button
             className="_border rounded-full p-2 md:pl-4 md:pr-4 text-sm mr-2 flex items-center"
@@ -304,7 +317,7 @@ const Header = () => {
         open={reModalOpen}
         onCancel={() => {
           dispatch({ type: "CHANGE_REMODAL", payload: false });
-          setCode("")
+          setCode("");
         }}
         footer={false}
         closeIcon={

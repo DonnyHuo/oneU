@@ -540,7 +540,7 @@ function Lottery() {
       address ? getParticipationRecords() : setParticipationRecords([]);
       address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
       address ? getWonParticipationRecords() : setWonParticipationRecords(0);
-    }, 5000);
+    }, 2000);
 
     return () => clearInterval(timer);
   }, [address]);
