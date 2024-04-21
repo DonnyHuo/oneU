@@ -25,9 +25,29 @@ import CountDown from "../../components/countDown";
 import Footer from "../../components/footer";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useInterval } from "../../hooks/useInterval";
-import { flare } from "viem/chains";
+import JSConfetti from "js-confetti";
 
 function Lottery() {
+  const jsConfetti = new JSConfetti();
+
+  useEffect(() => {
+    jsConfetti
+      .addConfetti({
+        // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
+        // confettiColors: [
+        //   "#ff0a54",
+        //   "#ff477e",
+        //   "#ff7096",
+        //   "#ff85a1",
+        //   "#fbb1bd",
+        //   "#f9bec7",
+        // ],
+        // confettiRadius: 6,
+        // confettiNumber: 200,
+      })
+      .then(() => console.log("Confetti animation completed!"));
+  },[]);
+
   const { walletProvider } = useWeb3ModalProvider();
   const { open } = useWeb3Modal();
   const descList = [
@@ -855,9 +875,9 @@ function Lottery() {
                                 <>
                                   Time to end:{" "}
                                   <CountDown
-                                    offsetTimestamp={
+                                    offsetTimestamp={Math.abs(
                                       list?.roundInfo?.endTime - nowDate
-                                    }
+                                    )}
                                   />
                                 </>
                               )}
@@ -865,9 +885,9 @@ function Lottery() {
                                 <>
                                   Time to start:{" "}
                                   <CountDown
-                                    offsetTimestamp={
+                                    offsetTimestamp={Math.abs(
                                       list?.roundInfo?.startTime - nowDate
-                                    }
+                                    )}
                                   />
                                 </>
                               )}
@@ -965,7 +985,14 @@ function Lottery() {
                         alt=""
                       />
                       <span className="text-2xl font-bold">
-                        {address ? wonParticipationRecords : "--"} {USDTSymbol}
+                        {address
+                          ? parseFloat(
+                              (
+                                wonParticipationRecords - unclaimedPrizes
+                              ).toFixed(2)
+                            )
+                          : "--"}{" "}
+                        {USDTSymbol}
                       </span>
                     </div>
                     <div className="_nav-title text-sm text-left pt-4">
@@ -1203,7 +1230,7 @@ function Lottery() {
         <div className="text-center mt-5 mb-5 font-bold text-sm">
           Time to end: {""}
           <CountDown
-            offsetTimestamp={selectPool?.roundInfo?.endTime - nowDate}
+            offsetTimestamp={Math.abs(selectPool?.roundInfo?.endTime - nowDate)}
           />
         </div>
         <div className="text-left _nav-title text-xs">
@@ -1267,7 +1294,9 @@ function Lottery() {
         >
           <button
             className={`bg-neutral-600 rounded-full w-7 h-7 text-xl focus:bg-violet-600 ${
-              carouselIndex == 0 ? "text-gray-500 focus:bg-neutral-600" : "text-white"
+              carouselIndex == 0
+                ? "text-gray-500 focus:bg-neutral-600"
+                : "text-white"
             }`}
             onClick={goToPrevSlide}
           >
