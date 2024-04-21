@@ -621,7 +621,7 @@ function Lottery() {
       <div className="_background-home2">
         <div className="text-white">
           <div className="text-6xl font-bold _title _size35 pt-32">
-            Win Crypto Lotteries With OneU
+            Win Crypto Lotteries With One USDT
           </div>
           <div className="text-sm mt-5 _title _hiddenM">
             Users can win crypto lotteries such as BTC/ETH/SOL assets with just
