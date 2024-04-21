@@ -43,7 +43,7 @@ function Lottery() {
         //   "#f9bec7",
         // ],
         // confettiRadius: 6,
-        // confettiNumber: 200,
+        // confettiNumber: 2000,
       })
       .then(() => console.log("Confetti animation completed!"));
   },[]);

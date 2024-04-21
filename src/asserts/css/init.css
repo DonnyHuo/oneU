@@ -329,7 +329,33 @@ body {
   background: linear-gradient(180deg, rgba(28, 23, 42, 0.69) 1.44%, rgba(43, 36, 61, 0.35) 100%);
 }
 
+.ant-popover-placement-bottomRight {
+  inset: 70px 20px auto auto!important;
+  
+}
+.ant-popover .ant-popover-content {
+  width: 306px;
+  height: 206px;
+}
+
+.ant-popover .ant-popover-inner-content {
+  color: #F4F3F9;
+}
+
+.ant-popover .ant-popover-inner{
+  border-radius: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 20px;
+}
+
 @media screen and (min-width: 0px) and (max-width: 480px) {
+  .ant-popover-placement-bottomRight {
+    inset: 70px 0 auto auto!important;
+  }
+  .ant-popover .ant-popover-content {
+    width: 200px;
+  }
   ._tutorialsInfo {
     width: 90%;
     background: linear-gradient(180deg, rgba(28, 23, 42, 0.69) 1.44%, rgba(43, 36, 61, 0.35) 100%);

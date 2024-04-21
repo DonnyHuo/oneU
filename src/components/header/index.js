@@ -4,6 +4,8 @@ import {
   useWeb3Modal,
   useWeb3ModalAccount,
   useWeb3ModalProvider,
+  useDisconnect,
+  useWalletInfo,
 } from "@web3modal/ethers5/react";
 import {
   shortStr,
@@ -11,9 +13,12 @@ import {
   getWriteContractLoad,
   chainList,
 } from "../../utils";
-import { Drawer, message, Button, Modal } from "antd";
+import { Drawer, message, Button, Modal, Popover } from "antd";
 import { useSelector, useDispatch } from "react-redux";
+import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
+import { ethers } from "ethers";
+import { erc20Abi } from "viem";
 
 const Header = () => {
   const location = useLocation();
@@ -100,6 +105,125 @@ const Header = () => {
       });
   };
 
+  const [openUserAccount, setOpenUserAccount] = useState(false);
+  const handleOpenChange = (newOpen) => {
+    setOpenUserAccount(newOpen);
+  };
+
+  const { disconnect } = useDisconnect();
+
+  const [ETHBalance, setETHBalance] = useState("--");
+  const [USDTBalance, setUSDTBalance] = useState("--");
+  const getBalance = async () => {
+    const ethersProvider = new ethers.providers.Web3Provider(walletProvider);
+    const balanceOf = await ethersProvider.getBalance(address);
+    const balance = parseFloat(
+      (ethers.utils.formatUnits(balanceOf, 18) * 1).toFixed(3)
+    );
+    setETHBalance(balance);
+  };
+
+  const poolManager = useSelector((state) => state.poolManager);
+
+  const getUSDTBalance = async () => {
+    const usdt = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "usdt"
+    );
+    const decimals = await getContract(
+      walletProvider,
+      usdt,
+      erc20Abi,
+      "decimals"
+    );
+    const balanceOf = await getContract(
+      walletProvider,
+      usdt,
+      erc20Abi,
+      "balanceOf",
+      address
+    );
+    const balance = parseFloat(
+      (ethers.utils.formatUnits(balanceOf, decimals) * 1).toFixed(3)
+    );
+    setUSDTBalance(balance);
+  };
+  useEffect(() => {
+    const timer = setInterval(() => {
+      address ? getBalance() : setETHBalance("--");
+      address ? getUSDTBalance() : setUSDTBalance("--");
+    }, 2000);
+
+    return () => clearInterval(timer);
+  }, [address]);
+
+  const AccountContent = () => {
+    const copy = (address) => {
+      messageApi.success("Copied Success!");
+      navigator.clipboard.writeText(address);
+    };
+    return (
+      <div className="font-medium">
+        {contextHolder}
+        <div
+          className="flex items-center pb-3 border-b border-zinc-800 cursor-pointer"
+          onClick={() => copy(address)}
+        >
+          <img
+            className="w-7"
+            src={require("../../asserts/img/connect.png")}
+            alt=""
+          />
+          <span className="px-2">{shortStr(address)}</span>
+
+          <img
+            className="w-3"
+            src={require("../../asserts/img/copy.png")}
+            alt=""
+          />
+        </div>
+        <div>
+          <div className="flex items-center justify-between mt-5">
+            <div className="flex items-center">
+              <img
+                className="w-6"
+                src={require("../../asserts/img/USDT.png")}
+                alt=""
+              />
+              <span className="ml-2">USDT</span>
+            </div>
+            <div>{USDTBalance}</div>
+          </div>
+          <div className="flex items-center justify-between mt-5 pb-5 border-b border-zinc-800">
+            <div className="flex items-center">
+              <img
+                className="w-6"
+                src={require("../../asserts/img/ETH.png")}
+                alt=""
+              />
+              <span className="ml-2">ETH</span>
+            </div>
+            <div>{ETHBalance}</div>
+          </div>
+        </div>
+        <div className="text-center">
+          <button
+            className="mt-5 w-full h-11 rounded"
+            style={{ background: "#2A2539" }}
+            onClick={() => {
+              setOpenUserAccount(false);
+              disconnect();
+            }}
+          >
+            Disconnect Wallet
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="h-18 flex items-center justify-between pl-5 pr-5 border-spacing-1 text-white _background1 _line relative">
       <div>
@@ -181,19 +305,28 @@ const Header = () => {
           className={`_border rounded-full p-2 md:pl-4 md:pr-4 text-sm ${
             address ? "_borderW" : "_borderS pl-4 pr-4"
           }`}
-          onClick={() => open()}
         >
           {address ? (
-            <div className="flex items-center">
-              <img
-                className="w-5"
-                src={require("../../asserts/img/connect.png")}
-                alt=""
-              />
-              <span className="pl-2 _hiddenM">{shortStr(address, 5, 4)}</span>
-            </div>
+            <Popover
+              content={<AccountContent />}
+              trigger="click"
+              placement="bottomRight"
+              arrow={false}
+              color={"#1C172A"}
+              open={openUserAccount}
+              onOpenChange={handleOpenChange}
+            >
+              <div className="flex items-center">
+                <img
+                  className="w-5"
+                  src={require("../../asserts/img/connect.png")}
+                  alt=""
+                />
+                <span className="pl-2 _hiddenM">{shortStr(address, 5, 4)}</span>
+              </div>
+            </Popover>
           ) : (
-            "Connect Wallet"
+            <span onClick={() => open()}>Connect Wallet</span>
           )}
         </button>
         <button
