@@ -25,6 +25,7 @@ import CountDown from "../../components/countDown";
 import Footer from "../../components/footer";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useInterval } from "../../hooks/useInterval";
+import { flare } from "viem/chains";
 
 function Lottery() {
   const { walletProvider } = useWeb3ModalProvider();
@@ -588,12 +589,7 @@ function Lottery() {
     setTicketAmount("");
   };
 
-  const [lotteryDrawLoading, setLotteryDrawLoading] = useState(false);
-
-  const clickLotteryDraw = async (list, index) => {
-    rememberSelect((state) => {
-      state[index].lotteryDrawLoading = true;
-    });
+  const clickLotteryDraw = async (list) => {
     await getWriteContractLoad(
       walletProvider,
       poolManager,
@@ -602,14 +598,9 @@ function Lottery() {
       list.contractAddress
     )
       .then((res) => {
-        rememberSelect((state) => {
-          state[index].lotteryDrawLoading = false;
-        });
+        messageApi.success('Lottery Draw Success!')
       })
       .catch((err) => {
-        rememberSelect((state) => {
-          state[index].lotteryDrawLoading = false;
-        });
         console.log(err);
       });
   };
@@ -816,12 +807,9 @@ function Lottery() {
                           className="h-24 flex flex-col justify-between"
                           style={{ minWidth: "200px" }}
                         >
+                           {contextHolder}
                           <div className="text-right">
                             <Button
-                              loading={
-                                rememberSelect[index]?.lotteryDrawLoading ||
-                                false
-                              }
                               disabled={
                                 list?.roundInfo?.status * 1 == 1 ||
                                 list?.roundInfo?.vrfRequestId * 1 !== 0
@@ -835,7 +823,7 @@ function Lottery() {
                                   list?.roundInfo?.status * 1 == 3 &&
                                   list?.roundInfo?.vrfRequestId * 1 == 0
                                 ) {
-                                  clickLotteryDraw(list);
+                                  clickLotteryDraw(list, index);
                                 }
                               }}
                             >
