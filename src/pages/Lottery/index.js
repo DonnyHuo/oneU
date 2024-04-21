@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, createRef } from "react";
 import { useWeb3ModalProvider, useWeb3Modal } from "@web3modal/ethers5/react";
 import {
   Select,
@@ -598,7 +598,7 @@ function Lottery() {
       list.contractAddress
     )
       .then((res) => {
-        messageApi.success('Lottery Draw Success!')
+        messageApi.success("Lottery Draw Success!");
       })
       .catch((err) => {
         console.log(err);
@@ -607,13 +607,29 @@ function Lottery() {
 
   const [selectTickets, setSelectTickets] = useState([]);
 
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
   const onChangeCarousel = (value) => {
-    console.log(value);
+    setCarouselIndex(value);
   };
 
   const transferFun = (list) => {
     let numArr = Array.from(list.toString()).map(Number);
     return numArr;
+  };
+
+  const carouselRef = createRef();
+
+  const goToNextSlide = () => {
+    if (carouselIndex !== selectTickets.length - 1) {
+      carouselRef.current.next();
+    }
+  };
+
+  const goToPrevSlide = () => {
+    if (carouselIndex !== 0) {
+      carouselRef.current.prev();
+    }
   };
 
   return (
@@ -807,7 +823,7 @@ function Lottery() {
                           className="h-24 flex flex-col justify-between"
                           style={{ minWidth: "200px" }}
                         >
-                           {contextHolder}
+                          {contextHolder}
                           <div className="text-right">
                             <Button
                               disabled={
@@ -1211,14 +1227,20 @@ function Lottery() {
           />
         }
         width={420}
+        className="text-center"
       >
-        <Carousel afterChange={onChangeCarousel}>
+        <Carousel
+          afterChange={onChangeCarousel}
+          infinite={false}
+          ref={carouselRef}
+          className="w-10/12 mx-auto"
+        >
           {selectTickets &&
             selectTickets.map((list) => {
               return (
                 <div
                   key={list}
-                  className="w-full text-white h-56 flex items-center justify-center _backgroundTickets p-6"
+                  className="text-white h-56 flex items-center justify-center _backgroundTickets p-6"
                 >
                   <div className="_yellow block text-center text-lg">
                     1 lottery number
@@ -1239,6 +1261,29 @@ function Lottery() {
               );
             })}
         </Carousel>
+        <div
+          className="w-11/12 flex item-center justify-between absolute left-4"
+          style={{ top: "154px" }}
+        >
+          <button
+            className={`bg-neutral-600 rounded-full w-7 h-7 text-xl focus:bg-violet-600 ${
+              carouselIndex == 0 ? "text-gray-500 focus:bg-neutral-600" : "text-white"
+            }`}
+            onClick={goToPrevSlide}
+          >
+            {"<"}
+          </button>
+          <button
+            className={`bg-neutral-600 rounded-full w-7 h-7 text-xl focus:bg-violet-600 ${
+              carouselIndex == selectTickets.length - 1
+                ? "text-gray-500 focus:bg-neutral-600"
+                : "text-white"
+            }`}
+            onClick={goToNextSlide}
+          >
+            {">"}
+          </button>
+        </div>
         <div className="text-center _nav-title">
           A total of {selectTickets.length} lottery numbers
         </div>
