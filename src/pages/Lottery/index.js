@@ -525,6 +525,7 @@ function Lottery() {
 
   // 获取参与奖励
   const [unclaimedPrizes, setUnclaimedPrizes] = useState(0);
+  const [unclaimedOriginInfo, setUnclaimedOriginInfo] = useState([]);
   const [unclaimedInfo, setUnclaimedInfo] = useState([]);
   const getUnclaimedPrizes = async () => {
     const unclaimed = await getContract(
@@ -537,6 +538,8 @@ function Lottery() {
     setUnclaimedPrizes(
       ethers.utils.formatUnits(unclaimed.totalPrizes, USDTDecimals) * 1
     );
+
+    setUnclaimedOriginInfo([unclaimed.poolIds, unclaimed.roundIds]);
 
     const unclaimedInformation = [];
     unclaimed.poolIds.length > 0 &&
@@ -636,6 +639,7 @@ function Lottery() {
   const [claimLoading, setClaimLoading] = useState(false);
 
   const claimPrizes = async () => {
+    console.log("unclaimedOriginInfo", unclaimedOriginInfo);
     setClaimLoading(true);
     await getWriteContractLoad(
       walletProvider,
@@ -643,8 +647,8 @@ function Lottery() {
       poolManagerAbi,
       "claimPrizes",
       address,
-      unclaimedInfo[0],
-      unclaimedInfo[1]
+      unclaimedOriginInfo[0],
+      unclaimedOriginInfo[1]
     )
       .then((res) => {
         setClaimLoading(false);
