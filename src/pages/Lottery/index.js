@@ -228,6 +228,20 @@ function Lottery() {
         rememberSelect[i]?.selectRound || pool.currentRound
       );
 
+      const getStatus = () => {
+        if (roundInfo.endTime * 1 < nowDate) {
+          if (roundInfo.winNumber.toString() * 1 == 0) {
+            return 4;
+          }
+          return 3;
+        }
+        if (roundInfo.startTime * 1 > nowDate) {
+          return 1;
+        } else {
+          return 2;
+        }
+      };
+
       const resetPool = {
         USDTAddress: usdt,
         contractAddress: allPools[i],
@@ -241,12 +255,7 @@ function Lottery() {
         rewardSymbol: symbol,
         roundInfo: {
           endTime: roundInfo.endTime.toString(),
-          status:
-            roundInfo.endTime * 1 < nowDate
-              ? 3
-              : roundInfo.startTime * 1 > nowDate
-              ? 1
-              : 2,
+          status: getStatus(),
           isClaimed: roundInfo.isClaimed,
           leftTickets: roundInfo.leftTickets.toString(),
           startTime: roundInfo.startTime.toString(),
@@ -290,14 +299,23 @@ function Lottery() {
       value
     );
 
+    const getStatus = () => {
+      if (roundInfo.endTime * 1 < nowDate) {
+        if (roundInfo.winNumber.toString() * 1 == 0) {
+          return 4;
+        }
+        return 3;
+      }
+      if (roundInfo.startTime * 1 > nowDate) {
+        return 1;
+      } else {
+        return 2;
+      }
+    };
+
     const realRoundInfo = {
       endTime: roundInfo.endTime.toString(),
-      status:
-        roundInfo.endTime.toString() * 1 < nowDate
-          ? 3
-          : roundInfo.startTime.toString() * 1 > nowDate
-          ? 1
-          : 2,
+      status: getStatus(),
       isClaimed: roundInfo.isClaimed,
       leftTickets: roundInfo.leftTickets.toString(),
       startTime: roundInfo.startTime.toString(),
@@ -639,6 +657,8 @@ function Lottery() {
         return "On Going";
       case 3:
         return "Ended";
+      case 4:
+        return "Drawing in progress";
     }
   };
 
@@ -895,14 +915,14 @@ function Lottery() {
                                   clickBuyBtnFun(list);
                                 }
                                 if (
-                                  list?.roundInfo?.status * 1 == 3 &&
+                                  list?.roundInfo?.status * 1 == 4 &&
                                   list?.roundInfo?.vrfRequestId * 1 == 0
                                 ) {
                                   clickLotteryDraw(list, index);
                                 }
                               }}
                             >
-                              {list?.roundInfo?.status * 1 == 3 &&
+                              {list?.roundInfo?.status * 1 == 4 &&
                               list?.roundInfo?.vrfRequestId * 1 == 0
                                 ? "Lottery Draw"
                                 : "Buy Tickets"}
@@ -930,7 +950,8 @@ function Lottery() {
                                   />
                                 </>
                               )}
-                              {list?.roundInfo?.status == 3 && (
+                              {(list?.roundInfo?.status == 3 ||
+                                list?.roundInfo?.status == 4) && (
                                 <>
                                   Time to end:{" "}
                                   {moment(
