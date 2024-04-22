@@ -784,7 +784,7 @@ function Lottery() {
                       <div className="flex items-start justify-between _text text-sm mt-5 text-left _homeListM">
                         <div className="h-24 flex flex-col justify-between">
                           <div>Reward Pool</div>
-                          <div className="text-3xl _title _pt-20 _pb-20">
+                          <div className="text-3xl _title _pt-20 _pb-20 _active font-bold">
                             <span>{list?.prize * 1}</span>
                             <span className="ml-2">{list?.rewardSymbol}</span>
                           </div>
