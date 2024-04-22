@@ -962,10 +962,9 @@ function Lottery() {
                                   />
                                 </>
                               )}
-                              {(list?.roundInfo?.status == 3 ||
-                                list?.roundInfo?.status == 4) && (
+                              {([3,4,5].includes(list?.roundInfo?.status)) && (
                                 <>
-                                  Time to end:{" "}
+                                  End Time:{" "}
                                   {moment(
                                     list?.roundInfo?.endTime * 1000
                                   ).format("MM-DD HH:mm:ss")}

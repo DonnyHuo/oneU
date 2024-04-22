@@ -13,6 +13,9 @@ export function formate(time) {
 }
 
 export const computeCountdownInfo = (remainTime) => {
+  if (remainTime <= 0) {
+    return "00:00:00";
+  }
   // 这里用了一个比较笨的方法，一个个进行计算，后续可以优化试试看
   const day = Math.floor(remainTime / (24 * 60 * 60));
   const hours = Math.floor((remainTime / (60 * 60)) % 24);
@@ -135,8 +138,8 @@ export function getContractLoad(
   ...params
 ) {
   const provider = walletProvider
-  ? new ethers.providers.Web3Provider(walletProvider)
-  : infuraProvider;
+    ? new ethers.providers.Web3Provider(walletProvider)
+    : infuraProvider;
   const contract = new ethers.Contract(contractAddress, abi, provider);
   return new Promise((resolve, reject) => {
     contract[funcName](...params).then(
@@ -189,8 +192,8 @@ export function getWriteContractLoad(
   ...params
 ) {
   const provider = walletProvider
-  ? new ethers.providers.Web3Provider(walletProvider)
-  : infuraProvider;
+    ? new ethers.providers.Web3Provider(walletProvider)
+    : infuraProvider;
   const contract = new ethers.Contract(contractAddress, abi, provider);
   const contractWithSigner = contract.connect(provider.getSigner());
   return new Promise((resolve, reject) => {
