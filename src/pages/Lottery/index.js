@@ -230,10 +230,15 @@ function Lottery() {
 
       const getStatus = () => {
         if (roundInfo.endTime * 1 < nowDate) {
-          if (roundInfo.winNumber.toString() * 1 == 0) {
-            return 4;
+          if (roundInfo.vrfRequestId.toString() * 1 == 0) {
+            return 5;
+          } else {
+            if (roundInfo.winNumber.toString() * 1 == 0) {
+              return 4;
+            } else {
+              return 3;
+            }
           }
-          return 3;
         }
         if (roundInfo.startTime * 1 > nowDate) {
           return 1;
@@ -301,10 +306,15 @@ function Lottery() {
 
     const getStatus = () => {
       if (roundInfo.endTime * 1 < nowDate) {
-        if (roundInfo.winNumber.toString() * 1 == 0) {
-          return 4;
+        if (roundInfo.vrfRequestId.toString() * 1 == 0) {
+          return 5;
+        } else {
+          if (roundInfo.winNumber.toString() * 1 == 0) {
+            return 4;
+          } else {
+            return 3;
+          }
         }
-        return 3;
       }
       if (roundInfo.startTime * 1 > nowDate) {
         return 1;
@@ -659,6 +669,8 @@ function Lottery() {
         return "Ended";
       case 4:
         return "Drawing in progress";
+      case 5:
+        return "Waiting for Draw";
     }
   };
 
@@ -915,14 +927,14 @@ function Lottery() {
                                   clickBuyBtnFun(list);
                                 }
                                 if (
-                                  list?.roundInfo?.status * 1 == 4 &&
+                                  list?.roundInfo?.status * 1 == 5 &&
                                   list?.roundInfo?.vrfRequestId * 1 == 0
                                 ) {
                                   clickLotteryDraw(list, index);
                                 }
                               }}
                             >
-                              {list?.roundInfo?.status * 1 == 4 &&
+                              {list?.roundInfo?.status * 1 == 5 &&
                               list?.roundInfo?.vrfRequestId * 1 == 0
                                 ? "Lottery Draw"
                                 : "Buy Tickets"}
