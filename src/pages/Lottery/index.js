@@ -827,7 +827,7 @@ function Lottery() {
                             overlayClassName="_popover"
                             className="_hiddenM"
                           >
-                            <button className="leading-6 text-left text-xs underline decoration-slate-400 decoration-1 _popoverBtn">
+                            <button className="text-left text-xs underline decoration-slate-400 decoration-1 _popoverBtn">
                               Contract Address
                             </button>
                           </Popover>
@@ -1010,7 +1010,7 @@ function Lottery() {
                                   trigger="click"
                                   overlayClassName="_popover"
                                 >
-                                  <button className="leading-6 text-left text-xs text-white underline decoration-slate-400 decoration-1 _popoverBtn">
+                                  <button className="text-left text-xs text-white underline decoration-slate-400 decoration-1 _popoverBtn">
                                     {shortStr(list.contractAddress)}
                                   </button>
                                 </Popover>

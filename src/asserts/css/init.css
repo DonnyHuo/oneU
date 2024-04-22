@@ -20,6 +20,7 @@ body {
 }
 ._active {
   color: #a851ff;
+  font-family: Poppins-Medium;
 }
 ._nav-title {
   color: #b5b3c1;
