@@ -28,9 +28,9 @@ import { useInterval } from "../../hooks/useInterval";
 import JSConfetti from "js-confetti";
 
 function Lottery() {
-  const jsConfetti = new JSConfetti();
 
   useEffect(() => {
+    const jsConfetti = new JSConfetti();
     jsConfetti
       .addConfetti({
         // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],

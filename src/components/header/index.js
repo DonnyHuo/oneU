@@ -315,6 +315,7 @@ const Header = () => {
               color={"#1C172A"}
               open={openUserAccount}
               onOpenChange={handleOpenChange}
+              overlayClassName="accountInfo"
             >
               <div className="flex items-center">
                 <img

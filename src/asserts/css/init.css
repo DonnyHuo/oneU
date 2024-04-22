@@ -35,7 +35,7 @@ body {
   color: #e7bb41;
 }
 ._border {
-  border: 1px solid #2A2539;
+  border: 1px solid #2a2539;
 }
 ._borderS {
   border: 1px solid #7f00ff;
@@ -100,7 +100,7 @@ body {
 }
 ._background-code {
   /* background-color: rgba(42, 37, 57, 1); */
-  border: 1px solid #3D3952;
+  border: 1px solid #3d3952;
 }
 .ant-progress .ant-progress-text {
   font-size: 12px;
@@ -111,7 +111,7 @@ body {
   color: #fff;
   border-radius: 30px;
   width: 70px;
-  border-color: #6C697B;
+  border-color: #6c697b;
 }
 .epochSelect {
   color: #111;
@@ -201,7 +201,7 @@ body {
 }
 .ant-progress .ant-progress-inner {
   width: 100%;
-  background-color: transparent!important;
+  background-color: transparent !important;
   border: 1px solid rgba(168, 81, 255, 0.4);
 }
 .ant-progress-text {
@@ -229,14 +229,14 @@ body {
 }
 
 ._tableTitle {
- color: #6C697B;
+  color: #6c697b;
 }
 
 .tableBtn {
   border-radius: 16px;
   padding: 0 30px;
   border: 1px solid #9c00ff;
-  background: #361a58!important;
+  background: #361a58 !important;
   color: #fff;
 }
 .tableBtn:hover {
@@ -268,8 +268,8 @@ body {
 
 .ant-btn-default:disabled {
   background-color: #434356;
-  color: #A39FAD;
-  border: #3D3952;
+  color: #a39fad;
+  border: #3d3952;
 }
 /* .ant-btn:hover {
   background-color: #434356 !important;
@@ -319,30 +319,33 @@ body {
 
 .ant-select-single.ant-select-show-arrow .ant-select-selection-item {
   text-align: left;
-  color: #F4F3F9;
+  color: #f4f3f9;
 }
 .ant-select-dropdown .ant-select-item-option-content {
   padding-right: 6px;
 }
 ._tutorialsInfo {
   width: 560px;
-  background: linear-gradient(180deg, rgba(28, 23, 42, 0.69) 1.44%, rgba(43, 36, 61, 0.35) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(28, 23, 42, 0.69) 1.44%,
+    rgba(43, 36, 61, 0.35) 100%
+  );
 }
 
-.ant-popover-placement-bottomRight {
-  inset: 70px 20px auto auto!important;
-  
+.accountInfo {
+  inset: 70px 20px auto auto !important;
 }
-.ant-popover .ant-popover-content {
+.accountInfo .ant-popover-content {
   width: 306px;
   height: 206px;
 }
 
-.ant-popover .ant-popover-inner-content {
-  color: #F4F3F9;
+.accountInfo .ant-popover-inner-content {
+  color: #f4f3f9;
 }
 
-.ant-popover .ant-popover-inner{
+.accountInfo .ant-popover-inner {
   border-radius: 0;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -350,15 +353,19 @@ body {
 }
 
 @media screen and (min-width: 0px) and (max-width: 480px) {
-  .ant-popover-placement-bottomRight {
-    inset: 70px 0 auto auto!important;
+  .accountInfo {
+    inset: 70px 0 auto auto !important;
   }
-  .ant-popover .ant-popover-content {
+  .accountInfo .ant-popover-content {
     width: 200px;
   }
   ._tutorialsInfo {
     width: 90%;
-    background: linear-gradient(180deg, rgba(28, 23, 42, 0.69) 1.44%, rgba(43, 36, 61, 0.35) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(28, 23, 42, 0.69) 1.44%,
+      rgba(43, 36, 61, 0.35) 100%
+    );
   }
   .h-56 {
     height: 220px;
@@ -455,7 +462,7 @@ body {
   ._referralHome {
     max-width: 1182px;
     margin: 0 auto;
-    background-image: url('../../asserts/img/referralBg.png');
+    background-image: url("../../asserts/img/referralBg.png");
     background-repeat: no-repeat;
     background-size: 80%;
     background-position: center center;
@@ -487,7 +494,7 @@ body {
 
   ._tipsTitle {
     font-size: 20px;
-    color: #F4F3F9;
+    color: #f4f3f9;
   }
   ._tipsBox {
     width: 90%;
@@ -636,10 +643,10 @@ body {
     width: 90vw !important;
   }
   ._background-referral {
-    background-image: url('../../asserts/img/referralBg.png');
+    background-image: url("../../asserts/img/referralBg.png");
     background-repeat: no-repeat;
     /* background-size: 40% 20%; */
-    background-position:20% 0%;
+    background-position: 20% 0%;
   }
 }
 
@@ -675,14 +682,14 @@ body {
   ._referralHome {
     max-width: 1182px;
     margin: 0 auto;
-   
+
     background-repeat: no-repeat;
     background-size: 420px;
     background-position: top right;
   }
 
   ._background-referral {
-    background-image: url('../../asserts/img/referralBg.png');
+    background-image: url("../../asserts/img/referralBg.png");
     background-repeat: no-repeat;
     background-size: 100%;
   }
