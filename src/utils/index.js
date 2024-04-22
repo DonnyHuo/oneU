@@ -17,7 +17,7 @@ export function formate(time) {
 }
 
 export const computeCountdownInfo = (remainTime) => {
-  if (remainTime <= 0) {
+  if (remainTime*1 <= 0) {
     return "00:00:00";
   }
   // 这里用了一个比较笨的方法，一个个进行计算，后续可以优化试试看

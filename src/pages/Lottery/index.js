@@ -15,7 +15,6 @@ import {
   getWriteContractLoad,
   shortStr,
   makeRandomArr,
-  formatNumber,
 } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
@@ -917,8 +916,7 @@ function Lottery() {
                           <div className="text-right">
                             <Button
                               disabled={
-                                list?.roundInfo?.status * 1 == 1 ||
-                                list?.roundInfo?.vrfRequestId * 1 !== 0
+                                ![2, 5].includes(list?.roundInfo?.status * 1)
                               }
                               className="rounded-full p-2 pr-12 pl-12 h-10 _title _listBtn"
                               onClick={() => {
@@ -933,10 +931,12 @@ function Lottery() {
                                 }
                               }}
                             >
+                              {[1, 2, 3].includes(
+                                list?.roundInfo?.status * 1
+                              ) && "Buy Tickets"}
+                              {list?.roundInfo?.status * 1 == 4 && "Drawn"}
                               {list?.roundInfo?.status * 1 == 5 &&
-                              list?.roundInfo?.vrfRequestId * 1 == 0
-                                ? "Lottery Draw"
-                                : "Buy Tickets"}
+                                "Instant Drawing"}
                             </Button>
                           </div>
                           <div className="_title _justB text-center">
@@ -1226,6 +1226,7 @@ function Lottery() {
       <Modal
         title="Buy Tickets"
         centered
+        destroyOnClose={true}
         open={isShareOpen}
         onCancel={() => setIsShareOpen(false)}
         footer={false}
@@ -1317,6 +1318,7 @@ function Lottery() {
       <Modal
         title="Your lottery number"
         centered
+        destroyOnClose={true}
         open={isRewardOpen}
         onCancel={() => setIsRewardOpen(false)}
         footer={false}

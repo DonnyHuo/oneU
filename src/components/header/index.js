@@ -444,6 +444,7 @@ const Header = () => {
       </Drawer>
       <Modal
         title="Got an invite code?"
+        destroyOnClose={true}
         centered
         open={reModalOpen}
         onCancel={() => {
