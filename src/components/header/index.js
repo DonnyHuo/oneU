@@ -19,6 +19,7 @@ import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
 import { ethers } from "ethers";
 import { erc20Abi } from "viem";
+import { useInterval } from "../../hooks/useInterval";
 
 const Header = () => {
   const location = useLocation();
@@ -150,14 +151,11 @@ const Header = () => {
     );
     setUSDTBalance(balance);
   };
-  useEffect(() => {
-    const timer = setInterval(() => {
-      address ? getBalance() : setETHBalance("--");
-      address ? getUSDTBalance() : setUSDTBalance("--");
-    }, 2000);
-
-    return () => clearInterval(timer);
-  }, [address]);
+  
+  useInterval(()=>{
+    address ? getBalance() : setETHBalance("--");
+    address ? getUSDTBalance() : setUSDTBalance("--");
+  }, 2000)
 
   const AccountContent = () => {
     const copy = (address) => {

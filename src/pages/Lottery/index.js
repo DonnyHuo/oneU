@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, createRef } from "react";
+import { useRef, useEffect, useState, createRef, useMemo } from "react";
 import { useWeb3ModalProvider, useWeb3Modal } from "@web3modal/ethers5/react";
 import {
   Select,
@@ -28,26 +28,6 @@ import { useInterval } from "../../hooks/useInterval";
 import JSConfetti from "js-confetti";
 
 function Lottery() {
-
-  useEffect(() => {
-    const jsConfetti = new JSConfetti();
-    jsConfetti
-      .addConfetti({
-        // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
-        // confettiColors: [
-        //   "#ff0a54",
-        //   "#ff477e",
-        //   "#ff7096",
-        //   "#ff85a1",
-        //   "#fbb1bd",
-        //   "#f9bec7",
-        // ],
-        // confettiRadius: 6,
-        // confettiNumber: 2000,
-      })
-      .then(() => console.log("Confetti animation completed!"));
-  },[]);
-
   const { walletProvider } = useWeb3ModalProvider();
   const { open } = useWeb3Modal();
   const descList = [
@@ -162,12 +142,9 @@ function Lottery() {
     setAccountBalance(balance);
   };
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      address ? getAccountBalance() : setAccountBalance(0);
-    }, 2000);
-    return () => clearInterval(timer);
-  }, [address]);
+  useInterval(() => {
+    address ? getAccountBalance() : setAccountBalance(0);
+  }, 2000);
 
   const [rememberSelect, setRememberSelect] = useState([]);
 
@@ -285,10 +262,7 @@ function Lottery() {
     setPools(pools);
   };
 
-  // const countRef = useRef(rememberSelect);
-  useInterval(() => {
-    getPoolList();
-  }, 5000);
+  useInterval(getPoolList, 5000);
 
   useEffect(() => {
     getPoolList();
@@ -499,7 +473,10 @@ function Lottery() {
     }
   };
   // 获取总奖励数
-  const [wonParticipationRecords, setWonParticipationRecords] = useState(0);
+  const [wonParticipationRecords, setWonParticipationRecords] = useState({
+    totalPrizes: 0,
+    records: [],
+  });
   const getWonParticipationRecords = async () => {
     const wonParticipationRecords = await getContract(
       walletProvider,
@@ -508,19 +485,21 @@ function Lottery() {
       "getWonParticipationRecords",
       address
     );
-    setWonParticipationRecords(
-      ethers.utils.formatUnits(
-        wonParticipationRecords.totalPrizes,
-        USDTDecimals
-      ) * 1
-    );
+    setWonParticipationRecords({
+      totalPrizes:
+        ethers.utils.formatUnits(
+          wonParticipationRecords.totalPrizes,
+          USDTDecimals
+        ) * 1,
+      records: wonParticipationRecords.records,
+    });
   };
 
   // 获取参与奖励
   const [unclaimedPrizes, setUnclaimedPrizes] = useState(0);
   const [unclaimedInfo, setUnclaimedInfo] = useState([]);
   const getUnclaimedPrizes = async () => {
-    const unclaimedPrizes = await getContract(
+    const unclaimed = await getContract(
       walletProvider,
       poolManager,
       poolManagerAbi,
@@ -528,10 +507,72 @@ function Lottery() {
       address
     );
     setUnclaimedPrizes(
-      ethers.utils.formatUnits(unclaimedPrizes.totalPrizes, USDTDecimals) * 1
+      ethers.utils.formatUnits(unclaimed.totalPrizes, USDTDecimals) * 1
     );
-    setUnclaimedInfo([unclaimedPrizes.poolIds, unclaimedPrizes.roundIds]);
+
+    const unclaimedInformation = [];
+    unclaimed.poolIds.length > 0 &&
+      unclaimed.poolIds.map((poolId, ind) => {
+        unclaimed.roundIds.map((roundId, index) => {
+          if (ind === index) {
+            unclaimedInformation.push({
+              poolId: poolId,
+              roundId: roundId.toString(),
+            });
+          }
+        });
+      });
+    setUnclaimedInfo(unclaimedInformation);
   };
+
+  // 判断当前用户是否获奖
+  const [wonTickets, setWonTickets] = useState([]);
+  const [rememberOldTickets, setRememberOldTickets] = useState([]);
+  const isWonParticipation = () => {
+    if (unclaimedPrizes * 1 > 0) {
+      const wonTickets = [];
+      wonParticipationRecords?.records.length > 0 &&
+        wonParticipationRecords.records.map((list) => {
+          unclaimedInfo.map((unclaim) => {
+            if (
+              unclaim.poolId === list.poolId &&
+              unclaim.roundId * 1 === list.roundId.toString() * 1
+            ) {
+              wonTickets.push(...list.tickets);
+            }
+          });
+        });
+      // wonTickets
+      setWonTickets(wonTickets);
+    }
+  };
+
+  useEffect(() => {
+    if (wonTickets.length > 0) {
+      setRememberOldTickets(wonTickets);
+      if (JSON.stringify(rememberOldTickets) !== JSON.stringify(wonTickets)) {
+        const jsConfetti = new JSConfetti();
+        jsConfetti
+          .addConfetti({
+            // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
+            // confettiColors: [
+            //   "#ff0a54",
+            //   "#ff477e",
+            //   "#ff7096",
+            //   "#ff85a1",
+            //   "#fbb1bd",
+            //   "#f9bec7",
+            // ],
+            // confettiRadius: 6,
+            // confettiNumber: 2000,
+          })
+          .then(() => console.log("Confetti animation completed!"));
+      }
+    }
+  }, [wonTickets, address]);
+
+  useInterval(isWonParticipation, 2000);
+
   // 获取参与记录
   const [participationRecords, setParticipationRecords] = useState([]);
   const getParticipationRecords = async () => {
@@ -555,15 +596,13 @@ function Lottery() {
     setParticipationRecords(newRecords.reverse());
   };
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      address ? getParticipationRecords() : setParticipationRecords([]);
-      address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
-      address ? getWonParticipationRecords() : setWonParticipationRecords(0);
-    }, 2000);
-
-    return () => clearInterval(timer);
-  }, [address]);
+  useInterval(() => {
+    address ? getParticipationRecords() : setParticipationRecords([]);
+    address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
+    address
+      ? getWonParticipationRecords()
+      : setWonParticipationRecords({ totalPrizes: 0, records: [] });
+  }, 2000);
 
   // claim prize
   const [claimLoading, setClaimLoading] = useState(false);
@@ -595,7 +634,7 @@ function Lottery() {
   const switchStatus = (value) => {
     switch (value) {
       case 1:
-        return "Waiting for Draw";
+        return "Waiting for Start";
       case 2:
         return "On Going";
       case 3:
@@ -988,7 +1027,8 @@ function Lottery() {
                         {address
                           ? parseFloat(
                               (
-                                wonParticipationRecords - unclaimedPrizes
+                                wonParticipationRecords?.totalPrizes -
+                                unclaimedPrizes
                               ).toFixed(2)
                             )
                           : "--"}{" "}
