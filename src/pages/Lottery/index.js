@@ -15,6 +15,7 @@ import {
   getWriteContractLoad,
   shortStr,
   makeRandomArr,
+  formatNumber,
 } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
@@ -817,7 +818,7 @@ function Lottery() {
                         <div className="w-36 h-24 flex flex-col justify-between">
                           <div>Reward Pool</div>
                           <div className="text-3xl _title _pt-20 _pb-20 _active font-bold">
-                            <span>{list?.prize * 1}</span>
+                            <span>{(list?.prize * 1).toLocaleString()}</span>
                             <span className="ml-2">{list?.rewardSymbol}</span>
                           </div>
                           <Popover
@@ -832,7 +833,7 @@ function Lottery() {
                             </button>
                           </Popover>
                         </div>
-                        <div className="h-24 flex flex-col justify-between _hiddenM ml-20">
+                        <div className="w-40 h-24 flex flex-col justify-between _hiddenM ml-20">
                           <div className="_title leading-4">
                             {moment(list?.roundInfo?.endTime * 1000).format(
                               "YYYY-MM-DD HH:mm:ss"
@@ -871,7 +872,7 @@ function Lottery() {
                             </div>
                           </div>
                         </div>
-                        <div className="h-24 flex flex-col justify-between _title  ml-20">
+                        <div className="w-80 h-24 flex flex-col justify-between _title  ml-16">
                           <div className="_hiddenM">
                             <span>
                               Win {list?.prize * 1} {list?.rewardSymbol} lottery
@@ -905,9 +906,7 @@ function Lottery() {
                                   list?.roundInfo?.leftTickets * 1}
                               </span>
                             </span>
-                            <span className="ml-10">
-                              Total Tickets: {list?.totalTickets}
-                            </span>
+                            <span>Total Tickets: {list?.totalTickets}</span>
                           </div>
                         </div>
                         <div
@@ -962,7 +961,7 @@ function Lottery() {
                                   />
                                 </>
                               )}
-                              {([3,4,5].includes(list?.roundInfo?.status)) && (
+                              {[3, 4, 5].includes(list?.roundInfo?.status) && (
                                 <>
                                   End Time:{" "}
                                   {moment(
@@ -1062,7 +1061,7 @@ function Lottery() {
                                 wonParticipationRecords?.totalPrizes -
                                 unclaimedPrizes
                               ).toFixed(2)
-                            )
+                            ).toLocaleString()
                           : "--"}{" "}
                         {USDTSymbol}
                       </span>
@@ -1081,7 +1080,10 @@ function Lottery() {
                             alt=""
                           />
                           <span className="text-2xl font-bold">
-                            {address ? unclaimedPrizes : "--"} {USDTSymbol}
+                            {address
+                              ? (unclaimedPrizes * 1).toLocaleString()
+                              : "--"}{" "}
+                            {USDTSymbol}
                           </span>
                         </div>
                         <div className="_nav-title text-sm text-left pt-4">

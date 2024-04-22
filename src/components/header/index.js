@@ -5,7 +5,6 @@ import {
   useWeb3ModalAccount,
   useWeb3ModalProvider,
   useDisconnect,
-  useWalletInfo,
 } from "@web3modal/ethers5/react";
 import {
   shortStr,

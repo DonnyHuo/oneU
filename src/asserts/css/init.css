@@ -359,11 +359,14 @@ body {
   padding: 20px;
 }
 
-@media screen and (min-width: 0px) and (max-width: 480px) {
+@media screen and (min-width: 0px) and (max-width: 880px) {
   .w-36 {
     width: 100%;
   }
   .ml-20 {
+    margin-left: 0;
+  }
+  .ml-16 {
     margin-left: 0;
   }
   .accountInfo {
@@ -663,7 +666,7 @@ body {
   }
 }
 
-@media screen and (min-width: 480px) and (max-width: 5000px) {
+@media screen and (min-width: 880px) and (max-width: 5000px) {
   .content {
     min-height: 100vh;
     background-color: #0b051a;
