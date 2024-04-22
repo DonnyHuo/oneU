@@ -813,8 +813,8 @@ function Lottery() {
                           </span>
                         </div>
                       </div>
-                      <div className="flex items-start justify-between _text text-sm mt-5 text-left _homeListM">
-                        <div className="h-24 flex flex-col justify-between">
+                      <div className="flex items-start _text text-sm mt-5 text-left _homeListM">
+                        <div className="w-36 h-24 flex flex-col justify-between">
                           <div>Reward Pool</div>
                           <div className="text-3xl _title _pt-20 _pb-20 _active font-bold">
                             <span>{list?.prize * 1}</span>
@@ -822,8 +822,8 @@ function Lottery() {
                           </div>
                           <Popover
                             content={list.contractAddress}
-                            placement="top"
-                            trigger="click"
+                            placement="topLeft"
+                            trigger="hover"
                             overlayClassName="_popover"
                             className="_hiddenM"
                           >
@@ -832,7 +832,7 @@ function Lottery() {
                             </button>
                           </Popover>
                         </div>
-                        <div className="h-24 flex flex-col justify-between _hiddenM">
+                        <div className="h-24 flex flex-col justify-between _hiddenM ml-20">
                           <div className="_title leading-4">
                             {moment(list?.roundInfo?.endTime * 1000).format(
                               "YYYY-MM-DD HH:mm:ss"
@@ -871,7 +871,7 @@ function Lottery() {
                             </div>
                           </div>
                         </div>
-                        <div className="h-24 flex flex-col justify-between _title">
+                        <div className="h-24 flex flex-col justify-between _title  ml-20">
                           <div className="_hiddenM">
                             <span>
                               Win {list?.prize * 1} {list?.rewardSymbol} lottery
@@ -911,8 +911,8 @@ function Lottery() {
                           </div>
                         </div>
                         <div
-                          className="h-24 flex flex-col justify-between"
-                          style={{ minWidth: "200px" }}
+                          className="h-24 flex flex-col justify-between ml-auto"
+                          // style={{ minWidth: "200px" }}
                         >
                           {contextHolder}
                           <div className="text-right">
@@ -1125,7 +1125,7 @@ function Lottery() {
                               <td>
                                 <Popover
                                   content={list.poolId}
-                                  placement="top"
+                                  placement="topLeft"
                                   trigger="hover"
                                   overlayClassName="_popover"
                                   className="_hiddenM"

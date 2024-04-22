@@ -360,6 +360,12 @@ body {
 }
 
 @media screen and (min-width: 0px) and (max-width: 480px) {
+  .w-36 {
+    width: 100%;
+  }
+  .ml-20 {
+    margin-left: 0;
+  }
   .accountInfo {
     inset: 70px 0 auto auto !important;
   }
