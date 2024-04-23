@@ -491,9 +491,9 @@ function Lottery() {
     )
       .then((res) => {
         setBuyLoading(false);
-        setIsShareOpen(false);
+        setTicketAmount('')
         api["success"]({
-          message: `"Buy Success!`,
+          message: `Buy Success!`,
         });
         getPoolList();
         getParticipationRecords();
