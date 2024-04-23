@@ -74,9 +74,13 @@ function Referral() {
     setRewardAccrued(ethers.utils.formatUnits(rewardAccrued, decimals) * 1);
   };
 
-  useInterval(() => {
-    address && referralRewardAccumulated();
-  }, 2000);
+  useInterval(
+    () => {
+      address && referralRewardAccumulated();
+    },
+    2000,
+    { immediate: true }
+  );
 
   // collectReferralReward
   const [rewardLoading, setRewardLoading] = useState(false);
@@ -119,9 +123,13 @@ function Referral() {
     setChildrenCountOf(childrenCountOf.toString());
   };
 
-  useInterval(() => {
-    address && userId > 0 ? getChildrenCountOf() : setChildrenCountOf("--");
-  }, 2000);
+  useInterval(
+    () => {
+      address && userId > 0 ? getChildrenCountOf() : setChildrenCountOf("--");
+    },
+    2000,
+    { immediate: true }
+  );
 
   const [isWonOpen, setIsWonOpen] = useState(false);
 

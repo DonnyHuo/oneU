@@ -171,7 +171,7 @@ const Header = () => {
   useInterval(() => {
     address ? getBalance() : setETHBalance("--");
     address ? getUSDTBalance() : setUSDTBalance("--");
-  }, 2000);
+  }, 2000, { immediate: true });
 
   const AccountContent = () => {
     const copy = (address) => {

@@ -1,6 +1,6 @@
 import { useInterval } from "ahooks";
 import { computeCountdownInfo } from "../../utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const CountDown = (props) => {
   const { offsetTimestamp } = props;
@@ -8,7 +8,7 @@ const CountDown = (props) => {
 
   useInterval(() => {
     setTime((time) => time - 1);
-  }, 1000);
+  }, 1000, { immediate: true });
 
   return <span>{computeCountdownInfo(time)}</span>;
 };

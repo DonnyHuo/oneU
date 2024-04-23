@@ -151,7 +151,7 @@ function Lottery() {
 
   useInterval(() => {
     address ? getAccountBalance() : setAccountBalance(0);
-  }, 2000);
+  }, 2000, { immediate: true });
 
   const [rememberSelect, setRememberSelect] = useState([]);
 
@@ -283,7 +283,7 @@ function Lottery() {
     setPools(pools);
   };
 
-  useInterval(getPoolList, 5000);
+  useInterval(getPoolList, 5000, { immediate: true });
 
   useEffect(() => {
     getPoolList();
@@ -632,7 +632,7 @@ function Lottery() {
     }
   }, [wonTickets, address]);
 
-  useInterval(isWonParticipation, 2000);
+  useInterval(isWonParticipation, 2000, { immediate: true });
 
   // 获取参与记录
   const [participationRecords, setParticipationRecords] = useState([]);
@@ -663,7 +663,7 @@ function Lottery() {
     address
       ? getWonParticipationRecords()
       : setWonParticipationRecords({ totalPrizes: 0, records: [] });
-  }, 2000);
+  }, 2000, { immediate: true });
 
   // claim prize
   const [claimLoading, setClaimLoading] = useState(false);
