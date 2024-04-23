@@ -173,11 +173,8 @@ const Header = () => {
     return (
       <div className="font-medium">
         {contextHolder}
-        <div
-          className="flex items-center justify-between pb-3 border-b border-zinc-800 cursor-pointer"
-          onClick={() => copy(address)}
-        >
-          <div className="flex items-center">
+        <div className="flex items-center justify-between pb-3 border-b border-zinc-800 cursor-pointer">
+          <div className="flex items-center" onClick={() => copy(address)}>
             <img
               className="w-7"
               src={require("../../asserts/img/connect.png")}
@@ -186,7 +183,7 @@ const Header = () => {
             <span className="px-2">{shortStr(address)}</span>
 
             <img
-              className="w-3"
+              className="w-3 cursor-pointer"
               src={require("../../asserts/img/copy.png")}
               alt=""
             />
