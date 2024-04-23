@@ -876,7 +876,7 @@ function Lottery() {
                             className="_hiddenM"
                           >
                             <button className="text-left text-xs underline decoration-slate-400 decoration-1 _popoverBtn">
-                              Contract Address
+                              Pool Id
                             </button>
                           </Popover>
                         </div>
