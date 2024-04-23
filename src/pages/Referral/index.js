@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { notification, Button } from "antd";
+import { notification, Button, Modal } from "antd";
 import { getContract, getWriteContractLoad } from "../../utils";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
 import erc20Abi from "../../asserts/abi/erc20Abi.json";
 import { ethers } from "ethers";
+import { Link } from "react-router-dom";
+import { useInterval } from "ahooks";
 
 function Referral() {
   const { walletProvider } = useWeb3ModalProvider();
@@ -72,9 +74,9 @@ function Referral() {
     setRewardAccrued(ethers.utils.formatUnits(rewardAccrued, decimals) * 1);
   };
 
-  useEffect(() => {
+  useInterval(() => {
     address && referralRewardAccumulated();
-  }, [address]);
+  }, 2000);
 
   // collectReferralReward
   const [rewardLoading, setRewardLoading] = useState(false);
@@ -107,7 +109,6 @@ function Referral() {
   const inviteContract = useSelector((state) => state.inviteContract);
   //获取参与人数
   const getChildrenCountOf = async () => {
-    console.log("userId", userId);
     const childrenCountOf = await getContract(
       walletProvider,
       inviteContract,
@@ -115,13 +116,18 @@ function Referral() {
       "childrenCountOf",
       userId
     );
-    console.log("childrenCountOf", childrenCountOf);
     setChildrenCountOf(childrenCountOf.toString());
   };
 
-  useEffect(() => {
+  useInterval(() => {
     address && userId > 0 ? getChildrenCountOf() : setChildrenCountOf("--");
-  }, [address, userId]);
+  }, 2000);
+
+  const [isWonOpen, setIsWonOpen] = useState(false);
+
+  useEffect(() => {
+    setIsWonOpen(rewardAccrued * 1 > 0);
+  }, [rewardAccrued]);
 
   return (
     <div className="_background1 _title">
@@ -321,6 +327,42 @@ function Referral() {
           </div>
         </div>
       </div>
+      <Modal
+        title="You Got Deserve"
+        centered
+        destroyOnClose={true}
+        open={isWonOpen}
+        onCancel={() => setIsWonOpen(false)}
+        footer={false}
+        closeIcon={
+          <img
+            className="w-6 mt-3 mr-2"
+            src={require("../../asserts/img/closeModal.png")}
+            alt=""
+          />
+        }
+        width={380}
+      >
+        <div className="text-center">
+          <div className="_active text-4xl font-bold">
+            {rewardAccrued} {usdtSymbol}
+          </div>
+          <div className="mt-2 _title">Your commission</div>
+          <div className="mt-6 _text">
+            Your friends have invested, these are the commission you deserve！
+          </div>
+          <Link
+            to="/referral"
+            onClick={() => {
+              setIsWonOpen(false);
+            }}
+          >
+            <button className="w-full _borderS rounded-full _background-gradient2 py-3 mt-6 font-bold">
+              Go To Claim
+            </button>
+          </Link>
+        </div>
+      </Modal>
     </div>
   );
 }
