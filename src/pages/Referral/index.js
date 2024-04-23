@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { message, Button } from "antd";
+import { notification, Button } from "antd";
 import { getContract, getWriteContractLoad } from "../../utils";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
@@ -14,10 +14,15 @@ function Referral() {
   const address = useSelector((state) => state.address);
   const userId = useSelector((state) => state.userId);
 
-  const [messageApi, contextHolder] = message.useMessage();
+  const [api, contextHolder] = notification.useNotification({
+    placement: "topRight",
+    top: 100,
+    duration: 3,
+    maxCount: 10,
+  });
   const copyInfo = (msg) => {
     if (userId * 1 > 0) {
-      messageApi.success("Copied Success!");
+      api["success"]({ message: "Copied Success!" });
       navigator.clipboard.writeText(msg);
     }
   };
@@ -84,12 +89,16 @@ function Referral() {
     )
       .then((res) => {
         setRewardLoading(false);
-        messageApi.success("Claim Success!");
+        api["success"]({
+          message: "Claim Success!",
+        });
         referralRewardAccumulated();
       })
       .catch((err) => {
         setRewardLoading(false);
-        messageApi.error("Claim Fail!");
+        api["error"]({
+          message: "Claim Fail!",
+        });
         console.log(err);
       });
   };

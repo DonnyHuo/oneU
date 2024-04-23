@@ -10,9 +10,9 @@ import {
   Popover,
   Modal,
   Button,
-  message,
   Skeleton,
   Carousel,
+  notification,
 } from "antd";
 import {
   getContract,
@@ -362,7 +362,13 @@ function Lottery() {
   const [ticketAmount, setTicketAmount] = useState("");
 
   const [buyLoading, setBuyLoading] = useState(false);
-  const [messageApi, contextHolder] = message.useMessage();
+
+  const [api, contextHolder] = notification.useNotification({
+    placement: "topRight",
+    top: 100,
+    duration: 3,
+    maxCount: 10
+  });
 
   // get allowance
   const [allowance, setAllowance] = useState(false);
@@ -398,11 +404,15 @@ function Lottery() {
       .then((res) => {
         getAllowance(USDTAddress);
         setApproveLoading(false);
-        messageApi.success("Approve Success!");
+        api["success"]({
+          message: `Approve Success!`,
+        });
       })
       .catch((err) => {
         setApproveLoading(false);
-        messageApi.error("Approve Fail!");
+        api["error"]({
+          message: `Approve Fail!`,
+        });
         console.log(err);
       });
   };
@@ -440,19 +450,25 @@ function Lottery() {
     const reg = /^[1-9]\d*$/;
 
     if (!reg.test(ticketAmount * 1)) {
-      return messageApi.error("please enter correct amount!");
+      return api["error"]({
+        message: `please enter correct amount!`,
+      });
     }
     if (amount * 1 > accountBalance * 1) {
-      return messageApi.error("Insufficient balance!");
+      return api["error"]({
+        message: `Insufficient balance!`,
+      });
     }
     if (amount * 1 > selectPool.roundInfo.leftTickets * 1) {
-      return messageApi.error("Not enough tickets remaining!");
+      return api["error"]({
+        message: `Not enough tickets remaining!`,
+      });
     }
 
     if (amount * 1 > maxTicketsPerBuy) {
-      return messageApi.error(
-        `Each person can buy up to ${maxTicketsPerBuy} tickets!`
-      );
+      return api["error"]({
+        message: `Each person can buy up to ${maxTicketsPerBuy} tickets!`,
+      });
     }
 
     const realTickets = await getRealTickets(selectPool, amount);
@@ -476,14 +492,18 @@ function Lottery() {
       .then((res) => {
         setBuyLoading(false);
         setIsShareOpen(false);
-        messageApi.success("Buy Success!");
+        api["success"]({
+          message: `"Buy Success!`,
+        });
         getPoolList();
         getParticipationRecords();
         getAccountBalance();
       })
       .catch((err) => {
         setBuyLoading(false);
-        messageApi.error("Buy Fail!");
+        api["error"]({
+          message: `"Buy Fail!`,
+        });
         console.log(err);
       });
   };
@@ -585,12 +605,14 @@ function Lottery() {
     }
   };
 
+  const [isWonOpen, setIsWonOpen] = useState(false);
+
   useEffect(() => {
     if (wonTickets.length > 0) {
       setRememberOldTickets(wonTickets);
       if (JSON.stringify(rememberOldTickets) !== JSON.stringify(wonTickets)) {
-        const jsConfetti = new JSConfetti();
         setIsWonOpen(true);
+        const jsConfetti = new JSConfetti();
         jsConfetti
           .addConfetti({
             // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
@@ -662,11 +684,15 @@ function Lottery() {
         setClaimLoading(false);
         getUnclaimedPrizes();
         getWonParticipationRecords();
-        messageApi.success("Claim Success!");
+        api["success"]({
+          message: `Claim Success!`,
+        });
       })
       .catch((err) => {
         setClaimLoading(false);
-        messageApi.error("Claim Fail!");
+        api["error"]({
+          message: `Claim Fail!`,
+        });
         console.log(err);
       });
   };
@@ -701,7 +727,9 @@ function Lottery() {
       list.contractAddress
     )
       .then((res) => {
-        messageApi.success("Lottery Draw Success!");
+        api["success"]({
+          message: `Lottery Draw Success!`,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -734,8 +762,6 @@ function Lottery() {
       carouselRef.current.prev();
     }
   };
-
-  const [isWonOpen, setIsWonOpen] = useState(false);
 
   return (
     <div className="_background1 _background-home text-center">
@@ -975,13 +1001,16 @@ function Lottery() {
                                   />
                                 </>
                               )}
-                              {[3, 4, 5].includes(list?.roundInfo?.status) && (
+                              {list?.roundInfo?.status == 3 && (
                                 <>
                                   End Time:{" "}
                                   {moment(
                                     list?.roundInfo?.endTime * 1000
                                   ).format("MM-DD HH:mm:ss")}
                                 </>
+                              )}
+                              {[4, 5].includes(list?.roundInfo?.status) && (
+                                <>Time to end: {"00:00:00"}</>
                               )}
                             </span>
                             <button
@@ -1451,10 +1480,23 @@ function Lottery() {
             alt=""
           />
           <div className="flex items-center justify-between mt-10 _title _flexM2">
-            <div>You got <span className="_active">{unclaimedPrizes}</span> {USDTSymbol}!</div>
-            <div>Winning Number: <span className="_active">{wonTickets}</span></div>
+            <div>
+              You got <span className="_active">{unclaimedPrizes}</span>{" "}
+              {USDTSymbol}!
+            </div>
+            <div>
+              Winning Number:{" "}
+              <span className="_active">
+                {wonTickets.length > 1 ? wonTickets.join(",") : wonTickets}
+              </span>
+            </div>
           </div>
-          <Link to="/?reward" onClick={()=>{setIsWonOpen(false)}}>
+          <Link
+            to="/?reward"
+            onClick={() => {
+              setIsWonOpen(false);
+            }}
+          >
             <button className="w-full _borderS rounded-full _background-gradient2 py-3 mt-6 font-bold">
               Go To Claim
             </button>

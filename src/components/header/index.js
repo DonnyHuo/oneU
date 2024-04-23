@@ -12,7 +12,7 @@ import {
   getWriteContractLoad,
   chainList,
 } from "../../utils";
-import { Drawer, message, Button, Modal, Popover } from "antd";
+import { Drawer, notification, Button, Modal, Popover } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
@@ -88,8 +88,17 @@ const Header = () => {
     }
   }, [address, userId]);
 
-  const [messageApi, contextHolder] = message.useMessage();
 
+  const [openUserAccount, setOpenUserAccount] = useState(false);
+
+
+  const [api, contextHolder] = notification.useNotification({
+    placement: "topRight",
+    top: openUserAccount ? 340 : 100,
+    duration: 3,
+    maxCount: 10,
+    zIndex: 100000,
+  });
   // user signup
   const signUp = () => {
     setSignUpLoading(true);
@@ -104,17 +113,16 @@ const Header = () => {
         setSignUpLoading(false);
         getUserId();
         setCode("");
-        messageApi.success("Registration Success!");
+        api["success"]({ message: "Registration Success!" });
         dispatch({ type: "CHANGE_REMODAL", payload: false });
       })
       .catch((err) => {
         setSignUpLoading(false);
-        messageApi.error("registration failed!");
+        api["error"]({ message: "Registration failed!" });
         console.log(err);
       });
   };
 
-  const [openUserAccount, setOpenUserAccount] = useState(false);
   const handleOpenChange = (newOpen) => {
     setOpenUserAccount(newOpen);
   };
@@ -167,7 +175,7 @@ const Header = () => {
 
   const AccountContent = () => {
     const copy = (address) => {
-      messageApi.success("Copied Success!");
+      api["success"]({ message: "Copied Success!" });
       navigator.clipboard.writeText(address);
     };
     return (
@@ -188,17 +196,13 @@ const Header = () => {
               alt=""
             />
           </div>
-          <div className="rounded-xl _background3 p-2 flex items-center justify-center">
-            <img
-              className="w-4"
-              src={require("../../asserts/img/closeWallet.png")}
-              onClick={() => {
-                setOpenUserAccount(false);
-                disconnect();
-              }}
-              alt=""
-            />
-          </div>
+          <div
+            className="rounded-xl _background3 p-2 flex items-center justify-center closeWallet"
+            onClick={() => {
+              setOpenUserAccount(false);
+              disconnect();
+            }}
+          ></div>
         </div>
         <div>
           <div className="flex items-center justify-between mt-5">
@@ -573,7 +577,7 @@ const Header = () => {
           />
         }
         width={420}
-        zIndex={10000}
+        zIndex={3000}
       >
         <p className="mt-5 _nav-title">
           Get an invite code from an existing user to sign up.

@@ -60,9 +60,6 @@ a:hover {
 ._background3 {
   background-color: #3d3952;
 }
-._background3:hover {
-  background-color: #0b051a;
-}
 ._background-gradient {
   background: linear-gradient(#181327, #361a58);
 }
@@ -373,9 +370,8 @@ a:hover {
   border: 1px solid #a851ff;
 }
 
-
 .communityList {
-  padding-top: 20px!important;
+  padding-top: 20px !important;
 }
 .communityList .ant-popover-inner {
   border-radius: 0;
@@ -388,9 +384,46 @@ a:hover {
   color: #f4f3f9;
 }
 .communityList .list:hover {
-  background-color: #2A2539;
+  background-color: #2a2539;
 }
-
+.closeWallet {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background-image: url("../../asserts/img/closeWallet.png");
+  background-position: center center;
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+}
+.closeWallet:hover {
+  background-image: url("../../asserts/img/closeWalletHover.png");
+}
+.ant-notification {
+  z-index: 111111;
+}
+.ant-notification-topRight.ant-notification-stack>.ant-notification-notice-wrapper {
+  border-radius: 10px;
+  background-color: #2a2539;
+}
+.ant-notification .ant-notification-notice-wrapper .ant-notification-notice {
+  background-color: #2a2539;
+  padding: 18px 20px 10px 20px;
+  border-radius: 10px;
+  font-family: Poppins-Medium;
+}
+.ant-notification
+  .ant-notification-notice-wrapper
+  .ant-notification-notice-content .ant-notification-notice-message {
+  color: #fff;
+}
+.ant-notification .ant-notification-notice-wrapper .ant-notification-notice-close {
+  top: 18px;
+  right: 20px;
+  color: #f5f5f5;
+}
+.ant-notification .ant-notification-notice-wrapper .ant-notification-notice-close:hover {
+  color: #fff;
+}
 
 @media screen and (min-width: 0px) and (max-width: 880px) {
   .w-36 {
