@@ -149,9 +149,13 @@ function Lottery() {
     setAccountBalance(balance);
   };
 
-  useInterval(() => {
-    address ? getAccountBalance() : setAccountBalance(0);
-  }, 2000, { immediate: true });
+  useInterval(
+    () => {
+      address ? getAccountBalance() : setAccountBalance(0);
+    },
+    2000,
+    { immediate: true }
+  );
 
   const [rememberSelect, setRememberSelect] = useState([]);
 
@@ -367,7 +371,7 @@ function Lottery() {
     placement: "topRight",
     top: 100,
     duration: 3,
-    maxCount: 10
+    maxCount: 10,
   });
 
   // get allowance
@@ -491,7 +495,7 @@ function Lottery() {
     )
       .then((res) => {
         setBuyLoading(false);
-        setTicketAmount('')
+        setTicketAmount("");
         api["success"]({
           message: `Buy Success!`,
         });
@@ -657,13 +661,17 @@ function Lottery() {
     setParticipationRecords(newRecords.reverse());
   };
 
-  useInterval(() => {
-    address ? getParticipationRecords() : setParticipationRecords([]);
-    address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
-    address
-      ? getWonParticipationRecords()
-      : setWonParticipationRecords({ totalPrizes: 0, records: [] });
-  }, 2000, { immediate: true });
+  useInterval(
+    () => {
+      address ? getParticipationRecords() : setParticipationRecords([]);
+      address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
+      address
+        ? getWonParticipationRecords()
+        : setWonParticipationRecords({ totalPrizes: 0, records: [] });
+    },
+    2000,
+    { immediate: true }
+  );
 
   // claim prize
   const [claimLoading, setClaimLoading] = useState(false);
