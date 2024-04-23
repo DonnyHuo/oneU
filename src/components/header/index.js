@@ -246,34 +246,46 @@ const Header = () => {
     return (
       <>
         <div className="p-2 border-b border-neutral-800">
-          <div className="flex items-center py-2 pl-4 pr-8 rounded-xl cursor-pointer list">
+          <a
+            href="https://discord.com"
+            target="_blank"
+            className="flex items-center py-2 pl-4 pr-8 rounded-xl cursor-pointer list"
+          >
             <img
               className="w-5 mr-2"
               src={require("../../asserts/img/Discord.png")}
               alt=""
             />
             Discord
-          </div>
+          </a>
         </div>
         <div className="p-2 border-b border-neutral-800">
-          <div className="flex items-center py-2 pl-4 pr-8 rounded-xl cursor-pointer list">
+          <a
+            href="https://twitter.com"
+            target="_blank"
+            className="flex items-center py-2 pl-4 pr-8 rounded-xl cursor-pointer list"
+          >
             <img
               className="w-5 mr-2"
               src={require("../../asserts/img/Twitter.png")}
               alt=""
             />
             Twitter
-          </div>
+          </a>
         </div>
         <div className="p-2">
-          <div className="flex items-center py-2 pl-4 pr-8 rounded-xl cursor-pointer list">
+          <a
+            href="https://github.com"
+            target="_blank"
+            className="flex items-center py-2 pl-4 pr-8 rounded-xl cursor-pointer list"
+          >
             <img
               className="w-5 mr-2"
               src={require("../../asserts/img/Github.png")}
               alt=""
             />
             Github
-          </div>
+          </a>
         </div>
       </>
     );
@@ -503,12 +515,38 @@ const Header = () => {
           <p className="pt-5 pb-5" onClick={onClose}>
             <a
               target="_blank"
-              href="https://www.google.com"
-              className={`ml-6 mr-6  flex items-center justify-between ${
-                location.pathname === "/discord" ? "_active" : ""
-              }`}
+              href="https://discord.com"
+              className={`ml-6 mr-6  flex items-center justify-between`}
             >
               <span>Discord</span>
+              <img
+                className="w-4"
+                src={require("../../asserts/img/drawerRight.png")}
+                alt=""
+              />
+            </a>
+          </p>
+          <p className="pt-5 pb-5" onClick={onClose}>
+            <a
+              target="_blank"
+              href="https://twitter.com"
+              className={`ml-6 mr-6  flex items-center justify-between`}
+            >
+              <span>Twitter</span>
+              <img
+                className="w-4"
+                src={require("../../asserts/img/drawerRight.png")}
+                alt=""
+              />
+            </a>
+          </p>
+          <p className="pt-5 pb-5" onClick={onClose}>
+            <a
+              target="_blank"
+              href="https://github.com"
+              className={`ml-6 mr-6  flex items-center justify-between`}
+            >
+              <span>Github</span>
               <img
                 className="w-4"
                 src={require("../../asserts/img/drawerRight.png")}
