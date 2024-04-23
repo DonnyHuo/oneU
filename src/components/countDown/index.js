@@ -1,4 +1,4 @@
-import { useInterval } from "../../hooks/useInterval";
+import { useInterval } from "ahooks";
 import { computeCountdownInfo } from "../../utils";
 import { useEffect, useState } from "react";
 

@@ -13,6 +13,10 @@
 html,
 body {
   font-family: Poppins-Regular;
+  overflow: auto;
+}
+a:hover {
+  color: #fff;
 }
 ._title {
   color: #f4f3f9;
@@ -52,6 +56,12 @@ body {
 }
 ._background2 {
   background-color: #1c172a;
+}
+._background3 {
+  background-color: #3d3952;
+}
+._background3:hover {
+  background-color: #0b051a;
 }
 ._background-gradient {
   background: linear-gradient(#181327, #361a58);
@@ -188,7 +198,7 @@ body {
   background: linear-gradient(to right, #ce00ff, #7f00ff) !important;
   color: #fff !important;
 }
-.ant-message-notice-content {
+.ant-message .ant-message-notice-wrapper .ant-message-notice-content {
   font-family: Poppins-Medium;
 }
 .ant-message-custom-content {
@@ -359,6 +369,29 @@ body {
   padding: 20px;
 }
 
+._borderS1 {
+  border: 1px solid #a851ff;
+}
+
+
+.communityList {
+  padding-top: 20px!important;
+}
+.communityList .ant-popover-inner {
+  border-radius: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 0;
+}
+
+.communityList .ant-popover-inner-content {
+  color: #f4f3f9;
+}
+.communityList .list:hover {
+  background-color: #2A2539;
+}
+
+
 @media screen and (min-width: 0px) and (max-width: 880px) {
   .w-36 {
     width: 100%;
@@ -373,7 +406,7 @@ body {
     inset: 70px 0 auto auto !important;
   }
   .accountInfo .ant-popover-content {
-    width: 200px;
+    width: 280px;
   }
   ._tutorialsInfo {
     width: 90%;
@@ -664,6 +697,9 @@ body {
     /* background-size: 40% 20%; */
     background-position: 20% 0%;
   }
+  ._flexM2 {
+    flex-direction: column;
+  }
 }
 
 @media screen and (min-width: 880px) and (max-width: 5000px) {
@@ -672,7 +708,7 @@ body {
     background-color: #0b051a;
   }
   .ant-modal-root .ant-modal-centered .ant-modal {
-    width: 420px !important;
+    width: 420px;
   }
   .h-24 {
     height: 6rem;

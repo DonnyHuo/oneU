@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   useWeb3Modal,
   useWeb3ModalAccount,
@@ -18,10 +18,11 @@ import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
 import { ethers } from "ethers";
 import { erc20Abi } from "viem";
-import { useInterval } from "../../hooks/useInterval";
+import { useInterval } from "ahooks";
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const logoIcon = require("../../asserts/img/logo.png");
   const { address, chainId, isConnected } = useWeb3ModalAccount();
 
@@ -76,8 +77,16 @@ const Header = () => {
   const userId = useSelector((state) => state.userId);
 
   useEffect(() => {
-    dispatch({ type: "CHANGE_REMODAL", payload: userId * 1 === 0 });
-  }, [userId]);
+    if (userId * 1 <= 0) {
+      const inviteCode = location.search.split("?code=")[1] * 1;
+      if (inviteCode * 1 > 0) {
+        setCode(inviteCode);
+      }
+      dispatch({ type: "CHANGE_REMODAL", payload: true });
+    } else {
+      dispatch({ type: "CHANGE_REMODAL", payload: false });
+    }
+  }, [address, userId]);
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -93,10 +102,10 @@ const Header = () => {
     )
       .then((res) => {
         setSignUpLoading(false);
-        dispatch({ type: "CHANGE_REMODAL", payload: false });
+        getUserId();
         setCode("");
         messageApi.success("Registration Success!");
-        getUserId();
+        dispatch({ type: "CHANGE_REMODAL", payload: false });
       })
       .catch((err) => {
         setSignUpLoading(false);
@@ -150,11 +159,11 @@ const Header = () => {
     );
     setUSDTBalance(balance);
   };
-  
-  useInterval(()=>{
+
+  useInterval(() => {
     address ? getBalance() : setETHBalance("--");
     address ? getUSDTBalance() : setUSDTBalance("--");
-  }, 2000)
+  }, 2000);
 
   const AccountContent = () => {
     const copy = (address) => {
@@ -165,21 +174,34 @@ const Header = () => {
       <div className="font-medium">
         {contextHolder}
         <div
-          className="flex items-center pb-3 border-b border-zinc-800 cursor-pointer"
+          className="flex items-center justify-between pb-3 border-b border-zinc-800 cursor-pointer"
           onClick={() => copy(address)}
         >
-          <img
-            className="w-7"
-            src={require("../../asserts/img/connect.png")}
-            alt=""
-          />
-          <span className="px-2">{shortStr(address)}</span>
+          <div className="flex items-center">
+            <img
+              className="w-7"
+              src={require("../../asserts/img/connect.png")}
+              alt=""
+            />
+            <span className="px-2">{shortStr(address)}</span>
 
-          <img
-            className="w-3"
-            src={require("../../asserts/img/copy.png")}
-            alt=""
-          />
+            <img
+              className="w-3"
+              src={require("../../asserts/img/copy.png")}
+              alt=""
+            />
+          </div>
+          <div className="rounded-xl _background3 p-2 flex items-center justify-center">
+            <img
+              className="w-4"
+              src={require("../../asserts/img/closeWallet.png")}
+              onClick={() => {
+                setOpenUserAccount(false);
+                disconnect();
+              }}
+              alt=""
+            />
+          </div>
         </div>
         <div>
           <div className="flex items-center justify-between mt-5">
@@ -206,25 +228,61 @@ const Header = () => {
           </div>
         </div>
         <div className="text-center">
-          <button
-            className="mt-5 w-full h-11 rounded"
-            style={{ background: "#2A2539" }}
-            onClick={() => {
-              setOpenUserAccount(false);
-              disconnect();
-            }}
-          >
-            Disconnect Wallet
-          </button>
+          <a href="https://o3swap.com/swap" target="_black">
+            <button className="mt-5 w-full h-11 rounded-xl _borderS">
+              Bridge and Swap
+            </button>
+          </a>
         </div>
       </div>
+    );
+  };
+
+  const [openCommunity, setOpenCommunity] = useState(false);
+  const OpenCommunityChange = (newOpen) => {
+    setOpenCommunity(newOpen);
+  };
+  const Community = () => {
+    return (
+      <>
+        <div className="p-2 border-b border-neutral-800">
+          <div className="flex items-center py-2 pl-4 pr-8 rounded-xl cursor-pointer list">
+            <img
+              className="w-5 mr-2"
+              src={require("../../asserts/img/Discord.png")}
+              alt=""
+            />
+            Discord
+          </div>
+        </div>
+        <div className="p-2 border-b border-neutral-800">
+          <div className="flex items-center py-2 pl-4 pr-8 rounded-xl cursor-pointer list">
+            <img
+              className="w-5 mr-2"
+              src={require("../../asserts/img/Twitter.png")}
+              alt=""
+            />
+            Twitter
+          </div>
+        </div>
+        <div className="p-2">
+          <div className="flex items-center py-2 pl-4 pr-8 rounded-xl cursor-pointer list">
+            <img
+              className="w-5 mr-2"
+              src={require("../../asserts/img/Github.png")}
+              alt=""
+            />
+            Github
+          </div>
+        </div>
+      </>
     );
   };
 
   return (
     <div className="h-18 flex items-center justify-between pl-5 pr-5 border-spacing-1 text-white _background1 _line relative">
       <div>
-        <Link to="/">
+        <Link to="">
           <img className="h-5 mt-6 mb-6" src={logoIcon} alt="" />
         </Link>
       </div>
@@ -261,15 +319,28 @@ const Header = () => {
         >
           Tutorials
         </Link>
-        <a
-          target="_blank"
-          href="https://www.google.com"
-          className={`ml-6 mr-6 ${
-            location.pathname === "/discord" ? "_active" : "_title"
-          }`}
+
+        <Popover
+          content={<Community />}
+          trigger="click"
+          placement="bottom"
+          arrow={false}
+          color={"#1C172A"}
+          open={openCommunity}
+          onOpenChange={OpenCommunityChange}
+          overlayClassName="communityList"
         >
-          Discord
-        </a>
+          <button className="px-6 cursor-pointer flex items-center">
+            <span>Community</span>
+            <img
+              className={`w-3 ml-1 mt-0.5 ${
+                openCommunity ? "rotate-180" : "animate-bounce"
+              }`}
+              src={require("../../asserts/img/down.png")}
+              alt=""
+            />
+          </button>
+        </Popover>
       </div>
       <div className="flex items-center">
         <a
@@ -314,13 +385,18 @@ const Header = () => {
               onOpenChange={handleOpenChange}
               overlayClassName="accountInfo"
             >
-              <div className="flex items-center">
+              <div className="flex items-center justify-between">
                 <img
                   className="w-5"
                   src={require("../../asserts/img/connect.png")}
                   alt=""
                 />
                 <span className="pl-2 _hiddenM">{shortStr(address, 5, 4)}</span>
+                <img
+                  className="w-3 ml-2 mt-0.5 _hiddenM"
+                  src={require("../../asserts/img/walletDown.png")}
+                  alt=""
+                />
               </div>
             </Popover>
           ) : (
@@ -446,10 +522,12 @@ const Header = () => {
         title="Got an invite code?"
         destroyOnClose={true}
         centered
+        maskClosable={false}
         open={reModalOpen}
         onCancel={() => {
           dispatch({ type: "CHANGE_REMODAL", payload: false });
           setCode("");
+          navigate("");
         }}
         footer={false}
         closeIcon={

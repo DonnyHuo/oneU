@@ -15,9 +15,11 @@ function Referral() {
   const userId = useSelector((state) => state.userId);
 
   const [messageApi, contextHolder] = message.useMessage();
-  const copyInfo = () => {
-    messageApi.success("Copied Success!");
-    navigator.clipboard.writeText(userId);
+  const copyInfo = (msg) => {
+    if (userId * 1 > 0) {
+      messageApi.success("Copied Success!");
+      navigator.clipboard.writeText(msg);
+    }
   };
 
   const poolManager = useSelector((state) => state.poolManager);
@@ -131,26 +133,33 @@ function Referral() {
                 alt=""
               />
             </div>
-            <div
-              className="flex items-center mt-10 _marginAutoM"
-              style={{ maxWidth: "500px" }}
-            >
-              <div
-                className="h-10 _border flex items-center justify-between pr-3 pl-3 rounded-lg text-sm _background-code"
-                style={{ width: "70%" }}
-              >
-                <span className="_text font-medium">Invite Code</span>
-                <div className="flex items-center">
-                  <span className="pr-4">{userId * 1 > 0 ? userId : "--"}</span>
-                  {contextHolder}
-                  <button className="mx-1 _active" onClick={copyInfo}>
-                    Copy
-                  </button>
+            <div className="mt-10 _marginAutoM" style={{ maxWidth: "500px" }}>
+              <div className="flex items-center justify-between">
+                <div className="font-bold">Invite Friends</div>
+                <div className="flex items-center justify-between">
+                  <span className="_text">Invite Code:</span>
+                  <span className="mx-2 _active">
+                    {userId * 1 > 0 ? userId : "--"}
+                  </span>
+                  <img
+                    onClick={() => copyInfo(userId)}
+                    className="w-4 cursor-pointer"
+                    src={require("../../asserts/img/copyS.png")}
+                  />
                 </div>
               </div>
-              <button className="_borderS h-10 pr-6 pl-6 rounded-lg ml-6 flex items-center justify-center text-sm">
-                Invite <span className="_hiddenM pl-1"> Friends</span>
-              </button>
+              <div className="flex items-center justify-between mt-3 border rounded-md _borderS1 relative text-nowrap">
+                <span className="px-4 py-3 leading-5 text-sm">{`${window.location.origin}?code=${userId}`}</span>
+                <button
+                  onClick={() =>
+                    copyInfo(`${window.location.origin}?code=${userId}`)
+                  }
+                  className="px-4 _background-gradient2 absolute rounded-r-md"
+                  style={{ top: "-1px", right: "-1px", height: "46px" }}
+                >
+                  Copy <span className="_hiddenM"> link</span>
+                </button>
+              </div>
             </div>
           </div>
           <div className="pr-4 _hiddenM">
@@ -207,8 +216,7 @@ function Referral() {
                         alt=""
                       />
                       <span className="text-2xl text-white font-bold">
-                        {userId > 0 ? rewardAccrued : "--"}{" "}
-                        {usdtSymbol}
+                        {userId > 0 ? rewardAccrued : "--"} {usdtSymbol}
                       </span>
                     </div>
                     <p className="pt-4 text-xs">Unclaimed comission</p>

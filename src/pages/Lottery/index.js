@@ -1,5 +1,9 @@
-import { useRef, useEffect, useState, createRef, useMemo } from "react";
-import { useWeb3ModalProvider, useWeb3Modal } from "@web3modal/ethers5/react";
+import { useEffect, useState, createRef } from "react";
+import {
+  useWeb3ModalProvider,
+  useWeb3Modal,
+  useWeb3ModalAccount,
+} from "@web3modal/ethers5/react";
 import {
   Select,
   Progress,
@@ -15,6 +19,7 @@ import {
   getWriteContractLoad,
   shortStr,
   makeRandomArr,
+  chainList,
 } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
@@ -23,11 +28,13 @@ import { ethers } from "ethers";
 import moment from "moment";
 import CountDown from "../../components/countDown";
 import Footer from "../../components/footer";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useInterval } from "../../hooks/useInterval";
+import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useInterval } from "ahooks";
 import JSConfetti from "js-confetti";
 
 function Lottery() {
+  const { chainId } = useWeb3ModalAccount();
+  const chainInfo = chainList.filter((list) => list.networkId == chainId)[0];
   const { walletProvider } = useWeb3ModalProvider();
   const { open } = useWeb3Modal();
   const descList = [
@@ -583,6 +590,7 @@ function Lottery() {
       setRememberOldTickets(wonTickets);
       if (JSON.stringify(rememberOldTickets) !== JSON.stringify(wonTickets)) {
         const jsConfetti = new JSConfetti();
+        setIsWonOpen(true);
         jsConfetti
           .addConfetti({
             // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
@@ -595,7 +603,7 @@ function Lottery() {
             //   "#f9bec7",
             // ],
             // confettiRadius: 6,
-            // confettiNumber: 2000,
+            confettiNumber: 2000,
           })
           .then(() => console.log("Confetti animation completed!"));
       }
@@ -726,6 +734,8 @@ function Lottery() {
       carouselRef.current.prev();
     }
   };
+
+  const [isWonOpen, setIsWonOpen] = useState(false);
 
   return (
     <div className="_background1 _background-home text-center">
@@ -922,7 +932,7 @@ function Lottery() {
                               disabled={
                                 ![2, 5].includes(list?.roundInfo?.status * 1)
                               }
-                              className="rounded-full p-2 pr-12 pl-12 h-10 _title _listBtn"
+                              className="rounded-full p-2 w-40 h-10 _title _listBtn"
                               onClick={() => {
                                 if (list?.roundInfo?.status * 1 == 2) {
                                   clickBuyBtnFun(list);
@@ -1224,6 +1234,24 @@ function Lottery() {
               </div>
             )}
           </div>
+          {!tab && (
+            <div
+              className="h-16 _background2 rounded-xl mx-auto mt-10 flex items-center justify-between px-4"
+              style={{ maxWidth: "1100px" }}
+            >
+              <span>Contract Address</span>
+              <a
+                href={`${chainInfo?.explorerUrl}/address/${poolManager}#code`}
+                target="_blank"
+                className="flex items-center"
+              >
+                <span className="_text">{poolManager}</span>
+                <button className="border rounded-xl px-3 py-1 ml-2 _borderS text-sm">
+                  Details
+                </button>
+              </a>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1397,7 +1425,40 @@ function Lottery() {
           A total of {selectTickets.length} lottery numbers
         </div>
       </Modal>
-
+      <Modal
+        title="Congratulations!"
+        centered
+        destroyOnClose={true}
+        open={isWonOpen}
+        onCancel={() => setIsWonOpen(false)}
+        footer={false}
+        zIndex={1}
+        closeIcon={
+          <img
+            className="w-6 mt-3 mr-2"
+            src={require("../../asserts/img/closeModal.png")}
+            alt=""
+          />
+        }
+        width={380}
+      >
+        <div className="text-center">
+          <img
+            className="w-32 mx-auto"
+            src={require("../../asserts/img/Congratulations.png")}
+            alt=""
+          />
+          <div className="flex items-center justify-between mt-10 _title _flexM2">
+            <div>You got <span className="_active">{unclaimedPrizes}</span> {USDTSymbol}!</div>
+            <div>Winning Number: <span className="_active">{wonTickets}</span></div>
+          </div>
+          <Link to="/?reward" onClick={()=>{setIsWonOpen(false)}}>
+            <button className="w-full _borderS rounded-full _background-gradient2 py-3 mt-6 font-bold">
+              Go To Claim
+            </button>
+          </Link>
+        </div>
+      </Modal>
       <Footer />
     </div>
   );
