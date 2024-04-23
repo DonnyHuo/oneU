@@ -298,7 +298,7 @@ function Lottery() {
       };
       options.push(option);
     }
-    return options;
+    return options.reverse();
   };
 
   const epochChange = async (value, list) => {
