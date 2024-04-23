@@ -1236,7 +1236,7 @@ function Lottery() {
           </div>
           {!tab && (
             <div
-              className="h-16 _background2 rounded-xl mx-auto mt-10 flex items-center justify-between px-4"
+              className="h-16 _background2 rounded-xl mx-auto mt-10 text-sm flex items-center justify-between px-4 _widthM"
               style={{ maxWidth: "1100px" }}
             >
               <span>Contract Address</span>
@@ -1245,7 +1245,8 @@ function Lottery() {
                 target="_blank"
                 className="flex items-center"
               >
-                <span className="_text">{poolManager}</span>
+                <span className="_text _hiddenM">{poolManager}</span>
+                <span className="_text _hiddenP">{shortStr(poolManager)}</span>
                 <button className="border rounded-xl px-3 py-1 ml-2 _borderS text-sm">
                   Details
                 </button>
@@ -1262,6 +1263,7 @@ function Lottery() {
         open={isShareOpen}
         onCancel={() => setIsShareOpen(false)}
         footer={false}
+        width={420}
         closeIcon={
           <img
             className="w-6 mt-3 mr-2"
