@@ -111,10 +111,11 @@ createWeb3Modal({
   ethersConfig,
   chains: networks,
   projectId,
+  allowUnsupportedChain: false,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   themeVariables: {
-    '--w3m-font-family': 'Poppins-Regular',
-    '--w3m-font-size-master': '10px',
+    "--w3m-font-family": "Poppins-Regular",
+    "--w3m-font-size-master": "10px",
   },
 });
 const root = ReactDOM.createRoot(document.getElementById("root"));

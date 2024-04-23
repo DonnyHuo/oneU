@@ -506,7 +506,7 @@ function Lottery() {
       .catch((err) => {
         setBuyLoading(false);
         api["error"]({
-          message: `"Buy Fail!`,
+          message: `Buy Fail!`,
         });
         console.log(err);
       });
@@ -620,14 +620,14 @@ function Lottery() {
         jsConfetti
           .addConfetti({
             // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
-            // confettiColors: [
-            //   "#ff0a54",
-            //   "#ff477e",
-            //   "#ff7096",
-            //   "#ff85a1",
-            //   "#fbb1bd",
-            //   "#f9bec7",
-            // ],
+            confettiColors: [
+              "#FDB630",
+              "#32F7B0",
+              "#3BCB97",
+              "#0F87D0",
+              "#FD3B86",
+              "#FECD3F",
+            ],
             // confettiRadius: 6,
             confettiNumber: 2000,
           })
