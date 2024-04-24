@@ -20,6 +20,7 @@ import {
   shortStr,
   makeRandomArr,
   chainList,
+  getNewTickets,
 } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
@@ -287,9 +288,9 @@ function Lottery() {
     }
   };
 
-  useInterval(()=>{
-    openingRoundFun()
-  }, 3000)
+  useInterval(() => {
+    openingRoundFun();
+  }, 3000);
 
   const getPoolList = async () => {
     // 获取所有池子的信息
@@ -875,7 +876,7 @@ function Lottery() {
   };
 
   const transferFun = (list) => {
-    let numArr = Array.from(list.toString()).map(Number);
+    let numArr = Array.from(list?.toString()).map(Number);
     return numArr;
   };
 
@@ -1031,7 +1032,7 @@ function Lottery() {
                             >
                               {list?.roundInfo?.winNumber * 1 == 0
                                 ? "To be drawn"
-                                : list?.roundInfo?.winNumber}
+                                : getNewTickets(list?.roundInfo?.winNumber * 1)}
                             </div>
                             <div className="text-xs leading-4">
                               Winning Number
@@ -1334,7 +1335,7 @@ function Lottery() {
                                   <span className="_active">
                                     {list?.winNumber * 1 == 0
                                       ? "--"
-                                      : list?.winNumber}
+                                      : getNewTickets(list?.winNumber * 1)}
                                   </span>
                                 </td>
                                 <td>
@@ -1346,7 +1347,9 @@ function Lottery() {
                                   <Button
                                     className="tableBtn min-w-24"
                                     onClick={() => {
-                                      setSelectTickets(list?.tickets);
+                                      setSelectTickets(
+                                        getNewTickets(list?.tickets)
+                                      );
                                       setIsRewardOpen(true);
                                     }}
                                   >
@@ -1393,7 +1396,9 @@ function Lottery() {
                                 </span>
                                 <span
                                   onClick={() => {
-                                    setSelectTickets(list?.tickets);
+                                    setSelectTickets(
+                                      getNewTickets(list?.tickets)
+                                    );
                                     setIsRewardOpen(true);
                                   }}
                                   className="_active"
@@ -1647,7 +1652,9 @@ function Lottery() {
               </div>
               <div className="flex-auto">
                 Winning Number:{" "}
-                <span className="_active">{openingRound.winNumber}</span>
+                <span className="_active">
+                  {getNewTickets(openingRound.winNumber * 1)}
+                </span>
               </div>
             </div>
             <Link
@@ -1693,7 +1700,9 @@ function Lottery() {
               <div className="flex-auto">Better luck next time!</div>
               <div className="flex-auto">
                 Winning Number:{" "}
-                <span className="_active">{openingRound.winNumber}</span>
+                <span className="_active">
+                  {getNewTickets(openingRound.winNumber * 1)}
+                </span>
               </div>
             </div>
             <button

@@ -60,6 +60,42 @@ export const makeRandomArr = (arrList, num) => {
   return newArrList;
 };
 
+
+
+
+export const getNewTickets = (tickets) => {
+  if (Array.isArray(tickets)) {
+    return tickets.map((item) => {
+      if (item * 1 < 10) {
+        return `00${item}`;
+      }
+      if (item * 1 < 100) {
+        return `0${item}`;
+      }
+      if (item * 1 == 100) {
+        return `${item}`;
+      }
+      if (item * 1 > 100) {
+        return item;
+      }
+    });
+  }
+  if (typeof tickets == "number") {
+    if (tickets * 1 < 10) {
+      return `00${tickets}`;
+    }
+    if (tickets * 1 < 100) {
+      return `0${tickets}`;
+    }
+    if (tickets * 1 == 100) {
+      return `${tickets}`;
+    }
+    if (tickets * 1 > 100) {
+      return tickets;
+    }
+  }
+};
+
 const infuraProvider = new ethers.providers.InfuraProvider(
   "sepolia",
   "f9eae046939d4b969a42a377d109d17a"
