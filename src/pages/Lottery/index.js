@@ -31,6 +31,7 @@ import Footer from "../../components/footer";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useInterval } from "ahooks";
 import JSConfetti from "js-confetti";
+import { StickyContainer, Sticky } from "react-sticky";
 
 function Lottery() {
   const { chainId } = useWeb3ModalAccount();
@@ -772,747 +773,768 @@ function Lottery() {
   };
 
   return (
-    <div className="_background1 _background-home text-center">
-      <div className="_background-home2">
-        <div className="text-white">
-          <div className="text-6xl font-bold _title _size35 pt-32">
-            Win Crypto Lotteries With One USDT
-          </div>
-          <div className="text-sm mt-5 _title _hiddenM">
-            Users can win crypto lotteries such as BTC/ETH/SOL assets with just
-            1 USDT, trusted by the smart contract.
-          </div>
-          <div className="text-sm mt-5 _title _hiddenP pr-2 pl-2">
-            Users can win crypto lotteries such as USDT assets with just 1 USDT,
-            trusted by the smart contract.
-          </div>
-          <div className="flex items-start justify-around _widthP _marginAuto _widthM _size12">
-            {descList.map((list, index) => {
-              return (
-                <div key={index} className="w-3/12 text-center _widthM-30">
-                  <div className="flex items-center justify-center">
-                    <img className="w-16" src={list.imgUrl} alt="" />
-                  </div>
-                  <div className="mt-5 mb-2 font-bold _title">{list.title}</div>
-                  <div className="text-sm _nav-title _hiddenM">{list.desc}</div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="_border px-6 pt-8 pb-6 rounded-xl mt-10 _widthP _marginAuto0 _widthM _borderNo _paddingNo">
-            <div className="flex items-center text-lg mb-6 _marginBottom _justA">
-              <div className="flex items-center font-bold">
-                <button
-                  className={!tab ? "_title" : "_text"}
-                  onClick={() => setTabFun(0)}
-                >
-                  Ongoing Lotteries
-                </button>
-              </div>
-              <button
-                onClick={() => setTabFun(1)}
-                className={`${tab ? "_title" : "_text"} ml-5 font-bold`}
-              >
-                My Reward
-              </button>
+    <StickyContainer>
+      <div className="_background1 _background-home text-center">
+        <div className="_background-home2">
+          <div className="text-white">
+            <div className="text-6xl font-bold _title _size35 pt-32">
+              Win Crypto Lotteries With One USDT
             </div>
-
-            {!tab ? (
-              <div className="">
-                {pools.map((list, index) => {
+            <div className="text-sm mt-5 _title _hiddenM">
+              Users can win crypto lotteries such as BTC/ETH/SOL assets with
+              just 1 USDT, trusted by the smart contract.
+            </div>
+            <div className="text-sm mt-5 _title _hiddenP pr-2 pl-2">
+              Users can win crypto lotteries such as USDT assets with just 1
+              USDT, trusted by the smart contract.
+            </div>
+            <div className="flex items-start justify-around _widthP _marginAuto _widthM _size12">
+              {descList.map((list, index) => {
+                return (
+                  <div key={index} className="w-3/12 text-center _widthM-30">
+                    <div className="flex items-center justify-center">
+                      <img className="w-16" src={list.imgUrl} alt="" />
+                    </div>
+                    <div className="mt-5 mb-2 font-bold _title">
+                      {list.title}
+                    </div>
+                    <div className="text-sm _nav-title _hiddenM">
+                      {list.desc}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="_border px-6 rounded-xl _widthP _marginAuto0 _widthM _borderNo _paddingNo">
+              <Sticky topOffset={400}>
+                {(props) => {
                   return (
                     <div
-                      key={index}
-                      className="rounded-xl p-6 _background-gradient4 mt-6 relative"
+                      className="flex items-center text-lg _justA z-50 _background1 h-16"
+                      style={props.style}
                     >
-                      <div
-                        className={`text-white _roundStatus _roundStatus${list?.roundInfo?.status}`}
+                      <div className="flex items-center font-bold">
+                        <button
+                          className={!tab ? "_title" : "_text"}
+                          onClick={() => setTabFun(0)}
+                        >
+                          Ongoing Lotteries
+                        </button>
+                      </div>
+                      <button
+                        onClick={() => setTabFun(1)}
+                        className={`${tab ? "_title" : "_text"} ml-5 font-bold`}
                       >
-                        {switchStatus(list?.roundInfo?.status)}
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="_text text-xs">
-                          <span className="pr-2">Epoch</span>
-                          <Select
-                            popupClassName="epochSelect"
-                            className="w-20 h-6 _backgroundNo"
-                            defaultValue={list.currentRound}
-                            value={
-                              rememberSelect[index]?.selectRound ||
-                              list.currentRound
-                            }
-                            onChange={(value) => epochChange(value, list)}
-                            overlayClassName="dropdown-class"
-                            options={epochOptions(list.currentRound)}
-                            suffixIcon={
-                              <img
-                                style={{ width: "10px", marginRight: "10px" }}
-                                src={require("../../asserts/img/down.png")}
-                                alt=""
-                              />
-                            }
-                          />
-                          <span className="pl-2 _hiddenM">
-                            Next Epoch Start At:{" "}
-                            {moment(
-                              list?.roundInfo?.endTime * 1000 +
-                                list?.roundGapTime * 1000
-                            ).format("YYYY-MM-DD HH:mm:ss")}
-                          </span>
+                        My Reward
+                      </button>
+                    </div>
+                  );
+                }}
+              </Sticky>
+
+              {!tab ? (
+                <div className="">
+                  {pools.map((list, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="rounded-xl p-6 _background-gradient4 mb-6 relative"
+                      >
+                        <div
+                          className={`text-white _roundStatus _roundStatus${list?.roundInfo?.status}`}
+                        >
+                          {switchStatus(list?.roundInfo?.status)}
                         </div>
-                      </div>
-                      <div className="flex items-start _text text-sm mt-5 text-left _homeListM">
-                        <div className="w-36 h-24 flex flex-col justify-between">
-                          <div>Reward Pool</div>
-                          <div className="text-3xl _title _pt-20 _pb-20 _active font-bold">
-                            <span>{(list?.prize * 1).toLocaleString()}</span>
-                            <span className="ml-2">{list?.rewardSymbol}</span>
-                          </div>
-                          <Popover
-                            content={list.contractAddress}
-                            placement="topLeft"
-                            trigger="hover"
-                            overlayClassName="_popover"
-                            className="_hiddenM"
-                          >
-                            <button className="text-left text-xs underline decoration-slate-400 decoration-1 _popoverBtn">
-                              Pool Id
-                            </button>
-                          </Popover>
-                        </div>
-                        <div className="w-40 h-24 flex flex-col justify-between _hiddenM ml-20">
-                          <div className="_title leading-4">
-                            {moment(list?.roundInfo?.endTime * 1000).format(
-                              "YYYY-MM-DD HH:mm:ss"
-                            )}
-                          </div>
-                          <div className="text-xs leading-4">End Time</div>
-                          <div
-                            className={`_title mt-2 leading-4 ${
-                              list?.roundInfo?.winNumber * 1 !== 0 &&
-                              "_winNumber"
-                            }`}
-                          >
-                            {list?.roundInfo?.winNumber * 1 == 0
-                              ? "To be drawn"
-                              : list?.roundInfo?.winNumber}
-                          </div>
-                          <div className="text-xs leading-4">
-                            Winning Number
+                        <div className="flex items-center justify-between">
+                          <div className="_text text-xs">
+                            <span className="pr-2">Epoch</span>
+                            <Select
+                              popupClassName="epochSelect"
+                              className="w-20 h-6 _backgroundNo"
+                              defaultValue={list.currentRound}
+                              value={
+                                rememberSelect[index]?.selectRound ||
+                                list.currentRound
+                              }
+                              onChange={(value) => epochChange(value, list)}
+                              overlayClassName="dropdown-class"
+                              options={epochOptions(list.currentRound)}
+                              suffixIcon={
+                                <img
+                                  style={{ width: "10px", marginRight: "10px" }}
+                                  src={require("../../asserts/img/down.png")}
+                                  alt=""
+                                />
+                              }
+                            />
+                            <span className="pl-2 _hiddenM">
+                              Next Epoch Start At:{" "}
+                              {moment(
+                                list?.roundInfo?.endTime * 1000 +
+                                  list?.roundGapTime * 1000
+                              ).format("YYYY-MM-DD HH:mm:ss")}
+                            </span>
                           </div>
                         </div>
-                        <div className="_hiddenP pt-4 mt-4 pb-4 mb-8 _borderLine _hiddenM">
-                          <div className="flex item-center justify-between h-6">
-                            <div className="text-xs">Draw Time</div>
-                            <div className="_title">
+                        <div className="flex items-start _text text-sm mt-5 text-left _homeListM">
+                          <div className="w-36 h-24 flex flex-col justify-between">
+                            <div>Reward Pool</div>
+                            <div className="text-3xl _title _pt-20 _pb-20 _active font-bold">
+                              <span>{(list?.prize * 1).toLocaleString()}</span>
+                              <span className="ml-2">{list?.rewardSymbol}</span>
+                            </div>
+                            <Popover
+                              content={list.contractAddress}
+                              placement="topLeft"
+                              trigger="hover"
+                              overlayClassName="_popover"
+                              className="_hiddenM"
+                            >
+                              <button className="text-left text-xs underline decoration-slate-400 decoration-1 _popoverBtn">
+                                Pool Id
+                              </button>
+                            </Popover>
+                          </div>
+                          <div className="w-40 h-24 flex flex-col justify-between _hiddenM ml-20">
+                            <div className="_title leading-4">
                               {moment(list?.roundInfo?.endTime * 1000).format(
                                 "YYYY-MM-DD HH:mm:ss"
                               )}
                             </div>
-                          </div>
-                          <div className="flex item-center justify-between h-6 _hiddenM">
-                            <div className="text-xs">Winning Number</div>
-                            <div className="_title">
+                            <div className="text-xs leading-4">End Time</div>
+                            <div
+                              className={`_title mt-2 leading-4 ${
+                                list?.roundInfo?.winNumber * 1 !== 0 &&
+                                "_winNumber"
+                              }`}
+                            >
                               {list?.roundInfo?.winNumber * 1 == 0
-                                ? "--"
+                                ? "To be drawn"
                                 : list?.roundInfo?.winNumber}
                             </div>
+                            <div className="text-xs leading-4">
+                              Winning Number
+                            </div>
                           </div>
-                        </div>
-                        <div className="w-80 h-24 flex flex-col justify-between _title  ml-16">
-                          <div className="_hiddenM">
-                            <span>
-                              Win {list?.prize * 1} {list?.rewardSymbol} lottery
-                              with just
-                            </span>
-                            <span className="_tip-yellow pl-1">
-                              {list?.pricePerTicket * 1}
-                              <span className="pl-1">{list?.rewardSymbol}</span>
-                            </span>
-                            .
-                          </div>
-                          <div>
-                            <Progress
-                              percent={
-                                (100 *
-                                  (list?.totalTickets * 1 -
-                                    list?.roundInfo?.leftTickets * 1)) /
-                                list?.totalTickets
-                              }
-                              strokeColor={
-                                "linear-gradient(180deg, #CE00FF 0%, #7F00FF 100%)"
-                              }
-                              trailColor={"rgba(163,159,173, 0.2)"}
-                            />
-                          </div>
-                          <div className="flex items-center justify-between _pt-10">
-                            <span>
-                              Tickets Purchased:
-                              <span className="_active pl-2">
-                                {list?.totalTickets * 1 -
-                                  list?.roundInfo?.leftTickets * 1}
-                              </span>
-                            </span>
-                            <span>Total Tickets: {list?.totalTickets}</span>
-                          </div>
-                        </div>
-                        <div
-                          className="h-24 flex flex-col justify-between ml-auto"
-                          // style={{ minWidth: "200px" }}
-                        >
-                          {contextHolder}
-                          <div className="text-right">
-                            <Button
-                              disabled={
-                                ![2, 5].includes(list?.roundInfo?.status * 1)
-                              }
-                              className="rounded-full p-2 w-40 h-10 _title _listBtn"
-                              onClick={() => {
-                                if (list?.roundInfo?.status * 1 == 2) {
-                                  clickBuyBtnFun(list);
-                                }
-                                if (
-                                  list?.roundInfo?.status * 1 == 5 &&
-                                  list?.roundInfo?.vrfRequestId * 1 == 0
-                                ) {
-                                  clickLotteryDraw(list, index);
-                                }
-                              }}
-                            >
-                              {[1, 2, 3].includes(
-                                list?.roundInfo?.status * 1
-                              ) && "Buy Tickets"}
-                              {list?.roundInfo?.status * 1 == 4 && "Drawn"}
-                              {list?.roundInfo?.status * 1 == 5 &&
-                                "Instant Drawing"}
-                            </Button>
-                          </div>
-                          <div className="_title _justB text-center">
-                            <span>
-                              {list?.roundInfo?.status == 2 && (
-                                <>
-                                  Time to end:{" "}
-                                  <CountDown
-                                    offsetTimestamp={Math.abs(
-                                      list?.roundInfo?.endTime - nowDate
-                                    )}
-                                  />
-                                </>
-                              )}
-                              {list?.roundInfo?.status == 1 && (
-                                <>
-                                  Time to start:{" "}
-                                  <CountDown
-                                    offsetTimestamp={Math.abs(
-                                      list?.roundInfo?.startTime - nowDate
-                                    )}
-                                  />
-                                </>
-                              )}
-                              {list?.roundInfo?.status == 3 && (
-                                <>
-                                  End Time:{" "}
-                                  {moment(
-                                    list?.roundInfo?.endTime * 1000
-                                  ).format("MM-DD HH:mm:ss")}
-                                </>
-                              )}
-                              {[4, 5].includes(list?.roundInfo?.status) && (
-                                <>Time to end: {"00:00:00"}</>
-                              )}
-                            </span>
-                            <button
-                              className="_hiddenP _yellow font-bold"
-                              onClick={() => setShowMoreInfoFun(index)}
-                            >
-                              more view
-                            </button>
-                          </div>
-                          {list.showMore && (
-                            <div className="_hiddenP _orderInfo">
-                              <div>
-                                <span>End Time</span>
-                                <span className="text-white">
-                                  {moment(
-                                    list?.roundInfo?.endTime * 1000
-                                  ).format("YYYY-MM-DD HH:mm:ss")}
-                                </span>
-                              </div>
-                              <div>
-                                <span>Winning Number</span>
-                                <span
-                                  className={`_title ${
-                                    list?.roundInfo?.winNumber * 1 !== 0 &&
-                                    "_winNumber"
-                                  }`}
-                                >
-                                  {list?.roundInfo?.winNumber * 1 == 0
-                                    ? "To be drawn"
-                                    : list?.roundInfo?.winNumber}
-                                </span>
-                              </div>
-                              <div>
-                                <span>Contract Address</span>
-                                <Popover
-                                  content={list.contractAddress}
-                                  placement="topRight"
-                                  trigger="click"
-                                  overlayClassName="_popover"
-                                >
-                                  <button className="text-left text-xs text-white underline decoration-slate-400 decoration-1 _popoverBtn">
-                                    {shortStr(list.contractAddress)}
-                                  </button>
-                                </Popover>
-                              </div>
-                              <div>
-                                <span>Next Epoch Start At</span>
-                                <span className="text-white">
-                                  {moment(
-                                    list?.roundInfo?.endTime * 1000 +
-                                      list?.roundGapTime * 1000
-                                  ).format("YYYY-MM-DD HH:mm:ss")}
-                                </span>
+                          <div className="_hiddenP pt-4 mt-4 pb-4 mb-8 _borderLine _hiddenM">
+                            <div className="flex item-center justify-between h-6">
+                              <div className="text-xs">Draw Time</div>
+                              <div className="_title">
+                                {moment(list?.roundInfo?.endTime * 1000).format(
+                                  "YYYY-MM-DD HH:mm:ss"
+                                )}
                               </div>
                             </div>
-                          )}
+                            <div className="flex item-center justify-between h-6 _hiddenM">
+                              <div className="text-xs">Winning Number</div>
+                              <div className="_title">
+                                {list?.roundInfo?.winNumber * 1 == 0
+                                  ? "--"
+                                  : list?.roundInfo?.winNumber}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="w-80 h-24 flex flex-col justify-between _title  ml-16">
+                            <div className="_hiddenM">
+                              <span>
+                                Win {list?.prize * 1} {list?.rewardSymbol}{" "}
+                                lottery with just
+                              </span>
+                              <span className="_tip-yellow pl-1">
+                                {list?.pricePerTicket * 1}
+                                <span className="pl-1">
+                                  {list?.rewardSymbol}
+                                </span>
+                              </span>
+                              .
+                            </div>
+                            <div>
+                              <Progress
+                                percent={
+                                  (100 *
+                                    (list?.totalTickets * 1 -
+                                      list?.roundInfo?.leftTickets * 1)) /
+                                  list?.totalTickets
+                                }
+                                strokeColor={
+                                  "linear-gradient(180deg, #CE00FF 0%, #7F00FF 100%)"
+                                }
+                                trailColor={"rgba(163,159,173, 0.2)"}
+                              />
+                            </div>
+                            <div className="flex items-center justify-between _pt-10">
+                              <span>
+                                Tickets Purchased:
+                                <span className="_active pl-2">
+                                  {list?.totalTickets * 1 -
+                                    list?.roundInfo?.leftTickets * 1}
+                                </span>
+                              </span>
+                              <span>Total Tickets: {list?.totalTickets}</span>
+                            </div>
+                          </div>
+                          <div
+                            className="h-24 flex flex-col justify-between ml-auto"
+                            // style={{ minWidth: "200px" }}
+                          >
+                            {contextHolder}
+                            <div className="text-right">
+                              <Button
+                                disabled={
+                                  ![2, 5].includes(list?.roundInfo?.status * 1)
+                                }
+                                className="rounded-full p-2 w-40 h-10 _title _listBtn"
+                                onClick={() => {
+                                  if (list?.roundInfo?.status * 1 == 2) {
+                                    clickBuyBtnFun(list);
+                                  }
+                                  if (
+                                    list?.roundInfo?.status * 1 == 5 &&
+                                    list?.roundInfo?.vrfRequestId * 1 == 0
+                                  ) {
+                                    clickLotteryDraw(list, index);
+                                  }
+                                }}
+                              >
+                                {[1, 2, 3].includes(
+                                  list?.roundInfo?.status * 1
+                                ) && "Buy Tickets"}
+                                {list?.roundInfo?.status * 1 == 4 && "Drawn"}
+                                {list?.roundInfo?.status * 1 == 5 &&
+                                  "Instant Drawing"}
+                              </Button>
+                            </div>
+                            <div className="_title _justB text-center">
+                              <span>
+                                {list?.roundInfo?.status == 2 && (
+                                  <>
+                                    Time to end:{" "}
+                                    <CountDown
+                                      offsetTimestamp={Math.abs(
+                                        list?.roundInfo?.endTime - nowDate
+                                      )}
+                                    />
+                                  </>
+                                )}
+                                {list?.roundInfo?.status == 1 && (
+                                  <>
+                                    Time to start:{" "}
+                                    <CountDown
+                                      offsetTimestamp={Math.abs(
+                                        list?.roundInfo?.startTime - nowDate
+                                      )}
+                                    />
+                                  </>
+                                )}
+                                {list?.roundInfo?.status == 3 && (
+                                  <>
+                                    End Time:{" "}
+                                    {moment(
+                                      list?.roundInfo?.endTime * 1000
+                                    ).format("MM-DD HH:mm:ss")}
+                                  </>
+                                )}
+                                {[4, 5].includes(list?.roundInfo?.status) && (
+                                  <>Time to end: {"00:00:00"}</>
+                                )}
+                              </span>
+                              <button
+                                className="_hiddenP _yellow font-bold"
+                                onClick={() => setShowMoreInfoFun(index)}
+                              >
+                                more view
+                              </button>
+                            </div>
+                            {list.showMore && (
+                              <div className="_hiddenP _orderInfo">
+                                <div>
+                                  <span>End Time</span>
+                                  <span className="text-white">
+                                    {moment(
+                                      list?.roundInfo?.endTime * 1000
+                                    ).format("YYYY-MM-DD HH:mm:ss")}
+                                  </span>
+                                </div>
+                                <div>
+                                  <span>Winning Number</span>
+                                  <span
+                                    className={`_title ${
+                                      list?.roundInfo?.winNumber * 1 !== 0 &&
+                                      "_winNumber"
+                                    }`}
+                                  >
+                                    {list?.roundInfo?.winNumber * 1 == 0
+                                      ? "To be drawn"
+                                      : list?.roundInfo?.winNumber}
+                                  </span>
+                                </div>
+                                <div>
+                                  <span>Contract Address</span>
+                                  <Popover
+                                    content={list.contractAddress}
+                                    placement="topRight"
+                                    trigger="click"
+                                    overlayClassName="_popover"
+                                  >
+                                    <button className="text-left text-xs text-white underline decoration-slate-400 decoration-1 _popoverBtn">
+                                      {shortStr(list.contractAddress)}
+                                    </button>
+                                  </Popover>
+                                </div>
+                                <div>
+                                  <span>Next Epoch Start At</span>
+                                  <span className="text-white">
+                                    {moment(
+                                      list?.roundInfo?.endTime * 1000 +
+                                        list?.roundGapTime * 1000
+                                    ).format("YYYY-MM-DD HH:mm:ss")}
+                                  </span>
+                                </div>
+                              </div>
+                            )}
 
-                          <div className="pl-2 _hiddenP _hiddenM">
-                            Next Epoch Start At:{" "}
-                            {moment(
-                              list?.roundInfo?.endTime * 1000 +
-                                list?.roundGapTime * 1000
-                            ).format("YYYY-MM-DD HH:mm:ss")}
+                            <div className="pl-2 _hiddenP _hiddenM">
+                              Next Epoch Start At:{" "}
+                              {moment(
+                                list?.roundInfo?.endTime * 1000 +
+                                  list?.roundGapTime * 1000
+                              ).format("YYYY-MM-DD HH:mm:ss")}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-                <Skeleton
-                  active
-                  loading={loading}
-                  title={false}
-                  paragraph={{ rows: rows }}
-                ></Skeleton>
-              </div>
-            ) : (
-              <div>
-                <div className="flex items-center justify-between _flex-col _mt-5">
-                  <div className="_background2 rounded-xl p-6 _w100">
-                    <div className="flex items-center">
-                      <img
-                        className="w-6 mr-2"
-                        src={require("../../asserts/img/USDT.png")}
-                        alt=""
-                      />
-                      <span className="text-2xl font-bold">
-                        {address
-                          ? parseFloat(
-                              (
-                                wonParticipationRecords?.totalPrizes -
-                                unclaimedPrizes
-                              ).toFixed(2)
-                            ).toLocaleString()
-                          : "--"}{" "}
-                        {USDTSymbol}
-                      </span>
-                    </div>
-                    <div className="_nav-title text-sm text-left pt-4">
-                      Total Reward
-                    </div>
-                  </div>
-                  <div className="_w100 _mt-5">
-                    <div className="flex items-center justify-between _background2 rounded-xl p-6">
-                      <div>
-                        <div className="flex items-center">
-                          <img
-                            className="w-6 mr-2"
-                            src={require("../../asserts/img/USDT.png")}
-                            alt=""
-                          />
-                          <span className="text-2xl font-bold">
-                            {address
-                              ? (unclaimedPrizes * 1).toLocaleString()
-                              : "--"}{" "}
-                            {USDTSymbol}
-                          </span>
-                        </div>
-                        <div className="_nav-title text-sm text-left pt-4">
-                          Unclaimed Reward
-                        </div>
+                    );
+                  })}
+                  <Skeleton
+                    active
+                    loading={loading}
+                    title={false}
+                    paragraph={{ rows: rows }}
+                  ></Skeleton>
+                </div>
+              ) : (
+                <div>
+                  <div className="flex items-center justify-between _flex-col _mt-5">
+                    <div className="_background2 rounded-xl p-6 _w100">
+                      <div className="flex items-center">
+                        <img
+                          className="w-6 mr-2"
+                          src={require("../../asserts/img/USDT.png")}
+                          alt=""
+                        />
+                        <span className="text-2xl font-bold">
+                          {address
+                            ? parseFloat(
+                                (
+                                  wonParticipationRecords?.totalPrizes -
+                                  unclaimedPrizes
+                                ).toFixed(2)
+                              ).toLocaleString()
+                            : "--"}{" "}
+                          {USDTSymbol}
+                        </span>
                       </div>
-                      {contextHolder}
-                      <Button
-                        loading={claimLoading}
-                        disabled={!unclaimedPrizes * 1 > 0}
-                        onClick={claimPrizes}
-                        className="rounded-full _background-gradient2 text-white h-12 pl-16 pr-16"
-                      >
-                        Claim
-                      </Button>
+                      <div className="_nav-title text-sm text-left pt-4">
+                        Total Reward
+                      </div>
+                    </div>
+                    <div className="_w100 _mt-5">
+                      <div className="flex items-center justify-between _background2 rounded-xl p-6">
+                        <div>
+                          <div className="flex items-center">
+                            <img
+                              className="w-6 mr-2"
+                              src={require("../../asserts/img/USDT.png")}
+                              alt=""
+                            />
+                            <span className="text-2xl font-bold">
+                              {address
+                                ? (unclaimedPrizes * 1).toLocaleString()
+                                : "--"}{" "}
+                              {USDTSymbol}
+                            </span>
+                          </div>
+                          <div className="_nav-title text-sm text-left pt-4">
+                            Unclaimed Reward
+                          </div>
+                        </div>
+                        {contextHolder}
+                        <Button
+                          loading={claimLoading}
+                          disabled={!unclaimedPrizes * 1 > 0}
+                          onClick={claimPrizes}
+                          className="rounded-full _background-gradient2 text-white h-12 pl-16 pr-16"
+                        >
+                          Claim
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="text-left mt-8">
-                  <div className="pt-4 pb-4 _borderT font-bold">History</div>
-                </div>
-                <div className="max-h-80 mb-2 overflow-auto">
-                  <table className="w-full text-left _table _hiddenM">
-                    <thead className="text-sm h-10 ">
-                      <tr className="_nav-title _tableTitle">
-                        <th className="font-thin">Pool</th>
-                        <th className="font-thin">Epoch</th>
-                        <th className="font-thin">Purchased tickets</th>
-                        <th className="font-thin">Purchase time</th>
-                        <th className="text-right font-thin">
-                          Your lottery number
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {participationRecords.length > 0 &&
+                  <div className="text-left mt-8">
+                    <div className="pt-4 pb-4 _borderT font-bold">History</div>
+                  </div>
+                  <div className="max-h-80 mb-2 overflow-auto">
+                    <table className="w-full text-left _table _hiddenM">
+                      <thead className="text-sm h-10 ">
+                        <tr className="_nav-title _tableTitle">
+                          <th className="font-thin">Pool</th>
+                          <th className="font-thin">Epoch</th>
+                          <th className="font-thin">Purchased tickets</th>
+                          <th className="font-thin">Purchase time</th>
+                          <th className="text-right font-thin">
+                            Your lottery number
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {participationRecords.length > 0 &&
+                          participationRecords.map((list, index) => {
+                            return (
+                              <tr className="h-14" key={index}>
+                                <td>
+                                  <Popover
+                                    content={list.poolId}
+                                    placement="topLeft"
+                                    trigger="hover"
+                                    overlayClassName="_popover"
+                                    className="_hiddenM"
+                                  >
+                                    <span className="underline decoration-white cursor-pointer">
+                                      {shortStr(list.poolId)}
+                                    </span>
+                                  </Popover>
+                                </td>
+                                <td>{list.roundId.toString()}</td>
+                                <td>{list.ticketsCount.toString()}</td>
+                                <td>
+                                  {moment(
+                                    list.timestamp.toString() * 1000
+                                  ).format("YYYY-MM-DD HH:mm:ss")}
+                                </td>
+                                <td className="text-right">
+                                  <Button
+                                    className="tableBtn min-w-24"
+                                    onClick={() => {
+                                      setSelectTickets(list.tickets);
+                                      setIsRewardOpen(true);
+                                    }}
+                                  >
+                                    Check
+                                    {/* {list.tickets.join(",")} */}
+                                  </Button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                    {participationRecords.length == 0 && (
+                      <div className="text-center w-full h-56 flex flex-col items-center justify-center _tip">
+                        <img
+                          className="w-16"
+                          src={require("../../asserts/img/noData.png")}
+                        />
+                        <div className="mt-2 text-sm">No Data</div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="_hiddenP">
+                    <div className="text-sm">
+                      {participationRecords &&
                         participationRecords.map((list, index) => {
                           return (
-                            <tr className="h-14" key={index}>
-                              <td>
-                                <Popover
-                                  content={list.poolId}
-                                  placement="topLeft"
-                                  trigger="hover"
-                                  overlayClassName="_popover"
-                                  className="_hiddenM"
-                                >
-                                  <span className="underline decoration-white cursor-pointer">
-                                    {shortStr(list.poolId)}
-                                  </span>
-                                </Popover>
-                              </td>
-                              <td>{list.roundId.toString()}</td>
-                              <td>{list.ticketsCount.toString()}</td>
-                              <td>
-                                {moment(
-                                  list.timestamp.toString() * 1000
-                                ).format("YYYY-MM-DD HH:mm:ss")}
-                              </td>
-                              <td className="text-right">
-                                <Button
-                                  className="tableBtn min-w-24"
+                            <div key={index} className="mb-8 mt-4">
+                              <div
+                                className="flex items-center justify-between"
+                                key={list.ticket}
+                              >
+                                <span>
+                                  <Popover
+                                    content={list.poolId}
+                                    placement="topRight"
+                                    trigger="hover"
+                                    overlayClassName="_popover"
+                                  >
+                                    <span className="underline decoration-white cursor-pointer">
+                                      {shortStr(list.poolId)}
+                                    </span>
+                                  </Popover>
+                                  ; Epoch {list.roundId}
+                                </span>
+                                {/* <span className="_active">{list.tickets.join(',')}</span> */}
+                                <span
                                   onClick={() => {
                                     setSelectTickets(list.tickets);
                                     setIsRewardOpen(true);
                                   }}
+                                  className="_active"
                                 >
-                                  Check
-                                  {/* {list.tickets.join(",")} */}
-                                </Button>
-                              </td>
-                            </tr>
+                                  Check Number
+                                </span>
+                              </div>
+                              <div className="flex items-center justify-between _nav-title font-thin mt-2">
+                                <span>{list.ticketsCount} tickets</span>
+                                <span>
+                                  {moment(list.timestamp * 1000).format(
+                                    "YYYY-MM-DD HH:mm:ss"
+                                  )}
+                                </span>
+                              </div>
+                            </div>
                           );
                         })}
-                    </tbody>
-                  </table>
-                  {participationRecords.length == 0 && (
-                    <div className="text-center w-full h-56 flex flex-col items-center justify-center _tip">
-                      <img
-                        className="w-16"
-                        src={require("../../asserts/img/noData.png")}
-                      />
-                      <div className="mt-2 text-sm">No Data</div>
                     </div>
-                  )}
-                </div>
-                <div className="_hiddenP">
-                  <div className="text-sm">
-                    {participationRecords &&
-                      participationRecords.map((list, index) => {
-                        return (
-                          <div key={index} className="mb-8 mt-4">
-                            <div
-                              className="flex items-center justify-between"
-                              key={list.ticket}
-                            >
-                              <span>
-                                <Popover
-                                  content={list.poolId}
-                                  placement="topRight"
-                                  trigger="hover"
-                                  overlayClassName="_popover"
-                                >
-                                  <span className="underline decoration-white cursor-pointer">
-                                    {shortStr(list.poolId)}
-                                  </span>
-                                </Popover>
-                                ; Epoch {list.roundId}
-                              </span>
-                              {/* <span className="_active">{list.tickets.join(',')}</span> */}
-                              <span
-                                onClick={() => {
-                                  setSelectTickets(list.tickets);
-                                  setIsRewardOpen(true);
-                                }}
-                                className="_active"
-                              >
-                                Check Number
-                              </span>
-                            </div>
-                            <div className="flex items-center justify-between _nav-title font-thin mt-2">
-                              <span>{list.ticketsCount} tickets</span>
-                              <span>
-                                {moment(list.timestamp * 1000).format(
-                                  "YYYY-MM-DD HH:mm:ss"
-                                )}
-                              </span>
-                            </div>
-                          </div>
-                        );
-                      })}
                   </div>
                 </div>
+              )}
+            </div>
+            {!tab && (
+              <div
+                className="h-16 _background2 rounded-xl mx-auto mt-10 text-sm flex items-center justify-between px-4 _widthM"
+                style={{ maxWidth: "1100px" }}
+              >
+                <span>Contract Address</span>
+                <a
+                  href={`${chainInfo?.explorerUrl}/address/${poolManager}#code`}
+                  target="_blank"
+                  className="flex items-center"
+                >
+                  <span className="_text _hiddenM">{poolManager}</span>
+                  <span className="_text _hiddenP">
+                    {shortStr(poolManager)}
+                  </span>
+                  <button className="border rounded-xl px-3 py-1 ml-2 _borderS text-sm">
+                    Details
+                  </button>
+                </a>
               </div>
             )}
           </div>
-          {!tab && (
-            <div
-              className="h-16 _background2 rounded-xl mx-auto mt-10 text-sm flex items-center justify-between px-4 _widthM"
-              style={{ maxWidth: "1100px" }}
-            >
-              <span>Contract Address</span>
-              <a
-                href={`${chainInfo?.explorerUrl}/address/${poolManager}#code`}
-                target="_blank"
-                className="flex items-center"
-              >
-                <span className="_text _hiddenM">{poolManager}</span>
-                <span className="_text _hiddenP">{shortStr(poolManager)}</span>
-                <button className="border rounded-xl px-3 py-1 ml-2 _borderS text-sm">
-                  Details
-                </button>
-              </a>
-            </div>
-          )}
         </div>
-      </div>
 
-      <Modal
-        title="Buy Tickets"
-        centered
-        destroyOnClose={true}
-        open={isShareOpen}
-        onCancel={() => setIsShareOpen(false)}
-        footer={false}
-        width={420}
-        closeIcon={
-          <img
-            className="w-6 mt-3 mr-2"
-            src={require("../../asserts/img/closeModal.png")}
-            alt=""
-          />
-        }
-      >
-        <div className="text-white flex items-center justify-between font-bold">
-          <span>Tickets</span>
-          <span>1 Ticket = {selectPool.pricePerTicket * 1}U</span>
-        </div>
-        <div
-          className="w-full h-12 rounded-xl text-white pl-4 pr-4 text-sm mt-3 flex items-center justify-between"
-          style={{ background: "rgba(42, 37, 57, 1)" }}
+        <Modal
+          title="Buy Tickets"
+          centered
+          destroyOnClose={true}
+          open={isShareOpen}
+          onCancel={() => setIsShareOpen(false)}
+          footer={false}
+          width={420}
+          closeIcon={
+            <img
+              className="w-6 mt-3 mr-2"
+              src={require("../../asserts/img/closeModal.png")}
+              alt=""
+            />
+          }
         >
-          <input
-            value={ticketAmount}
-            onChange={(value) => setTicketAmount(value.target.value)}
-            className="h-12 outline-none bg-transparent w-4/5 _inputStyle"
-            placeholder="Enter amount"
-          />
-          <button className="_yellow text-base" onClick={maxBuyFun}>
-            Max
-          </button>
-        </div>
-        <div className="flex items-center justify-between mt-3 _nav-title">
-          <span>
-            Remaining tickets:{" "}
-            <span className="_active">
-              {" "}
-              {selectPool?.roundInfo?.leftTickets}
-            </span>
-          </span>
-          <span>
-            Balance: {accountBalance} {selectPool?.rewardSymbol}
-          </span>
-        </div>
-        {contextHolder}
-
-        {!address ? (
-          <Button
-            className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base pt-2 pb-2 pl-5 pr-5"
-            onClick={() => {
-              setIsShareOpen(false);
-              open();
-            }}
-          >
-            Connect Wallet
-          </Button>
-        ) : (
-          <>
-            {allowance ? (
-              <Button
-                loading={buyLoading}
-                className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
-                onClick={() => buyTicketFun(selectPool, ticketAmount)}
-              >
-                Buy
-              </Button>
-            ) : (
-              <Button
-                loading={approveLoading}
-                className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
-                onClick={() => approveTicketFun(selectPool.USDTAddress)}
-              >
-                Approve
-              </Button>
-            )}
-          </>
-        )}
-
-        <div className="text-center mt-5 mb-5 font-bold text-sm">
-          Time to end: {""}
-          <CountDown
-            offsetTimestamp={Math.abs(selectPool?.roundInfo?.endTime - nowDate)}
-          />
-        </div>
-        <div className="text-left _nav-title text-xs">
-          Instructions for participation：By purchasing 1 ticket, you have the
-          chance to win the entire prize pool. The more shares you purchase, the
-          greater the probability of winning the reward pool.
-        </div>
-      </Modal>
-      {/*  */}
-      <Modal
-        title="Your lottery number"
-        centered
-        destroyOnClose={true}
-        open={isRewardOpen}
-        onCancel={() => setIsRewardOpen(false)}
-        footer={false}
-        closeIcon={
-          <img
-            className="w-6 mt-3 mr-2"
-            src={require("../../asserts/img/closeModal.png")}
-            alt=""
-          />
-        }
-        width={420}
-        className="text-center"
-      >
-        <Carousel
-          afterChange={onChangeCarousel}
-          infinite={false}
-          ref={carouselRef}
-          className="w-10/12 mx-auto"
-        >
-          {selectTickets &&
-            selectTickets.map((list) => {
-              return (
-                <div
-                  key={list}
-                  className="text-white h-56 flex items-center justify-center _backgroundTickets p-6"
-                >
-                  <div className="_yellow block text-center text-lg">
-                    1 lottery number
-                  </div>
-                  <div className="text-center mt-4 text-6xl flex items-center justify-center">
-                    {transferFun(list).map((number, index) => {
-                      return (
-                        <span
-                          key={index}
-                          className="w-14 border border-purple-400 rounded-lg mx-2 p-2 box-border"
-                        >
-                          {number}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-        </Carousel>
-        <div
-          className="w-11/12 flex item-center justify-between absolute left-4"
-          style={{ top: "154px" }}
-        >
-          <button
-            className={`bg-neutral-600 rounded-full w-7 h-7 text-xl focus:bg-violet-600 ${
-              carouselIndex == 0
-                ? "text-gray-500 focus:bg-neutral-600"
-                : "text-white"
-            }`}
-            onClick={goToPrevSlide}
-          >
-            {"<"}
-          </button>
-          <button
-            className={`bg-neutral-600 rounded-full w-7 h-7 text-xl focus:bg-violet-600 ${
-              carouselIndex == selectTickets.length - 1
-                ? "text-gray-500 focus:bg-neutral-600"
-                : "text-white"
-            }`}
-            onClick={goToNextSlide}
-          >
-            {">"}
-          </button>
-        </div>
-        <div className="text-center _nav-title">
-          A total of {selectTickets.length} lottery numbers
-        </div>
-      </Modal>
-      <Modal
-        title="Congratulations!"
-        centered
-        destroyOnClose={true}
-        open={isWonOpen}
-        onCancel={() => setIsWonOpen(false)}
-        footer={false}
-        zIndex={1}
-        closeIcon={
-          <img
-            className="w-6 mt-3 mr-2"
-            src={require("../../asserts/img/closeModal.png")}
-            alt=""
-          />
-        }
-        width={380}
-      >
-        <div className="text-center">
-          <img
-            className="w-32 mx-auto"
-            src={require("../../asserts/img/Congratulations.png")}
-            alt=""
-          />
-          <div className="flex items-center justify-between mt-10 _title _flexM2">
-            <div>
-              You got <span className="_active">{unclaimedPrizes}</span>{" "}
-              {USDTSymbol}!
-            </div>
-            <div>
-              Winning Number:{" "}
-              <span className="_active">
-                {wonTickets.length > 1 ? wonTickets.join(",") : wonTickets}
-              </span>
-            </div>
+          <div className="text-white flex items-center justify-between font-bold">
+            <span>Tickets</span>
+            <span>1 Ticket = {selectPool.pricePerTicket * 1}U</span>
           </div>
-          <Link
-            to="/?reward"
-            onClick={() => {
-              setIsWonOpen(false);
-            }}
+          <div
+            className="w-full h-12 rounded-xl text-white pl-4 pr-4 text-sm mt-3 flex items-center justify-between"
+            style={{ background: "rgba(42, 37, 57, 1)" }}
           >
-            <button className="w-full _borderS rounded-full _background-gradient2 py-3 mt-6 font-bold">
-              Go To Claim
+            <input
+              value={ticketAmount}
+              onChange={(value) => setTicketAmount(value.target.value)}
+              className="h-12 outline-none bg-transparent w-4/5 _inputStyle"
+              placeholder="Enter amount"
+            />
+            <button className="_yellow text-base" onClick={maxBuyFun}>
+              Max
             </button>
-          </Link>
-        </div>
-      </Modal>
-      <Footer />
-    </div>
+          </div>
+          <div className="flex items-center justify-between mt-3 _nav-title">
+            <span>
+              Remaining tickets:{" "}
+              <span className="_active">
+                {" "}
+                {selectPool?.roundInfo?.leftTickets}
+              </span>
+            </span>
+            <span>
+              Balance: {accountBalance} {selectPool?.rewardSymbol}
+            </span>
+          </div>
+          {contextHolder}
+
+          {!address ? (
+            <Button
+              className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base pt-2 pb-2 pl-5 pr-5"
+              onClick={() => {
+                setIsShareOpen(false);
+                open();
+              }}
+            >
+              Connect Wallet
+            </Button>
+          ) : (
+            <>
+              {allowance ? (
+                <Button
+                  loading={buyLoading}
+                  className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
+                  onClick={() => buyTicketFun(selectPool, ticketAmount)}
+                >
+                  Buy
+                </Button>
+              ) : (
+                <Button
+                  loading={approveLoading}
+                  className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
+                  onClick={() => approveTicketFun(selectPool.USDTAddress)}
+                >
+                  Approve
+                </Button>
+              )}
+            </>
+          )}
+
+          <div className="text-center mt-5 mb-5 font-bold text-sm">
+            Time to end: {""}
+            <CountDown
+              offsetTimestamp={Math.abs(
+                selectPool?.roundInfo?.endTime - nowDate
+              )}
+            />
+          </div>
+          <div className="text-left _nav-title text-xs">
+            Instructions for participation：By purchasing 1 ticket, you have the
+            chance to win the entire prize pool. The more shares you purchase,
+            the greater the probability of winning the reward pool.
+          </div>
+        </Modal>
+        {/*  */}
+        <Modal
+          title="Your lottery number"
+          centered
+          destroyOnClose={true}
+          open={isRewardOpen}
+          onCancel={() => setIsRewardOpen(false)}
+          footer={false}
+          closeIcon={
+            <img
+              className="w-6 mt-3 mr-2"
+              src={require("../../asserts/img/closeModal.png")}
+              alt=""
+            />
+          }
+          width={420}
+          className="text-center"
+        >
+          <Carousel
+            afterChange={onChangeCarousel}
+            infinite={false}
+            ref={carouselRef}
+            className="w-10/12 mx-auto"
+          >
+            {selectTickets &&
+              selectTickets.map((list) => {
+                return (
+                  <div
+                    key={list}
+                    className="text-white h-56 flex items-center justify-center _backgroundTickets p-6"
+                  >
+                    <div className="_yellow block text-center text-lg">
+                      1 lottery number
+                    </div>
+                    <div className="text-center mt-4 text-6xl flex items-center justify-center">
+                      {transferFun(list).map((number, index) => {
+                        return (
+                          <span
+                            key={index}
+                            className="w-14 border border-purple-400 rounded-lg mx-2 p-2 box-border"
+                          >
+                            {number}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+          </Carousel>
+          <div
+            className="w-11/12 flex item-center justify-between absolute left-4"
+            style={{ top: "154px" }}
+          >
+            <button
+              className={`bg-neutral-600 rounded-full w-7 h-7 text-xl focus:bg-violet-600 ${
+                carouselIndex == 0
+                  ? "text-gray-500 focus:bg-neutral-600"
+                  : "text-white"
+              }`}
+              onClick={goToPrevSlide}
+            >
+              {"<"}
+            </button>
+            <button
+              className={`bg-neutral-600 rounded-full w-7 h-7 text-xl focus:bg-violet-600 ${
+                carouselIndex == selectTickets.length - 1
+                  ? "text-gray-500 focus:bg-neutral-600"
+                  : "text-white"
+              }`}
+              onClick={goToNextSlide}
+            >
+              {">"}
+            </button>
+          </div>
+          <div className="text-center _nav-title">
+            A total of {selectTickets.length} lottery numbers
+          </div>
+        </Modal>
+        <Modal
+          title="Congratulations!"
+          centered
+          destroyOnClose={true}
+          open={isWonOpen}
+          onCancel={() => setIsWonOpen(false)}
+          footer={false}
+          zIndex={1}
+          closeIcon={
+            <img
+              className="w-6 mt-3 mr-2"
+              src={require("../../asserts/img/closeModal.png")}
+              alt=""
+            />
+          }
+          width={380}
+        >
+          <div className="text-center">
+            <img
+              className="w-32 mx-auto"
+              src={require("../../asserts/img/Congratulations.png")}
+              alt=""
+            />
+            <div className="flex items-center justify-between mt-10 _title _flexM2">
+              <div>
+                You got <span className="_active">{unclaimedPrizes}</span>{" "}
+                {USDTSymbol}!
+              </div>
+              <div>
+                Winning Number:{" "}
+                <span className="_active">
+                  {wonTickets.length > 1 ? wonTickets.join(",") : wonTickets}
+                </span>
+              </div>
+            </div>
+            <Link
+              to="/?reward"
+              onClick={() => {
+                setIsWonOpen(false);
+              }}
+            >
+              <button className="w-full _borderS rounded-full _background-gradient2 py-3 mt-6 font-bold">
+                Go To Claim
+              </button>
+            </Link>
+          </div>
+        </Modal>
+        <Footer />
+      </div>
+    </StickyContainer>
   );
 }
 

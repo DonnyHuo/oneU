@@ -39,8 +39,9 @@ function Tutorials() {
             <div className="text-5xl _lineHeight30 _referralTitle _size20">
               <p>Earn crypto lotteries</p>
               <p>simply, transparently</p>
-              <p> and fairly.</p>
+              <p> and fairly. </p>
             </div>
+
             <div
               className="flex items-center justify-between mt-10 _hiddenM"
               style={{ width: "400px" }}
