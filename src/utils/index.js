@@ -3,7 +3,11 @@ import { ethers } from "ethers";
 export { chainList } from "./config";
 
 export const shortStr = (address, first = 7, last = 5) => {
-  return address.slice(0, first) + "..." + address.slice(-last);
+  if (address) {
+    return address.slice(0, first) + "..." + address.slice(-last);
+  } else {
+    return address;
+  }
 };
 
 export const formatNumber = (number) => {
@@ -17,7 +21,7 @@ export function formate(time) {
 }
 
 export const computeCountdownInfo = (remainTime) => {
-  if (remainTime*1 <= 0) {
+  if (remainTime * 1 <= 0) {
     return "00:00:00";
   }
   // 这里用了一个比较笨的方法，一个个进行计算，后续可以优化试试看

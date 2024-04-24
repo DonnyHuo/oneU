@@ -66,7 +66,7 @@ const Header = () => {
 
   useEffect(() => {
     // get userId
-    address ? getUserId() : dispatch({ type: "CHANGE_USER", payload: "--" });
+    address ? getUserId() : dispatch({ type: "CHANGE_USER", payload: '--' });
     // save address
     dispatch({ type: "CHANGE_ADDRESS", payload: address });
   }, [address, chainId]);
@@ -86,11 +86,9 @@ const Header = () => {
     } else {
       dispatch({ type: "CHANGE_REMODAL", payload: false });
     }
-  }, [address, userId]);
-
+  }, [userId]);
 
   const [openUserAccount, setOpenUserAccount] = useState(false);
-
 
   const [api, contextHolder] = notification.useNotification({
     placement: "topRight",
@@ -168,10 +166,14 @@ const Header = () => {
     setUSDTBalance(balance);
   };
 
-  useInterval(() => {
-    address ? getBalance() : setETHBalance("--");
-    address ? getUSDTBalance() : setUSDTBalance("--");
-  }, 2000, { immediate: true });
+  useInterval(
+    () => {
+      address ? getBalance() : setETHBalance("--");
+      address ? getUSDTBalance() : setUSDTBalance("--");
+    },
+    2000,
+    { immediate: true }
+  );
 
   const AccountContent = () => {
     const copy = (address) => {
@@ -558,7 +560,7 @@ const Header = () => {
         </div>
       </Drawer>
       <Modal
-        title="Got an invite code?"
+        title="Join Us"
         destroyOnClose={true}
         centered
         maskClosable={false}
@@ -580,7 +582,8 @@ const Header = () => {
         zIndex={3000}
       >
         <p className="mt-5 _nav-title">
-          Get an invite code from an existing user to sign up.
+          Get an invite code from an existing user to sign up or sign up
+          directly.
         </p>
         <div>
           <input
@@ -597,7 +600,7 @@ const Header = () => {
           loading={signUpLoading}
           onClick={signUp}
         >
-          Proceed
+          Sign Up
         </Button>
       </Modal>
     </div>

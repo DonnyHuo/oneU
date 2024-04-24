@@ -38,6 +38,7 @@ function Lottery() {
   const chainInfo = chainList.filter((list) => list.networkId == chainId)[0];
   const { walletProvider } = useWeb3ModalProvider();
   const { open } = useWeb3Modal();
+
   const descList = [
     {
       imgUrl: require("../../asserts/img/square.png"),
@@ -79,6 +80,12 @@ function Lottery() {
   const [USDTAddress, setUSDTAddress] = useState("");
   const [USDTDecimals, setUSDTDecimals] = useState("6");
   const [USDTSymbol, setUSDTSymbol] = useState("USDT");
+
+  // opening效果
+  const [openDraw, setOpenDraw] = useState(false);
+  const [openingRound, setOpeningRound] = useState({});
+
+  const [noWon, setNoWon] = useState(false);
 
   const [pools, setPools] = useState([]);
 
@@ -183,10 +190,106 @@ function Lottery() {
       newRememberSelect.push(roundInformation);
     }
     setRememberSelect(newRememberSelect);
+    // 初始化select后 执行
+    getPoolList();
   };
   useEffect(() => {
     upDataSelectRound();
   }, []);
+
+  const [rememberOldTickets, setRememberOldTickets] = useState(-1);
+  const [isWonOpen, setIsWonOpen] = useState(false);
+
+  const getStatus = async (pool, selectedRound, roundInfo) => {
+    if (roundInfo.startTime.toString() * 1 > nowDate) {
+      return 1;
+    }
+    if (
+      roundInfo.startTime.toString() * 1 < nowDate &&
+      roundInfo.endTime.toString() * 1 > nowDate
+    ) {
+      return 2;
+    }
+    if (roundInfo.endTime.toString() * 1 < nowDate) {
+      if (roundInfo.winNumber * 1 > 0) {
+        return 3;
+      } else {
+        if (roundInfo.vrfRequestId.toString() * 1 == 0) {
+          return 5;
+        } else {
+          setOpeningRound({
+            poolId: pool,
+            round: selectedRound,
+            winNumber: 0,
+          });
+          return 4;
+        }
+      }
+    }
+  };
+
+  const openingRoundFun = async () => {
+    if (openingRound.poolId) {
+      const roundInfo = await getContract(
+        walletProvider,
+        poolManager,
+        poolManagerAbi,
+        "getRoundInfo",
+        openingRound.poolId,
+        openingRound.round
+      );
+
+      if (roundInfo.winNumber * 1 > 0) {
+        const wonAccount = await getContract(
+          walletProvider,
+          poolManager,
+          poolManagerAbi,
+          "getTicketOwner",
+          openingRound.poolId,
+          openingRound.round,
+          roundInfo.winNumber
+        );
+        setOpeningRound({
+          poolId: openingRound.poolId,
+          round: openingRound.round,
+          winNumber: roundInfo.winNumber,
+          prize: ethers.utils.formatUnits(roundInfo.prize, USDTDecimals) * 1,
+        });
+
+        if (wonAccount.toLowerCase() !== address.toLowerCase()) {
+          setNoWon(true);
+        } else {
+          if (roundInfo.winNumber * 1 !== rememberOldTickets) {
+            const jsConfetti = new JSConfetti();
+            jsConfetti
+              .addConfetti({
+                // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
+                confettiColors: [
+                  "#FDB630",
+                  "#32F7B0",
+                  "#3BCB97",
+                  "#0F87D0",
+                  "#FD3B86",
+                  "#FECD3F",
+                ],
+                // confettiRadius: 6,
+                confettiNumber: 2000,
+              })
+              .then(() => {
+                setIsWonOpen(true);
+              });
+          }
+        }
+        setRememberOldTickets(roundInfo.winNumber * 1);
+      } else {
+        setRememberOldTickets(0);
+      }
+    }
+  };
+
+  useInterval(()=>{
+    openingRoundFun()
+  }, 3000)
 
   const getPoolList = async () => {
     // 获取所有池子的信息
@@ -231,7 +334,7 @@ function Lottery() {
         allPools[i]
       );
 
-      const roundInfo = await getContract(
+      const roundInfos = await getContract(
         walletProvider,
         poolManager,
         poolManagerAbi,
@@ -239,25 +342,6 @@ function Lottery() {
         allPools[i],
         rememberSelect[i]?.selectRound || pool.currentRound
       );
-
-      const getStatus = () => {
-        if (roundInfo.endTime * 1 < nowDate) {
-          if (roundInfo.vrfRequestId.toString() * 1 == 0) {
-            return 5;
-          } else {
-            if (roundInfo.winNumber.toString() * 1 == 0) {
-              return 4;
-            } else {
-              return 3;
-            }
-          }
-        }
-        if (roundInfo.startTime * 1 > nowDate) {
-          return 1;
-        } else {
-          return 2;
-        }
-      };
 
       const resetPool = {
         USDTAddress: usdt,
@@ -271,13 +355,17 @@ function Lottery() {
         showMore: rememberSelect[i]?.showMore || false,
         rewardSymbol: symbol,
         roundInfo: {
-          endTime: roundInfo.endTime.toString(),
-          status: getStatus(),
-          isClaimed: roundInfo.isClaimed,
-          leftTickets: roundInfo.leftTickets.toString(),
-          startTime: roundInfo.startTime.toString(),
-          vrfRequestId: roundInfo.vrfRequestId.toString(),
-          winNumber: roundInfo.winNumber.toString(),
+          endTime: roundInfos.endTime.toString(),
+          status: await getStatus(
+            allPools[i],
+            rememberSelect[i]?.selectRound,
+            roundInfos
+          ),
+          isClaimed: roundInfos.isClaimed,
+          leftTickets: roundInfos.leftTickets.toString(),
+          startTime: roundInfos.startTime.toString(),
+          vrfRequestId: roundInfos.vrfRequestId.toString(),
+          winNumber: roundInfos.winNumber.toString(),
         },
       };
 
@@ -288,18 +376,33 @@ function Lottery() {
     setPools(pools);
   };
 
-  useInterval(getPoolList, 5000, { immediate: true });
+  useInterval(() => {
+    getPoolList();
+  }, 3000);
 
   useEffect(() => {
-    getPoolList();
-  }, [walletProvider]);
+    if (rememberOldTickets >= 0) {
+      if (rememberOldTickets * 1 == 0) {
+        setOpenDraw(true);
+      }
+      if (rememberOldTickets * 1 > 0) {
+        setOpenDraw(false);
+      }
+    } else {
+      setOpenDraw(false);
+    }
+  }, [rememberOldTickets]);
+
+  // useEffect(() => {
+  //   getPoolList();
+  // }, [walletProvider]);
 
   const epochOptions = (list) => {
     const options = [];
     for (let i = 1; i <= list * 1; i++) {
       let option = {
         value: i,
-        label: i == list ? "Current Epoch" : i,
+        label: i == list ? "Current Round" : i,
       };
       options.push(option);
     }
@@ -316,28 +419,9 @@ function Lottery() {
       value
     );
 
-    const getStatus = () => {
-      if (roundInfo.endTime * 1 < nowDate) {
-        if (roundInfo.vrfRequestId.toString() * 1 == 0) {
-          return 5;
-        } else {
-          if (roundInfo.winNumber.toString() * 1 == 0) {
-            return 4;
-          } else {
-            return 3;
-          }
-        }
-      }
-      if (roundInfo.startTime * 1 > nowDate) {
-        return 1;
-      } else {
-        return 2;
-      }
-    };
-
     const realRoundInfo = {
       endTime: roundInfo.endTime.toString(),
-      status: getStatus(),
+      status: await getStatus(list.contractAddress, value, roundInfo),
       isClaimed: roundInfo.isClaimed,
       leftTickets: roundInfo.leftTickets.toString(),
       startTime: roundInfo.startTime.toString(),
@@ -503,12 +587,18 @@ function Lottery() {
         getPoolList();
         getParticipationRecords();
         getAccountBalance();
+        setTimeout(() => {
+          setIsShareOpen(false);
+        }, 2000);
       })
       .catch((err) => {
         setBuyLoading(false);
         api["error"]({
           message: `Buy Fail!`,
         });
+        setTimeout(() => {
+          setIsShareOpen(false);
+        }, 2000);
         console.log(err);
       });
   };
@@ -589,58 +679,59 @@ function Lottery() {
   };
 
   // 判断当前用户是否获奖
-  const [wonTickets, setWonTickets] = useState([]);
-  const [rememberOldTickets, setRememberOldTickets] = useState([]);
-  const isWonParticipation = () => {
-    if (unclaimedPrizes * 1 > 0) {
-      const wonTickets = [];
-      wonParticipationRecords?.records.length > 0 &&
-        wonParticipationRecords.records.map((list) => {
-          unclaimedInfo.map((unclaim) => {
-            if (
-              unclaim.poolId === list.poolId &&
-              unclaim.roundId * 1 === list.roundId.toString() * 1
-            ) {
-              wonTickets.push(...list.tickets);
-            }
-          });
-        });
-      // wonTickets
-      setWonTickets(wonTickets);
-    }
-  };
+  // const [wonTickets, setWonTickets] = useState([]);
 
-  const [isWonOpen, setIsWonOpen] = useState(false);
+  // const [rememberOldTickets, setRememberOldTickets] = useState([]);
+  // const isWonParticipation = () => {
+  //   if (unclaimedPrizes * 1 > 0) {
+  //     const wonTickets = [];
+  //     wonParticipationRecords?.records.length > 0 &&
+  //       wonParticipationRecords.records.map((list) => {
+  //         unclaimedInfo.map((unclaim) => {
+  //           if (
+  //             unclaim.poolId === list.poolId &&
+  //             unclaim.roundId * 1 === list.roundId.toString() * 1
+  //           ) {
+  //             wonTickets.push(...list.tickets);
+  //           }
+  //         });
+  //       });
+  //     // wonTickets
+  //     setWonTickets(wonTickets);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (wonTickets.length > 0) {
-      setRememberOldTickets(wonTickets);
-      if (JSON.stringify(rememberOldTickets) !== JSON.stringify(wonTickets)) {
-        setIsWonOpen(true);
-        const jsConfetti = new JSConfetti();
-        jsConfetti
-          .addConfetti({
-            // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
-            confettiColors: [
-              "#FDB630",
-              "#32F7B0",
-              "#3BCB97",
-              "#0F87D0",
-              "#FD3B86",
-              "#FECD3F",
-            ],
-            // confettiRadius: 6,
-            confettiNumber: 2000,
-          })
-          .then(() => console.log("Confetti animation completed!"));
-      }
-    }
-  }, [wonTickets, address]);
+  // useEffect(() => {
+  //   if (wonTickets.length > 0) {
+  //     setRememberOldTickets(wonTickets);
+  //     if (JSON.stringify(rememberOldTickets) !== JSON.stringify(wonTickets)) {
+  //       const jsConfetti = new JSConfetti();
+  //       jsConfetti
+  //         .addConfetti({
+  //           // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
+  //           confettiColors: [
+  //             "#FDB630",
+  //             "#32F7B0",
+  //             "#3BCB97",
+  //             "#0F87D0",
+  //             "#FD3B86",
+  //             "#FECD3F",
+  //           ],
+  //           // confettiRadius: 6,
+  //           confettiNumber: 2000,
+  //         })
+  //         .then(() => {
+  //           setIsWonOpen(true);
+  //         });
+  //     }
+  //   }
+  // }, [wonTickets, address]);
 
-  useInterval(isWonParticipation, 2000, { immediate: true });
+  // useInterval(isWonParticipation, 2000, { immediate: true });
 
   // 获取参与记录
   const [participationRecords, setParticipationRecords] = useState([]);
+
   const getParticipationRecords = async () => {
     const participationRecords = await getContract(
       walletProvider,
@@ -649,22 +740,53 @@ function Lottery() {
       "getParticipationRecords",
       address
     );
-    const newRecords = participationRecords.map((list) => {
+    const newRecords = [];
+    for (let i = 0; i < participationRecords.length; i++) {
       const newList = {
-        poolId: list.poolId,
-        roundId: list.roundId.toString(),
-        tickets: list.tickets,
-        ticketsCount: list.ticketsCount.toString(),
-        timestamp: list.timestamp.toString(),
+        poolId: participationRecords[i].poolId,
+        roundId: participationRecords[i].roundId.toString(),
+        tickets: participationRecords[i].tickets,
+        ticketsCount: participationRecords[i].ticketsCount.toString(),
+        timestamp: participationRecords[i].timestamp.toString(),
+        winNumber: await getWinnerNumber(
+          participationRecords[i].poolId,
+          participationRecords[i].roundId.toString()
+        ),
       };
-      return newList;
-    });
+
+      newRecords.push(newList);
+    }
+
     setParticipationRecords(newRecords.reverse());
   };
+
+  const getWinnerNumber = async (poolId, roundId) => {
+    const { winNumber } = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "getRoundInfo",
+      poolId,
+      roundId
+    );
+
+    return winNumber;
+  };
+
+  useEffect(() => {
+    address ? getParticipationRecords() : setParticipationRecords([]);
+  }, [address]);
 
   useInterval(
     () => {
       address ? getParticipationRecords() : setParticipationRecords([]);
+    },
+    5000,
+    { immediate: true }
+  );
+
+  useInterval(
+    () => {
       address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
       address
         ? getWonParticipationRecords()
@@ -678,7 +800,6 @@ function Lottery() {
   const [claimLoading, setClaimLoading] = useState(false);
 
   const claimPrizes = async () => {
-    console.log("unclaimedOriginInfo", unclaimedOriginInfo);
     setClaimLoading(true);
     await getWriteContractLoad(
       walletProvider,
@@ -737,7 +858,7 @@ function Lottery() {
     )
       .then((res) => {
         api["success"]({
-          message: `Lottery Draw Success!`,
+          message: `Instant Drawing Success!`,
         });
       })
       .catch((err) => {
@@ -777,7 +898,7 @@ function Lottery() {
       <div className="_background1 _background-home text-center">
         <div className="_background-home2">
           <div className="text-white">
-            <div className="text-6xl font-bold _title _size35 pt-32">
+            <div className="text-5xl font-bold _title _size35 pt-24">
               Win Crypto Lotteries With One USDT
             </div>
             <div className="text-sm mt-5 _title _hiddenM">
@@ -810,7 +931,7 @@ function Lottery() {
                 {(props) => {
                   return (
                     <div
-                      className="flex items-center text-lg _justA z-50 _background1 h-16"
+                      className="flex items-center text-lg _justA z-50 h-16 _background4"
                       style={props.style}
                     >
                       <div className="flex items-center font-bold">
@@ -847,7 +968,7 @@ function Lottery() {
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="_text text-xs">
-                            <span className="pr-2">Epoch</span>
+                            <span className="pr-2">Round</span>
                             <Select
                               popupClassName="epochSelect"
                               className="w-20 h-6 _backgroundNo"
@@ -868,7 +989,7 @@ function Lottery() {
                               }
                             />
                             <span className="pl-2 _hiddenM">
-                              Next Epoch Start At:{" "}
+                              Next Round Start At:{" "}
                               {moment(
                                 list?.roundInfo?.endTime * 1000 +
                                   list?.roundGapTime * 1000
@@ -950,6 +1071,7 @@ function Lottery() {
                             </div>
                             <div>
                               <Progress
+                                status={"normal"}
                                 percent={
                                   (100 *
                                     (list?.totalTickets * 1 -
@@ -957,7 +1079,7 @@ function Lottery() {
                                   list?.totalTickets
                                 }
                                 strokeColor={
-                                  "linear-gradient(180deg, #CE00FF 0%, #7F00FF 100%)"
+                                  "linear-gradient(90deg, #CE00FF 0%, #7F00FF 100%)"
                                 }
                                 trailColor={"rgba(163,159,173, 0.2)"}
                               />
@@ -996,10 +1118,11 @@ function Lottery() {
                                   }
                                 }}
                               >
-                                {[1, 2, 3].includes(
-                                  list?.roundInfo?.status * 1
-                                ) && "Buy Tickets"}
-                                {list?.roundInfo?.status * 1 == 4 && "Drawn"}
+                                {[1, 2].includes(list?.roundInfo?.status * 1) &&
+                                  "Buy Tickets"}
+                                {list?.roundInfo?.status * 1 == 3 && "Drawn"}
+                                {list?.roundInfo?.status * 1 == 4 &&
+                                  "Lottery Drawing"}
                                 {list?.roundInfo?.status * 1 == 5 &&
                                   "Instant Drawing"}
                               </Button>
@@ -1082,7 +1205,7 @@ function Lottery() {
                                   </Popover>
                                 </div>
                                 <div>
-                                  <span>Next Epoch Start At</span>
+                                  <span>Next Round Start At</span>
                                   <span className="text-white">
                                     {moment(
                                       list?.roundInfo?.endTime * 1000 +
@@ -1094,7 +1217,7 @@ function Lottery() {
                             )}
 
                             <div className="pl-2 _hiddenP _hiddenM">
-                              Next Epoch Start At:{" "}
+                              Next Round Start At:{" "}
                               {moment(
                                 list?.roundInfo?.endTime * 1000 +
                                   list?.roundGapTime * 1000
@@ -1178,8 +1301,9 @@ function Lottery() {
                       <thead className="text-sm h-10 ">
                         <tr className="_nav-title _tableTitle">
                           <th className="font-thin">Pool</th>
-                          <th className="font-thin">Epoch</th>
+                          <th className="font-thin">Round</th>
                           <th className="font-thin">Purchased tickets</th>
+                          <th className="font-thin">Winner Number</th>
                           <th className="font-thin">Purchase time</th>
                           <th className="text-right font-thin">
                             Your lottery number
@@ -1193,34 +1317,40 @@ function Lottery() {
                               <tr className="h-14" key={index}>
                                 <td>
                                   <Popover
-                                    content={list.poolId}
+                                    content={list?.poolId}
                                     placement="topLeft"
                                     trigger="hover"
                                     overlayClassName="_popover"
                                     className="_hiddenM"
                                   >
                                     <span className="underline decoration-white cursor-pointer">
-                                      {shortStr(list.poolId)}
+                                      {shortStr(list?.poolId)}
                                     </span>
                                   </Popover>
                                 </td>
-                                <td>{list.roundId.toString()}</td>
-                                <td>{list.ticketsCount.toString()}</td>
+                                <td>{list?.roundId?.toString()}</td>
+                                <td>{list?.ticketsCount?.toString()}</td>
+                                <td>
+                                  <span className="_active text-xl">
+                                    {list?.winNumber * 1 == 0
+                                      ? "--"
+                                      : list?.winNumber}
+                                  </span>
+                                </td>
                                 <td>
                                   {moment(
-                                    list.timestamp.toString() * 1000
+                                    list?.timestamp?.toString() * 1000
                                   ).format("YYYY-MM-DD HH:mm:ss")}
                                 </td>
                                 <td className="text-right">
                                   <Button
                                     className="tableBtn min-w-24"
                                     onClick={() => {
-                                      setSelectTickets(list.tickets);
+                                      setSelectTickets(list?.tickets);
                                       setIsRewardOpen(true);
                                     }}
                                   >
                                     Check
-                                    {/* {list.tickets.join(",")} */}
                                   </Button>
                                 </td>
                               </tr>
@@ -1246,25 +1376,24 @@ function Lottery() {
                             <div key={index} className="mb-8 mt-4">
                               <div
                                 className="flex items-center justify-between"
-                                key={list.ticket}
+                                key={list?.ticket}
                               >
                                 <span>
                                   <Popover
-                                    content={list.poolId}
+                                    content={list?.poolId}
                                     placement="topRight"
                                     trigger="hover"
                                     overlayClassName="_popover"
                                   >
                                     <span className="underline decoration-white cursor-pointer">
-                                      {shortStr(list.poolId)}
+                                      {shortStr(list?.poolId)}
                                     </span>
                                   </Popover>
-                                  ; Epoch {list.roundId}
+                                  ; Round {list?.roundId}
                                 </span>
-                                {/* <span className="_active">{list.tickets.join(',')}</span> */}
                                 <span
                                   onClick={() => {
-                                    setSelectTickets(list.tickets);
+                                    setSelectTickets(list?.tickets);
                                     setIsRewardOpen(true);
                                   }}
                                   className="_active"
@@ -1273,9 +1402,9 @@ function Lottery() {
                                 </span>
                               </div>
                               <div className="flex items-center justify-between _nav-title font-thin mt-2">
-                                <span>{list.ticketsCount} tickets</span>
+                                <span>{list?.ticketsCount} tickets</span>
                                 <span>
-                                  {moment(list.timestamp * 1000).format(
+                                  {moment(list?.timestamp * 1000).format(
                                     "YYYY-MM-DD HH:mm:ss"
                                   )}
                                 </span>
@@ -1490,7 +1619,10 @@ function Lottery() {
           centered
           destroyOnClose={true}
           open={isWonOpen}
-          onCancel={() => setIsWonOpen(false)}
+          onCancel={() => {
+            setIsWonOpen(false);
+            setOpeningRound({});
+          }}
           footer={false}
           zIndex={1}
           closeIcon={
@@ -1508,22 +1640,21 @@ function Lottery() {
               src={require("../../asserts/img/Congratulations.png")}
               alt=""
             />
-            <div className="flex items-center justify-between mt-10 _title _flexM2">
-              <div>
-                You got <span className="_active">{unclaimedPrizes}</span>{" "}
+            <div className="flex flex-wrap items-center justify-between mt-10 _title _flexM2">
+              <div className="flex-auto">
+                You got <span className="_active">{openingRound.prize}</span>{" "}
                 {USDTSymbol}!
               </div>
-              <div>
+              <div className="flex-auto">
                 Winning Number:{" "}
-                <span className="_active">
-                  {wonTickets.length > 1 ? wonTickets.join(",") : wonTickets}
-                </span>
+                <span className="_active">{openingRound.winNumber}</span>
               </div>
             </div>
             <Link
               to="/?reward"
               onClick={() => {
                 setIsWonOpen(false);
+                setOpeningRound({});
               }}
             >
               <button className="w-full _borderS rounded-full _background-gradient2 py-3 mt-6 font-bold">
@@ -1532,6 +1663,58 @@ function Lottery() {
             </Link>
           </div>
         </Modal>
+        <Modal
+          title="Unfortunately..."
+          centered
+          destroyOnClose={true}
+          open={noWon}
+          onCancel={() => {
+            setNoWon(false);
+            setOpeningRound({});
+          }}
+          footer={false}
+          zIndex={1}
+          closeIcon={
+            <img
+              className="w-6 mt-3 mr-2"
+              src={require("../../asserts/img/closeModal.png")}
+              alt=""
+            />
+          }
+          width={380}
+        >
+          <div className="text-center">
+            <img
+              className="w-32 mx-auto"
+              src={require("../../asserts/img/noWon.png")}
+              alt=""
+            />
+            <div className="flex flex-wrap items-center justify-between mt-10 _title _flexM2">
+              <div className="flex-auto">Better luck next time!</div>
+              <div className="flex-auto">
+                Winning Number:{" "}
+                <span className="_active">{openingRound.winNumber}</span>
+              </div>
+            </div>
+            <button
+              className="w-full _borderS rounded-full _background-gradient2 py-3 mt-6 font-bold"
+              onClick={() => {
+                setNoWon(false);
+                setOpeningRound({});
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </Modal>
+        {openDraw && (
+          <div
+            className="fixed top-0 left-0 w-full h-full flex items-center justify-center"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.45)" }}
+          >
+            <img src={require("../../asserts/img/openDrawn.gif")} alt="" />
+          </div>
+        )}
         <Footer />
       </div>
     </StickyContainer>
