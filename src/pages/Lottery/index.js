@@ -1331,7 +1331,7 @@ function Lottery() {
                                 <td>{list?.roundId?.toString()}</td>
                                 <td>{list?.ticketsCount?.toString()}</td>
                                 <td>
-                                  <span className="_active text-xl">
+                                  <span className="_active">
                                     {list?.winNumber * 1 == 0
                                       ? "--"
                                       : list?.winNumber}
