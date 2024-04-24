@@ -1583,7 +1583,7 @@ function Lottery() {
                         return (
                           <span
                             key={index}
-                            className="w-14 border border-purple-400 rounded-lg mx-1 p-1 box-border"
+                            className="w-14 border border-purple-400 rounded-lg mx-1 px-1 py-2 box-border"
                           >
                             {number}
                           </span>
