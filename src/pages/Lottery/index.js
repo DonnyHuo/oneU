@@ -1052,7 +1052,9 @@ function Lottery() {
                               <div className="_title">
                                 {list?.roundInfo?.winNumber * 1 == 0
                                   ? "--"
-                                  : list?.roundInfo?.winNumber}
+                                  : getNewTickets(
+                                      list?.roundInfo?.winNumber * 1
+                                    )}
                               </div>
                             </div>
                           </div>
@@ -1189,7 +1191,9 @@ function Lottery() {
                                   >
                                     {list?.roundInfo?.winNumber * 1 == 0
                                       ? "To be drawn"
-                                      : list?.roundInfo?.winNumber}
+                                      : getNewTickets(
+                                          list?.roundInfo?.winNumber * 1
+                                        )}
                                   </span>
                                 </div>
                                 <div>
