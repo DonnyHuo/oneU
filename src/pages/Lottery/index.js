@@ -112,7 +112,7 @@ function Lottery() {
 
   const [loading, setLoading] = useState(true);
 
-  const [rows, setRows] = useState(1);
+  const [rows, setRows] = useState(2);
 
   const [maxTicketsPerBuy, setMaxTicketsPerBuy] = useState(10);
 
@@ -201,7 +201,7 @@ function Lottery() {
   const [rememberOldTickets, setRememberOldTickets] = useState(-1);
   const [isWonOpen, setIsWonOpen] = useState(false);
 
-  const getStatus = async (pool, selectedRound, roundInfo) => {
+  const getStatus = (pool, selectedRound, roundInfo) => {
     if (roundInfo.startTime.toString() * 1 > nowDate) {
       return 1;
     }
@@ -357,7 +357,7 @@ function Lottery() {
         rewardSymbol: symbol,
         roundInfo: {
           endTime: roundInfos.endTime.toString(),
-          status: await getStatus(
+          status: getStatus(
             allPools[i],
             rememberSelect[i]?.selectRound,
             roundInfos
@@ -422,7 +422,7 @@ function Lottery() {
 
     const realRoundInfo = {
       endTime: roundInfo.endTime.toString(),
-      status: await getStatus(list.contractAddress, value, roundInfo),
+      status: getStatus(list.contractAddress, value, roundInfo),
       isClaimed: roundInfo.isClaimed,
       leftTickets: roundInfo.leftTickets.toString(),
       startTime: roundInfo.startTime.toString(),
