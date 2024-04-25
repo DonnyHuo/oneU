@@ -1420,7 +1420,23 @@ function Lottery() {
                                       {shortStr(list?.poolId)}
                                     </span>
                                   </Popover>
-                                  ; Round {list?.roundId}
+                                </span>
+                                <span>
+                                  Winning number{" "}
+                                  <span className="_active">
+                                    {list?.winNumber}
+                                  </span>
+                                </span>
+                              </div>
+                              <div className="flex items-center justify-between font-thin mt-2">
+                                <span>Round{list?.roundId}</span>
+                                <span>{list?.ticketsCount} tickets</span>
+                              </div>
+                              <div className="flex items-center justify-between _nav-title font-thin mt-2">
+                                <span>
+                                  {moment(list?.timestamp * 1000).format(
+                                    "YYYY-MM-DD HH:mm:ss"
+                                  )}
                                 </span>
                                 <span
                                   onClick={() => {
@@ -1432,14 +1448,6 @@ function Lottery() {
                                   className="_active"
                                 >
                                   Check Number
-                                </span>
-                              </div>
-                              <div className="flex items-center justify-between _nav-title font-thin mt-2">
-                                <span>{list?.ticketsCount} tickets</span>
-                                <span>
-                                  {moment(list?.timestamp * 1000).format(
-                                    "YYYY-MM-DD HH:mm:ss"
-                                  )}
                                 </span>
                               </div>
                             </div>
