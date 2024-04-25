@@ -1489,7 +1489,7 @@ function Lottery() {
             <input
               value={ticketAmount}
               onChange={(value) => setTicketAmount(value.target.value)}
-              className="h-full outline-none bg-transparent w-4/5 _inputStyle"
+              className="outline-none bg-transparent w-4/5 _inputStyle"
               placeholder="Enter amount"
             />
             <button className="_yellow text-base" onClick={maxBuyFun}>
