@@ -165,6 +165,7 @@ a:hover {
 
 ._popover {
   width: 300px;
+  font-family: Poppins-Regular;
 }
 ._popover .ant-popover-inner {
   background-color: rgba(61, 57, 82, 1);
