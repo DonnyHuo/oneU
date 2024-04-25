@@ -248,7 +248,7 @@ const Header = () => {
   const Community = () => {
     return (
       <>
-        <div className="p-2 border-b border-neutral-800">
+        <div className="p-2 border-b border-neutral-800 font-bold">
           <a
             href="https://discord.com"
             target="_blank"
@@ -262,7 +262,7 @@ const Header = () => {
             Discord
           </a>
         </div>
-        <div className="p-2 border-b border-neutral-800">
+        <div className="p-2 border-b border-neutral-800 font-bold">
           <a
             href="https://twitter.com"
             target="_blank"
@@ -276,7 +276,7 @@ const Header = () => {
             Twitter
           </a>
         </div>
-        <div className="p-2">
+        <div className="p-2 font-bold">
           <a
             href="https://github.com"
             target="_blank"
