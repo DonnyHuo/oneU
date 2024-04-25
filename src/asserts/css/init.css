@@ -226,7 +226,7 @@ a:hover {
   font-size: 12px;
 }
 .ant-progress .ant-progress-bg {
-  height: 16px !important;
+  height: 12px !important;
   background: linear-gradient(90deg, #CE00FF 0%, #7F00FF 100%);
   box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.6) inset; 
 }
