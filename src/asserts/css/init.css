@@ -303,7 +303,7 @@ a:hover {
   font-weight: 600;
 }
 ._roundStatus1 {
-  background-color: #e6a62c;
+  background-color: #E03DEE;
 }
 ._roundStatus2 {
   background-color: #1eaf67;
@@ -331,6 +331,11 @@ a:hover {
 ._background-gradient5 {
   background: linear-gradient(180deg, rgba(28, 23, 42, 0) 0%, #1c172a 100%);
 }
+
+._background-gradient6:hover {
+  background: #361A58
+}
+
 
 .ant-select-single.ant-select-show-arrow .ant-select-selection-item {
   text-align: left;
@@ -370,6 +375,11 @@ a:hover {
 ._borderS1 {
   border: 1px solid #a851ff;
 }
+
+._borderS2 {
+  border: 1px solid #a851ff;
+}
+
 
 .communityList {
   padding-top: 20px !important;

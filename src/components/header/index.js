@@ -232,7 +232,7 @@ const Header = () => {
         </div>
         <div className="text-center">
           <a href="https://o3swap.com/swap" target="_black">
-            <button className="mt-5 w-full h-11 rounded-xl _borderS">
+            <button className="mt-5 w-full h-11 rounded-xl _borderS2 _background-gradient6">
               Bridge and Swap
             </button>
           </a>

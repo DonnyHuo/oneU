@@ -114,7 +114,7 @@ function Lottery() {
 
   const [rows, setRows] = useState(2);
 
-  const [maxTicketsPerBuy, setMaxTicketsPerBuy] = useState(10);
+  const [maxTicketsPerBuy, setMaxTicketsPerBuy] = useState(1000);
 
   const getMaxTicketsPerBuy = async () => {
     const maxTicketsPerBuy = await getContract(
@@ -127,7 +127,7 @@ function Lottery() {
   };
 
   useEffect(() => {
-    getMaxTicketsPerBuy();
+    // getMaxTicketsPerBuy();
   });
 
   const [accountBalance, setAccountBalance] = useState(0);
@@ -228,62 +228,90 @@ function Lottery() {
       }
     }
   };
+  const getParticipationRecordsByPoolRound = async (poolId, round) => {
+    const participationRecordsByPoolRound = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "getParticipationRecordsByPoolRound",
+      address,
+      poolId,
+      round
+    );
+    return participationRecordsByPoolRound;
+  };
 
   const openingRoundFun = async () => {
     if (openingRound.poolId) {
-      const roundInfo = await getContract(
-        walletProvider,
-        poolManager,
-        poolManagerAbi,
-        "getRoundInfo",
+      const records = await getParticipationRecordsByPoolRound(
         openingRound.poolId,
         openingRound.round
       );
-
-      if (roundInfo.winNumber * 1 > 0) {
-        const wonAccount = await getContract(
+      if (records.length * 1 > 0) {
+        const roundInfo = await getContract(
           walletProvider,
           poolManager,
           poolManagerAbi,
-          "getTicketOwner",
+          "getRoundInfo",
           openingRound.poolId,
-          openingRound.round,
-          roundInfo.winNumber
+          openingRound.round
         );
-        setOpeningRound({
-          poolId: openingRound.poolId,
-          round: openingRound.round,
-          winNumber: roundInfo.winNumber,
-          prize: ethers.utils.formatUnits(roundInfo.prize, USDTDecimals) * 1,
-        });
 
-        if (wonAccount.toLowerCase() !== address.toLowerCase()) {
-          setNoWon(true);
-        } else {
-          if (roundInfo.winNumber * 1 !== rememberOldTickets) {
-            const jsConfetti = new JSConfetti();
-            jsConfetti
-              .addConfetti({
-                // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
-                confettiColors: [
-                  "#FDB630",
-                  "#32F7B0",
-                  "#3BCB97",
-                  "#0F87D0",
-                  "#FD3B86",
-                  "#FECD3F",
-                ],
-                // confettiRadius: 6,
-                confettiNumber: 2000,
-              })
-              .then(() => {
-                setIsWonOpen(true);
-              });
+        if (roundInfo.winNumber * 1 > 0) {
+          const wonAccount = await getContract(
+            walletProvider,
+            poolManager,
+            poolManagerAbi,
+            "getTicketOwner",
+            openingRound.poolId,
+            openingRound.round,
+            roundInfo.winNumber
+          );
+          const getPoolInfo = await getContract(
+            walletProvider,
+            poolManager,
+            poolManagerAbi,
+            "getPoolInfo",
+            openingRound.poolId
+          );
+          setOpeningRound({
+            poolId: openingRound.poolId,
+            round: openingRound.round,
+            winNumber: roundInfo.winNumber,
+            prize:
+              ethers.utils.formatUnits(getPoolInfo.prize, USDTDecimals) * 1,
+          });
+
+          if (wonAccount.toLowerCase() !== address.toLowerCase()) {
+            setNoWon(true);
+          } else {
+            if (roundInfo.winNumber * 1 !== rememberOldTickets) {
+              const jsConfetti = new JSConfetti();
+              jsConfetti
+                .addConfetti({
+                  // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
+                  confettiColors: [
+                    "#FDB630",
+                    "#32F7B0",
+                    "#3BCB97",
+                    "#0F87D0",
+                    "#FD3B86",
+                    "#FECD3F",
+                  ],
+                  // confettiRadius: 6,
+                  confettiNumber: 2000,
+                })
+                .then(() => {
+                  setIsWonOpen(true);
+                });
+            }
           }
+          setRememberOldTickets(roundInfo.winNumber * 1);
+        } else {
+          setRememberOldTickets(0);
         }
-        setRememberOldTickets(roundInfo.winNumber * 1);
       } else {
-        setRememberOldTickets(0);
+        setRememberOldTickets(-1);
       }
     }
   };
@@ -393,10 +421,6 @@ function Lottery() {
       setOpenDraw(false);
     }
   }, [rememberOldTickets]);
-
-  // useEffect(() => {
-  //   getPoolList();
-  // }, [walletProvider]);
 
   const epochOptions = (list) => {
     const options = [];
@@ -738,7 +762,7 @@ function Lottery() {
       walletProvider,
       poolManager,
       poolManagerAbi,
-      "getParticipationRecords",
+      "getAllParticipationRecords",
       address
     );
     const newRecords = [];
