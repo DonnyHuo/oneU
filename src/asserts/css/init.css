@@ -27,7 +27,7 @@ a:hover {
   font-family: Poppins-Medium;
 }
 ._nav-title {
-  color: #827F92;
+  color: #827f92;
 }
 ._text {
   color: #a39fad;
@@ -200,7 +200,8 @@ a:hover {
   font-family: Poppins-Medium;
 }
 
-.ant-notification-topRight.ant-notification-stack>.ant-notification-notice-wrapper {
+.ant-notification-topRight.ant-notification-stack
+  > .ant-notification-notice-wrapper {
   top: 80px;
 }
 .ant-message-custom-content {
@@ -352,15 +353,13 @@ a:hover {
 ._tutorialsInfo {
   width: 560px;
   height: 277px;
-  background: 
-    linear-gradient(
-      180deg,
-      rgba(28, 23, 42, 0.69) 1.44%,
-      rgba(43, 36, 61, 0.35) 100%
-    );
-  
+  background: linear-gradient(
+    180deg,
+    rgba(28, 23, 42, 0.69) 1.44%,
+    rgba(43, 36, 61, 0.35) 100%
+  );
 }
-._tutorialsInfoBox{
+._tutorialsInfoBox {
   background-image: url("../../asserts/img/wallet.png");
   background-position: 98% 90%;
   background-repeat: no-repeat;
@@ -455,15 +454,38 @@ a:hover {
   .ant-notification-notice-close:hover {
   color: #fff;
 }
-.ant-notification .ant-notification-notice-wrapper .ant-notification-notice-icon {
+.ant-notification
+  .ant-notification-notice-wrapper
+  .ant-notification-notice-icon {
   font-size: 20px;
 }
-.ant-notification .ant-notification-notice-wrapper .ant-notification-notice-with-icon .ant-notification-notice-message {
+.ant-notification
+  .ant-notification-notice-wrapper
+  .ant-notification-notice-with-icon
+  .ant-notification-notice-message {
   margin-inline-start: 30px;
 }
 
 ._carouselBtn {
   top: 160px;
+}
+
+.beatBox {
+  animation: beat 1.5s infinite;
+}
+@keyframes beat {
+  0% {
+    transform: scale(1); /*开始为原始大小*/
+  }
+  25% {
+    transform: scale(1.1); /*放大1.1倍*/
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.1);
+  }
 }
 
 @media screen and (min-width: 0px) and (max-width: 880px) {

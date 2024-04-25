@@ -1102,7 +1102,7 @@ function Lottery() {
                                 disabled={
                                   ![2, 5].includes(list?.roundInfo?.status * 1)
                                 }
-                                className="rounded-full p-2 w-40 h-10 _title _listBtn"
+                                className={`rounded-full p-2 w-40 h-10 _title _listBtn ${list?.roundInfo?.status * 1 == 4 && 'beatBox'}`}
                                 onClick={() => {
                                   if (list?.roundInfo?.status * 1 == 2) {
                                     clickBuyBtnFun(list);
