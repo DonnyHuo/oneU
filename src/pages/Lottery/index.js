@@ -644,7 +644,7 @@ function Lottery() {
         setTicketAmount(0);
       }
     } else {
-      setTicketAmount(maxTicketsPerBuy);
+      setTicketAmount(selectPool?.roundInfo?.leftTickets);
     }
   };
   // 获取总奖励数
