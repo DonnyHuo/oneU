@@ -227,8 +227,8 @@ a:hover {
 }
 .ant-progress .ant-progress-bg {
   height: 12px !important;
-  background: linear-gradient(90deg, #CE00FF 0%, #7F00FF 100%);
-  box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.6) inset; 
+  background: linear-gradient(90deg, #ce00ff 0%, #7f00ff 100%);
+  box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.6) inset;
 }
 ._yellow {
   color: #e6a62c;
@@ -488,6 +488,47 @@ a:hover {
   75% {
     transform: scale(1.1);
   }
+}
+.ant-collapse {
+  border: none;
+  font-family: Poppins-Regular;
+  font-size: 16px;
+}
+.ant-collapse > .ant-collapse-item {
+  border: none;
+  background-color: #1c172a;
+  margin-top: 20px;
+  border-radius: 10px;
+  padding: 3px 20px;
+}
+.ant-collapse .ant-collapse-content {
+  background-color: transparent;
+  border-top: 1px solid #3d3952;
+}
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  padding: 10px 0 12px 0;
+  align-items: center;
+}
+.ant-collapse
+  > .ant-collapse-item
+  > .ant-collapse-header
+  .ant-collapse-header-text {
+  color: #f4f3f9;
+  font-weight: bold;
+}
+.ant-collapse .ant-collapse-content > .ant-collapse-content-box {
+  padding: 16px 0 10px 0;
+  color: #a39fad;
+}
+.ant-collapse > .ant-collapse-item:last-child,
+.ant-collapse > .ant-collapse-item:last-child > .ant-collapse-header {
+  border-radius: 8px;
+}
+.ant-collapse.ant-collapse-icon-position-end
+  > .ant-collapse-item
+  > .ant-collapse-header
+  .ant-collapse-expand-icon {
+  flex-shrink: 0;
 }
 
 @media screen and (min-width: 0px) and (max-width: 880px) {

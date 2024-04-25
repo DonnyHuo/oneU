@@ -1,29 +1,64 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Collapse } from "antd";
 
 function Tutorials() {
-  const [qaList, setQaList] = useState([
+  const [qaList] = useState([
     {
-      title: "1. How much reward can l receive?",
-      desc: "Purchase just 1 share, you have the chance to win the entire prize pool.",
+      key: "1",
+      label: "1. How much reward can l receive?",
+      children: (
+        <div>
+          Purchase just 1 share, you have the chance to win the entire prize
+          pool.
+        </div>
+      ),
     },
     {
-      title: "2. How to increase the probability of receiving rewards?",
-      desc: "The more shares you purchase, the greater the probability of receiving rewards.",
+      key: "2",
+      label: "2. How to increase the probability of receiving rewards?",
+      children: (
+        <div>
+          The more shares you purchase, the greater the probability of receiving
+          rewards.
+        </div>
+      ),
     },
     {
-      title: "3. How do l verify that the draw is fair and impartial?",
-      desc: "The lottery rules are written in the smart contract, and you can verify it in the smart contract address we published.",
+      key: "3",
+      label: "3. How do l verify that the draw is fair and impartial?",
+      children: (
+        <div>
+          The lottery rules are written in the smart contract, and you can
+          verify it in the smart contract address we published.
+        </div>
+      ),
     },
     {
-      title: "4. How do l view and claim my rewards?",
-      desc: "You can view and claim your rewards in [My reward], and you will need to pay gas fees when claiming them.",
+      key: "4",
+      label: "4. How do l view and claim my rewards?",
+      children: (
+        <div>
+          You can view and claim your rewards in [My reward], and you will need
+          to pay gas fees when claiming them.
+        </div>
+      ),
     },
     {
-      title: "5. How to get rewards for inviting friends?",
-      desc: "For every share purchased by a friend you invite, you will receive a 3% commission from the purchase amount.",
+      key: "5",
+      label: "5. How to get rewards for inviting friends?",
+      children: (
+        <div>
+          For every share purchased by a friend you invite, you will receive a
+          3% commission from the purchase amount.
+        </div>
+      ),
     },
   ]);
+
+  const onChange = (key) => {
+    console.log(key);
+  };
 
   return (
     <div className="_background1 _title">
@@ -108,50 +143,29 @@ function Tutorials() {
           style={{ maxWidth: "1180px" }}
           className="_marginLR _marginAuto0 _paddingB20"
         >
-          <div className="text-2xl font-bold">Q&A</div>
+          <div className="text-2xl font-bold mb-6">Q&A</div>
           <div className="pb-20">
-            {qaList.map((list, index) => {
-              return (
-                <div
-                  key={index}
-                  className="_background2 rounded-xl mt-4 p-4 cursor-pointer"
-                >
-                  <div
-                    className={`_title flex items-center justify-between ${
-                      list.active && "pb-4"
-                    }`}
+            <Collapse
+              expandIconPosition={"end"}
+              expandIcon={(value) => {
+                return (
+                  <img
                     style={{
-                      borderBottom: `${
-                        list.active ? "1px solid #2A2539" : "none"
-                      }`,
+                      width:'18px',
+                      transform: value.isActive
+                        ? "rotate(90deg)"
+                        : "rotate(0deg)",
+                      transition: "transform 0.2s linear",
                     }}
-                    onClick={() =>
-                      setQaList(
-                        qaList.map((item, ind) => {
-                          if (index === ind) {
-                            qaList[ind].active = !qaList[ind].active;
-                          }
-                          return item;
-                        })
-                      )
-                    }
-                  >
-                    <span>{list.title}</span>
-                    <img
-                      style={{
-                        width: "18px",
-                        transform: `${
-                          list.active ? "rotate(270deg)" : "rotate(0deg)"
-                        }`,
-                      }}
-                      src={require("../../asserts/img/right.png")}
-                      alt=""
-                    />
-                  </div>
-                  {list.active && <div className="_text mt-4">{list.desc}</div>}
-                </div>
-              );
-            })}
+                    src={require("../../asserts/img/right.png")}
+                    alt=""
+                  />
+                );
+              }}
+              items={qaList}
+              defaultActiveKey={["1"]}
+              onChange={onChange}
+            />
           </div>
         </div>
       </div>
