@@ -18,7 +18,6 @@ function Referral() {
 
   const [api, contextHolder] = notification.useNotification({
     placement: "topRight",
-    top: 100,
     duration: 3,
     maxCount: 10,
   });

@@ -80,7 +80,7 @@ const Header = () => {
 
   const [api, contextHolder] = notification.useNotification({
     placement: "topRight",
-    top: openUserAccount ? 340 : 100,
+    top: openUserAccount ? 320 : 0,
     duration: 5,
     maxCount: 10,
     zIndex: 100000,
@@ -101,7 +101,7 @@ const Header = () => {
           if (openTips) {
             notification.open({
               message: "Already registered, cannot bind invitation code！",
-              duration: 10,
+              duration: 5,
             });
           }
           dispatch({ type: "CHANGE_REMODAL", payload: false });
