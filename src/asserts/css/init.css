@@ -199,6 +199,10 @@ a:hover {
 .ant-message .ant-message-notice-wrapper .ant-message-notice-content {
   font-family: Poppins-Medium;
 }
+
+.ant-notification-topRight.ant-notification-stack>.ant-notification-notice-wrapper {
+  top: 80px;
+}
 .ant-message-custom-content {
   display: flex;
   align-items: center;
@@ -547,12 +551,11 @@ a:hover {
     height: 20px;
   }
   ._footerList {
-    width: 240px;
     height: 30px;
     margin: 30px 0 10px 0;
     font-size: 16px;
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
   }
   ._paddingTop10 {
     padding-top: 10px;

@@ -60,39 +60,22 @@ export const makeRandomArr = (arrList, num) => {
   return newArrList;
 };
 
-
-
-
-export const getNewTickets = (tickets) => {
+export const getNewTickets = (tickets, total = 100) => {
   if (Array.isArray(tickets)) {
     return tickets.map((item) => {
-      if (item * 1 < 10) {
-        return `00${item}`;
+      let s = "";
+      for (let i = 1; i < Math.log10(total * 10); i++) {
+        s += "0";
       }
-      if (item * 1 < 100) {
-        return `0${item}`;
-      }
-      if (item * 1 == 100) {
-        return `${item}`;
-      }
-      if (item * 1 > 100) {
-        return item;
-      }
+      return (s + item).slice(-1 * Math.log10(total * 10));
     });
   }
   if (typeof tickets == "number") {
-    if (tickets * 1 < 10) {
-      return `00${tickets}`;
+    let s = "";
+    for (let i = 1; i < Math.log10(total * 10); i++) {
+      s += "0";
     }
-    if (tickets * 1 < 100) {
-      return `0${tickets}`;
-    }
-    if (tickets * 1 == 100) {
-      return `${tickets}`;
-    }
-    if (tickets * 1 > 100) {
-      return tickets;
-    }
+    return (s + tickets).slice(-1 * Math.log10(total * 10));
   }
 };
 

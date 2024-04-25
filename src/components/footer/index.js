@@ -12,8 +12,7 @@ function footer() {
           </Link>
           <div className="w-80 flex items-center justify-around h-32 text-sm _title _footerList">
             <a href="">Terms</a>
-            <a href="">Privacy Plicy</a>
-            <a href="">Discord</a>
+            <a href="" className="ml-8">Privacy Plicy</a>
           </div>
         </div>
         <div className="flex items-center justify-between _flexNo">

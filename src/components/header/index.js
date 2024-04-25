@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   useWeb3Modal,
@@ -18,7 +18,7 @@ import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
 import { ethers } from "ethers";
 import { erc20Abi } from "viem";
-import { useInterval } from "ahooks";
+import { useInterval, useTimeout } from "ahooks";
 
 const Header = () => {
   const location = useLocation();
@@ -66,7 +66,7 @@ const Header = () => {
 
   useEffect(() => {
     // get userId
-    address ? getUserId() : dispatch({ type: "CHANGE_USER", payload: '--' });
+    address ? getUserId() : dispatch({ type: "CHANGE_USER", payload: "--" });
     // save address
     dispatch({ type: "CHANGE_ADDRESS", payload: address });
   }, [address, chainId]);
@@ -76,27 +76,50 @@ const Header = () => {
 
   const userId = useSelector((state) => state.userId);
 
-  useEffect(() => {
-    if (userId * 1 <= 0) {
-      const inviteCode = location.search.split("?code=")[1] * 1;
-      if (inviteCode * 1 > 0) {
-        setCode(inviteCode);
-      }
-      dispatch({ type: "CHANGE_REMODAL", payload: true });
-    } else {
-      dispatch({ type: "CHANGE_REMODAL", payload: false });
-    }
-  }, [userId]);
-
   const [openUserAccount, setOpenUserAccount] = useState(false);
 
   const [api, contextHolder] = notification.useNotification({
     placement: "topRight",
     top: openUserAccount ? 340 : 100,
-    duration: 3,
+    duration: 5,
     maxCount: 10,
     zIndex: 100000,
   });
+
+  const inviteCode = location.search.split("?code=")[1] * 1;
+  const [openTips, setOpenTips] = useState(true);
+
+  const inviteFun = useCallback(() => {
+    if (isConnected) {
+      if (inviteCode * 1 > 0) {
+        if (userId * 1 <= 0) {
+          setCode(inviteCode);
+          dispatch({ type: "CHANGE_REMODAL", payload: true });
+          
+        } else {
+          setOpenTips(true)
+          if (openTips) {
+            notification.open({
+              message: "Already registered, cannot bind invitation code！",
+              duration: 10,
+            });
+          }
+          dispatch({ type: "CHANGE_REMODAL", payload: false });
+          setOpenTips(false)
+        }
+        
+      }
+    } else {
+      if (inviteCode * 1 > 0) {
+        dispatch({ type: "CHANGE_REMODAL", payload: true });
+      }
+    }
+  }, [isConnected, address, inviteCode, openTips, userId]);
+
+  useInterval(() => {
+    inviteFun();
+  }, 2000);
+
   // user signup
   const signUp = () => {
     setSignUpLoading(true);
@@ -598,9 +621,11 @@ const Header = () => {
         <Button
           className="w-full h-12 mt-5 _background-gradient2 text-white rounded-full text-sm pt-2 pb-2 pl-5 pr-5 border-0"
           loading={signUpLoading}
-          onClick={signUp}
+          onClick={() => {
+            address ? signUp() : open();
+          }}
         >
-          Sign Up
+          {address ? "Sign Up" : "Connect Wallet"}
         </Button>
       </Modal>
     </div>

@@ -282,6 +282,8 @@ function Lottery() {
               ethers.utils.formatUnits(getPoolInfo.prize, USDTDecimals) * 1,
           });
 
+          epochChange(openingRound.round * 1 + 1, openingRound.poolId);
+
           if (wonAccount.toLowerCase() !== address.toLowerCase()) {
             setNoWon(true);
           } else {
@@ -409,18 +411,18 @@ function Lottery() {
     getPoolList();
   }, 3000);
 
-  useEffect(() => {
-    if (rememberOldTickets >= 0) {
-      if (rememberOldTickets * 1 == 0) {
-        setOpenDraw(true);
-      }
-      if (rememberOldTickets * 1 > 0) {
-        setOpenDraw(false);
-      }
-    } else {
-      setOpenDraw(false);
-    }
-  }, [rememberOldTickets]);
+  // useEffect(() => {
+  //   if (rememberOldTickets >= 0) {
+  //     if (rememberOldTickets * 1 == 0) {
+  //       setOpenDraw(true);
+  //     }
+  //     if (rememberOldTickets * 1 > 0) {
+  //       setOpenDraw(false);
+  //     }
+  //   } else {
+  //     setOpenDraw(false);
+  //   }
+  // }, [rememberOldTickets]);
 
   const epochOptions = (list) => {
     const options = [];
@@ -434,19 +436,19 @@ function Lottery() {
     return options.reverse();
   };
 
-  const epochChange = async (value, list) => {
+  const epochChange = async (value, poolId) => {
     const roundInfo = await getContract(
       walletProvider,
       poolManager,
       poolManagerAbi,
       "getRoundInfo",
-      list.contractAddress,
+      poolId,
       value
     );
 
     const realRoundInfo = {
       endTime: roundInfo.endTime.toString(),
-      status: getStatus(list.contractAddress, value, roundInfo),
+      status: getStatus(poolId, value, roundInfo),
       isClaimed: roundInfo.isClaimed,
       leftTickets: roundInfo.leftTickets.toString(),
       startTime: roundInfo.startTime.toString(),
@@ -455,7 +457,7 @@ function Lottery() {
     };
 
     const newPool = pools.map((pool) => {
-      if (pool.contractAddress == list.contractAddress) {
+      if (pool.contractAddress == poolId) {
         pool.roundInfo = realRoundInfo;
       }
       return pool;
@@ -463,7 +465,7 @@ function Lottery() {
     setPools(newPool);
 
     const newRememberSelect = rememberSelect.map((select) => {
-      if (select.contractAddress == list.contractAddress) {
+      if (select.contractAddress == poolId) {
         select.selectRound = value.toString();
       }
       return select;
@@ -545,7 +547,6 @@ function Lottery() {
       .map((i) => i + 1)
       .filter((list) => !soldTickets.includes(list));
 
-    // const realArr = arr.filer;
     return makeRandomArr(arr, amount);
   };
 
@@ -703,57 +704,6 @@ function Lottery() {
     setUnclaimedInfo(unclaimedInformation);
   };
 
-  // 判断当前用户是否获奖
-  // const [wonTickets, setWonTickets] = useState([]);
-
-  // const [rememberOldTickets, setRememberOldTickets] = useState([]);
-  // const isWonParticipation = () => {
-  //   if (unclaimedPrizes * 1 > 0) {
-  //     const wonTickets = [];
-  //     wonParticipationRecords?.records.length > 0 &&
-  //       wonParticipationRecords.records.map((list) => {
-  //         unclaimedInfo.map((unclaim) => {
-  //           if (
-  //             unclaim.poolId === list.poolId &&
-  //             unclaim.roundId * 1 === list.roundId.toString() * 1
-  //           ) {
-  //             wonTickets.push(...list.tickets);
-  //           }
-  //         });
-  //       });
-  //     // wonTickets
-  //     setWonTickets(wonTickets);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (wonTickets.length > 0) {
-  //     setRememberOldTickets(wonTickets);
-  //     if (JSON.stringify(rememberOldTickets) !== JSON.stringify(wonTickets)) {
-  //       const jsConfetti = new JSConfetti();
-  //       jsConfetti
-  //         .addConfetti({
-  //           // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
-  //           confettiColors: [
-  //             "#FDB630",
-  //             "#32F7B0",
-  //             "#3BCB97",
-  //             "#0F87D0",
-  //             "#FD3B86",
-  //             "#FECD3F",
-  //           ],
-  //           // confettiRadius: 6,
-  //           confettiNumber: 2000,
-  //         })
-  //         .then(() => {
-  //           setIsWonOpen(true);
-  //         });
-  //     }
-  //   }
-  // }, [wonTickets, address]);
-
-  // useInterval(isWonParticipation, 2000, { immediate: true });
-
   // 获取参与记录
   const [participationRecords, setParticipationRecords] = useState([]);
 
@@ -767,16 +717,18 @@ function Lottery() {
     );
     const newRecords = [];
     for (let i = 0; i < participationRecords.length; i++) {
+      const { winShowNumber, totalShowTickets } = await getWinnerNumber(
+        participationRecords[i].poolId,
+        participationRecords[i].roundId.toString()
+      );
       const newList = {
         poolId: participationRecords[i].poolId,
         roundId: participationRecords[i].roundId.toString(),
         tickets: participationRecords[i].tickets,
         ticketsCount: participationRecords[i].ticketsCount.toString(),
         timestamp: participationRecords[i].timestamp.toString(),
-        winNumber: await getWinnerNumber(
-          participationRecords[i].poolId,
-          participationRecords[i].roundId.toString()
-        ),
+        winNumber: winShowNumber,
+        totalTickets: totalShowTickets,
       };
 
       newRecords.push(newList);
@@ -794,8 +746,20 @@ function Lottery() {
       poolId,
       roundId
     );
+    const { totalTickets } = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "getPoolInfo",
+      poolId
+    );
 
-    return winNumber;
+    const winShowNumber = getNewTickets(
+      winNumber * 1,
+      totalTickets.toString() * 1
+    );
+    const totalShowTickets = totalTickets.toString() * 1;
+    return { winShowNumber, totalShowTickets };
   };
 
   useEffect(() => {
@@ -927,12 +891,13 @@ function Lottery() {
               Win Crypto Lotteries With One USDT
             </div>
             <div className="text-sm mt-5 _title _hiddenM">
-              Users can win crypto lotteries such as BTC/ETH/SOL assets with
-              just 1 USDT, trusted by the smart contract.
+              Users can win crypto lotteries just 1 USDT, trusted by the smart
+              contract.
             </div>
             <div className="text-sm mt-5 _title _hiddenP pr-2 pl-2">
-              Users can win crypto lotteries such as USDT assets with just 1
-              USDT, trusted by the smart contract.
+              Users can win crypto lotteries just 1 USDT,
+              <br />
+              trusted by the smart contract.
             </div>
             <div className="flex items-start justify-around _widthP _marginAuto _widthM _size12">
               {descList.map((list, index) => {
@@ -1002,7 +967,9 @@ function Lottery() {
                                 rememberSelect[index]?.selectRound ||
                                 list.currentRound
                               }
-                              onChange={(value) => epochChange(value, list)}
+                              onChange={(value) =>
+                                epochChange(value, list.contractAddress)
+                              }
                               overlayClassName="dropdown-class"
                               options={epochOptions(list.currentRound)}
                               suffixIcon={
@@ -1056,7 +1023,10 @@ function Lottery() {
                             >
                               {list?.roundInfo?.winNumber * 1 == 0
                                 ? "To be drawn"
-                                : getNewTickets(list?.roundInfo?.winNumber * 1)}
+                                : getNewTickets(
+                                    list?.roundInfo?.winNumber * 1,
+                                    list.totalTickets * 1
+                                  )}
                             </div>
                             <div className="text-xs leading-4">
                               Winning Number
@@ -1077,7 +1047,8 @@ function Lottery() {
                                 {list?.roundInfo?.winNumber * 1 == 0
                                   ? "--"
                                   : getNewTickets(
-                                      list?.roundInfo?.winNumber * 1
+                                      list?.roundInfo?.winNumber * 1,
+                                      list.totalTickets * 1
                                     )}
                               </div>
                             </div>
@@ -1216,7 +1187,8 @@ function Lottery() {
                                     {list?.roundInfo?.winNumber * 1 == 0
                                       ? "To be drawn"
                                       : getNewTickets(
-                                          list?.roundInfo?.winNumber * 1
+                                          list?.roundInfo?.winNumber * 1,
+                                          list.totalTickets * 1
                                         )}
                                   </span>
                                 </div>
@@ -1277,10 +1249,9 @@ function Lottery() {
                         <span className="text-2xl font-bold">
                           {address
                             ? parseFloat(
-                                (
-                                  wonParticipationRecords?.totalPrizes -
-                                  unclaimedPrizes
-                                ).toFixed(2)
+                                (wonParticipationRecords?.totalPrizes).toFixed(
+                                  2
+                                )
                               ).toLocaleString()
                             : "--"}{" "}
                           {USDTSymbol}
@@ -1363,7 +1334,7 @@ function Lottery() {
                                   <span className="_active">
                                     {list?.winNumber * 1 == 0
                                       ? "--"
-                                      : getNewTickets(list?.winNumber * 1)}
+                                      : list?.winNumber}
                                   </span>
                                 </td>
                                 <td>
@@ -1376,7 +1347,10 @@ function Lottery() {
                                     className="tableBtn min-w-24"
                                     onClick={() => {
                                       setSelectTickets(
-                                        getNewTickets(list?.tickets)
+                                        getNewTickets(
+                                          list?.tickets,
+                                          list?.totalTickets
+                                        )
                                       );
                                       setIsRewardOpen(true);
                                     }}
@@ -1441,7 +1415,10 @@ function Lottery() {
                                 <span
                                   onClick={() => {
                                     setSelectTickets(
-                                      getNewTickets(list?.tickets)
+                                      getNewTickets(
+                                        list?.tickets,
+                                        list?.totalTickets
+                                      )
                                     );
                                     setIsRewardOpen(true);
                                   }}
@@ -1463,17 +1440,17 @@ function Lottery() {
                 className="h-16 _background2 rounded-xl mx-auto mt-8 text-sm flex items-center justify-between px-4 _widthM"
                 style={{ maxWidth: "1100px" }}
               >
-                <span>Contract Address</span>
+                <span className="text-left">Trusted by the smart contract</span>
                 <a
                   href={`${chainInfo?.explorerUrl}/address/${poolManager}#code`}
                   target="_blank"
                   className="flex items-center"
                 >
                   <span className="_text _hiddenM">{poolManager}</span>
-                  <span className="_text _hiddenP">
+                  <span className="_title _hiddenP underline">
                     {shortStr(poolManager)}
                   </span>
-                  <button className="border rounded-xl px-3 py-1 ml-2 _borderS text-sm">
+                  <button className="border rounded-xl px-3 py-1 ml-2 _borderS text-sm _hiddenM">
                     Details
                   </button>
                 </a>
@@ -1500,7 +1477,9 @@ function Lottery() {
         >
           <div className="text-white flex items-center justify-between font-bold">
             <span>Tickets</span>
-            <span>1 Ticket = {selectPool.pricePerTicket * 1}U</span>
+            <span>
+              1 Ticket = {selectPool.pricePerTicket * 1} {USDTSymbol}
+            </span>
           </div>
           <div
             className="w-full h-12 rounded-xl text-white pl-4 pr-4 text-sm mt-3 flex items-center justify-between"
@@ -1597,8 +1576,9 @@ function Lottery() {
           <Carousel
             afterChange={onChangeCarousel}
             infinite={false}
+            dots={false}
             ref={carouselRef}
-            className="w-10/12 mx-auto"
+            className="w-10/12 mx-auto h-52"
           >
             {selectTickets &&
               selectTickets.map((list) => {
@@ -1631,9 +1611,9 @@ function Lottery() {
             style={{ top: "154px" }}
           >
             <button
-              className={`bg-neutral-600 rounded-full w-7 h-7 text-xl focus:bg-violet-600 ${
+              className={`bg-neutral-600 rounded-full w-7 h-7 text-xl hover:bg-violet-600 ${
                 carouselIndex == 0
-                  ? "text-gray-500 focus:bg-neutral-600"
+                  ? "text-gray-500 hover:bg-neutral-600"
                   : "text-white"
               }`}
               onClick={goToPrevSlide}
@@ -1641,9 +1621,9 @@ function Lottery() {
               {"<"}
             </button>
             <button
-              className={`bg-neutral-600 rounded-full w-7 h-7 text-xl focus:bg-violet-600 ${
+              className={`bg-neutral-600 rounded-full w-7 h-7 text-xl hover:bg-violet-600 ${
                 carouselIndex == selectTickets.length - 1
-                  ? "text-gray-500 focus:bg-neutral-600"
+                  ? "text-gray-500 hover:bg-neutral-600"
                   : "text-white"
               }`}
               onClick={goToNextSlide}
@@ -1752,14 +1732,14 @@ function Lottery() {
             </button>
           </div>
         </Modal>
-        {openDraw && (
+        {/* {openDraw && (
           <div
             className="fixed top-0 left-0 w-full h-full flex items-center justify-center"
             style={{ backgroundColor: "rgba(0, 0, 0, 0.45)" }}
           >
             <img src={require("../../asserts/img/openDrawn.gif")} alt="" />
           </div>
-        )}
+        )} */}
         <Footer />
       </div>
     </StickyContainer>

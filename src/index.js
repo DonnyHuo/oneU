@@ -116,6 +116,7 @@ createWeb3Modal({
   themeVariables: {
     "--w3m-font-family": "Poppins-Regular",
     "--w3m-font-size-master": "10px",
+    "--w3m-z-index": 10000
   },
 });
 const root = ReactDOM.createRoot(document.getElementById("root"));
