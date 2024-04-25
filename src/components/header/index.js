@@ -193,7 +193,7 @@ const Header = () => {
             <span className="px-2">{shortStr(address)}</span>
 
             <img
-              className="w-3 cursor-pointer"
+              className="w-4 cursor-pointer"
               src={require("../../asserts/img/copy.png")}
               alt=""
             />

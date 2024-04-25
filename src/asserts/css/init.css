@@ -436,6 +436,7 @@ a:hover {
   .ant-notification-notice-content
   .ant-notification-notice-message {
   color: #fff;
+  font-size: 14px;
 }
 .ant-notification
   .ant-notification-notice-wrapper
@@ -448,6 +449,12 @@ a:hover {
   .ant-notification-notice-wrapper
   .ant-notification-notice-close:hover {
   color: #fff;
+}
+.ant-notification .ant-notification-notice-wrapper .ant-notification-notice-icon {
+  font-size: 20px;
+}
+.ant-notification .ant-notification-notice-wrapper .ant-notification-notice-with-icon .ant-notification-notice-message {
+  margin-inline-start: 30px;
 }
 
 @media screen and (min-width: 0px) and (max-width: 880px) {
