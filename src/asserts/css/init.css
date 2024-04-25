@@ -329,8 +329,9 @@ a:hover {
 ._backgroundTickets {
   background-image: url("../../asserts/img/number.png");
   background-repeat: no-repeat;
-  background-size: 100% 80%;
+  background-size: 100% 100%;
   background-position: top center;
+  height: 190px;
 }
 
 ._background-gradient5 {
@@ -461,7 +462,20 @@ a:hover {
   margin-inline-start: 30px;
 }
 
+._carouselBtn {
+  top: 160px;
+}
+
 @media screen and (min-width: 0px) and (max-width: 880px) {
+  ._carouselBtn {
+    position: inherit;
+    margin: 20px auto;
+    justify-content: space-around;
+  }
+  ._carouselBox {
+    width: 100%;
+    height: 180px;
+  }
   ._background4 {
     background-color: #0b051a;
   }
@@ -489,7 +503,7 @@ a:hover {
     );
   }
   .h-56 {
-    height: 220px;
+    height: 180px;
   }
   .ant-skeleton .ant-skeleton-content .ant-skeleton-paragraph > li {
     height: 390px;

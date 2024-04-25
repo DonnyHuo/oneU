@@ -1397,7 +1397,9 @@ function Lottery() {
                                 <span>
                                   Winning number{" "}
                                   <span className="_active">
-                                    {list?.winNumber}
+                                  {list?.winNumber * 1 == 0
+                                      ? "--"
+                                      : list?.winNumber}
                                   </span>
                                 </span>
                               </div>
@@ -1577,7 +1579,7 @@ function Lottery() {
             infinite={false}
             dots={false}
             ref={carouselRef}
-            className="w-10/12 mx-auto h-52"
+            className="w-10/12 mx-auto h-52 _carouselBox"
           >
             {selectTickets &&
               selectTickets.map((list) => {
@@ -1594,7 +1596,8 @@ function Lottery() {
                         return (
                           <span
                             key={index}
-                            className="w-14 border border-purple-400 rounded-lg mx-1 px-1 py-2 box-border"
+                            className="w-14 rounded-lg mx-1 px-1 py-2 box-border font-bold"
+                            style={{background: 'rgba(255, 255, 255, 0.2)'}}
                           >
                             {number}
                           </span>
@@ -1606,8 +1609,7 @@ function Lottery() {
               })}
           </Carousel>
           <div
-            className="w-11/12 flex item-center justify-between absolute left-4"
-            style={{ top: "154px" }}
+            className="w-11/12 flex item-center justify-between absolute left-4 _carouselBtn"
           >
             <button
               className={`bg-neutral-600 rounded-full w-7 h-7 text-xl hover:bg-violet-600 ${
