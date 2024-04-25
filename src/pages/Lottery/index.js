@@ -1460,7 +1460,7 @@ function Lottery() {
             </div>
             {!tab && (
               <div
-                className="h-16 _background2 rounded-xl mx-auto mt-10 text-sm flex items-center justify-between px-4 _widthM"
+                className="h-16 _background2 rounded-xl mx-auto mt-8 text-sm flex items-center justify-between px-4 _widthM"
                 style={{ maxWidth: "1100px" }}
               >
                 <span>Contract Address</span>

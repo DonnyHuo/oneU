@@ -56,55 +56,49 @@ function Tutorials() {
               </Link>
             </div>
           </div>
-          <div
-            className="_border rounded-3xl p-8 _background2 _marginLR _padding10 _marginTop _tutorialsInfo"
-            style={{
-              height: "277px",
-              backgroundImage: `url(${require("../../asserts/img/wallet.png")})`,
-              backgroundPosition: "98% 90%",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "130px 130px",
-            }}
-          >
-            <div className="pb-4 _title font-bold">How to participate?</div>
-            <div>
-              <div className="flex items-start _backgroundLine">
-                <img
-                  className="w-4 mr-3 mt-1"
-                  src={require("../../asserts/img/point.png")}
-                  alt=""
-                />
-                <div>
-                  <p className="_title font-bold">Step 1</p>
-                  <p className="_text text-xs pt-2 pb-4">
-                    Onboarding with your wallet. (Metamask)
-                  </p>
+
+          <div className="_border rounded-3xl p-8 _background2 _marginLR _padding10 _marginTop _tutorialsInfo">
+            <div className="_tutorialsInfoBox">
+              <div className="pb-4 _title font-bold">How to participate?</div>
+              <div>
+                <div className="flex items-start _backgroundLine">
+                  <img
+                    className="w-4 mr-3 mt-1"
+                    src={require("../../asserts/img/point.png")}
+                    alt=""
+                  />
+                  <div>
+                    <p className="_title font-bold">Step 1</p>
+                    <p className="_text text-xs pt-2 pb-4">
+                      Onboarding with your wallet. (Metamask)
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start _backgroundLine">
-                <img
-                  className="w-4 mr-3 mt-1"
-                  src={require("../../asserts/img/point.png")}
-                  alt=""
-                />
-                <div>
-                  <p className="_title font-bold">Step 2</p>
-                  <p className="_text text-xs pt-2 pb-4">
-                    Purchase at least one share to participate.
-                  </p>
+                <div className="flex items-start _backgroundLine">
+                  <img
+                    className="w-4 mr-3 mt-1"
+                    src={require("../../asserts/img/point.png")}
+                    alt=""
+                  />
+                  <div>
+                    <p className="_title font-bold">Step 2</p>
+                    <p className="_text text-xs pt-2 pb-4">
+                      Purchase at least one share to participate.
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start">
-                <img
-                  className="w-4 mr-3 mt-1"
-                  src={require("../../asserts/img/point.png")}
-                  alt=""
-                />
-                <div>
-                  <p className="_title font-bold">Step 3</p>
-                  <p className="_text text-xs pt-2 pb-4">
-                    Waiting for the lottery draw to get the big prize.
-                  </p>
+                <div className="flex items-start">
+                  <img
+                    className="w-4 mr-3 mt-1"
+                    src={require("../../asserts/img/point.png")}
+                    alt=""
+                  />
+                  <div>
+                    <p className="_title font-bold">Step 3</p>
+                    <p className="_text text-xs pt-2 pb-4">
+                      Waiting for the lottery draw to get the big prize.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

@@ -27,7 +27,7 @@ a:hover {
   font-family: Poppins-Medium;
 }
 ._nav-title {
-  color: #b5b3c1;
+  color: #827F92;
 }
 ._text {
   color: #a39fad;
@@ -93,6 +93,7 @@ a:hover {
   background-repeat: no-repeat;
   background-size: 135px;
   background-position: 370px 58px;
+  font-weight: bold;
 }
 
 ._background-tutorials {
@@ -303,7 +304,7 @@ a:hover {
   font-weight: 600;
 }
 ._roundStatus1 {
-  background-color: #E03DEE;
+  background-color: #e03dee;
 }
 ._roundStatus2 {
   background-color: #1eaf67;
@@ -333,9 +334,8 @@ a:hover {
 }
 
 ._background-gradient6:hover {
-  background: #361A58
+  background: #361a58;
 }
-
 
 .ant-select-single.ant-select-show-arrow .ant-select-selection-item {
   text-align: left;
@@ -346,11 +346,20 @@ a:hover {
 }
 ._tutorialsInfo {
   width: 560px;
-  background: linear-gradient(
-    180deg,
-    rgba(28, 23, 42, 0.69) 1.44%,
-    rgba(43, 36, 61, 0.35) 100%
-  );
+  height: 277px;
+  background: 
+    linear-gradient(
+      180deg,
+      rgba(28, 23, 42, 0.69) 1.44%,
+      rgba(43, 36, 61, 0.35) 100%
+    );
+  
+}
+._tutorialsInfoBox{
+  background-image: url("../../asserts/img/wallet.png");
+  background-position: 98% 90%;
+  background-repeat: no-repeat;
+  background-size: 130px 130px;
 }
 
 .accountInfo {
@@ -379,7 +388,6 @@ a:hover {
 ._borderS2 {
   border: 1px solid #a851ff;
 }
-
 
 .communityList {
   padding-top: 20px !important;
@@ -412,7 +420,8 @@ a:hover {
 .ant-notification {
   z-index: 111111;
 }
-.ant-notification-topRight.ant-notification-stack>.ant-notification-notice-wrapper {
+.ant-notification-topRight.ant-notification-stack
+  > .ant-notification-notice-wrapper {
   border-radius: 10px;
   background-color: #2a2539;
 }
@@ -424,15 +433,20 @@ a:hover {
 }
 .ant-notification
   .ant-notification-notice-wrapper
-  .ant-notification-notice-content .ant-notification-notice-message {
+  .ant-notification-notice-content
+  .ant-notification-notice-message {
   color: #fff;
 }
-.ant-notification .ant-notification-notice-wrapper .ant-notification-notice-close {
+.ant-notification
+  .ant-notification-notice-wrapper
+  .ant-notification-notice-close {
   top: 18px;
   right: 20px;
   color: #f5f5f5;
 }
-.ant-notification .ant-notification-notice-wrapper .ant-notification-notice-close:hover {
+.ant-notification
+  .ant-notification-notice-wrapper
+  .ant-notification-notice-close:hover {
   color: #fff;
 }
 
