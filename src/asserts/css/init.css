@@ -221,12 +221,14 @@ a:hover {
 .ant-progress-text {
   position: absolute;
   top: calc(50% - 4px);
-  left: calc(50% - 12px);
+  left: calc(50% - 14px);
   font-family: Poppins-Regular;
   font-size: 12px;
 }
 .ant-progress .ant-progress-bg {
-  height: 12px !important;
+  height: 16px !important;
+  background: linear-gradient(90deg, #CE00FF 0%, #7F00FF 100%);
+  box-shadow: 0px 4px 4px 0px rgba(255, 255, 255, 0.6) inset; 
 }
 ._yellow {
   color: #e6a62c;

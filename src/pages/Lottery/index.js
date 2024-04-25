@@ -1075,9 +1075,9 @@ function Lottery() {
                                       list?.roundInfo?.leftTickets * 1)) /
                                   list?.totalTickets
                                 }
-                                strokeColor={
-                                  "linear-gradient(90deg, #CE00FF 0%, #7F00FF 100%)"
-                                }
+                                // strokeColor={
+                                //   "linear-gradient(90deg, #CE00FF 0%, #7F00FF 100%)"
+                                // }
                                 trailColor={"rgba(163,159,173, 0.2)"}
                               />
                             </div>
