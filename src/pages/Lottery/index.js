@@ -836,7 +836,11 @@ function Lottery() {
     setTicketAmount("");
   };
 
-  const clickLotteryDraw = async (list) => {
+  const clickLotteryDraw = async (list, index) => {
+    setRememberSelect((state) => {
+      state[index].loading = true;
+      return state;
+    });
     await getWriteContractLoad(
       walletProvider,
       poolManager,
@@ -845,11 +849,22 @@ function Lottery() {
       list.contractAddress
     )
       .then((res) => {
+        setRememberSelect((state) => {
+          state[index].loading = false;
+          return state;
+        });
         api["success"]({
           message: `Instant Drawing Success!`,
         });
       })
       .catch((err) => {
+        setRememberSelect((state) => {
+          state[index].loading = false;
+          return state;
+        });
+        api["error"]({
+          message: `Instant Drawing Failed!`,
+        });
         console.log(err);
       });
   };
@@ -1099,18 +1114,21 @@ function Lottery() {
                             {contextHolder}
                             <div className="text-right">
                               <Button
+                                loading={
+                                  list?.roundInfo?.status * 1 == 5 &&
+                                  rememberSelect[index].loading
+                                }
                                 disabled={
                                   ![2, 5].includes(list?.roundInfo?.status * 1)
                                 }
-                                className={`rounded-full p-2 w-40 h-10 _title _listBtn ${list?.roundInfo?.status * 1 == 4 && 'beatBox'}`}
+                                className={`rounded-full p-2 w-40 h-10 _title _listBtn ${
+                                  list?.roundInfo?.status * 1 == 4 && "beatBox"
+                                }`}
                                 onClick={() => {
                                   if (list?.roundInfo?.status * 1 == 2) {
                                     clickBuyBtnFun(list);
                                   }
-                                  if (
-                                    list?.roundInfo?.status * 1 == 5 &&
-                                    list?.roundInfo?.vrfRequestId * 1 == 0
-                                  ) {
+                                  if (list?.roundInfo?.status * 1 == 5) {
                                     clickLotteryDraw(list, index);
                                   }
                                 }}
@@ -1397,7 +1415,7 @@ function Lottery() {
                                 <span>
                                   Winning number{" "}
                                   <span className="_active">
-                                  {list?.winNumber * 1 == 0
+                                    {list?.winNumber * 1 == 0
                                       ? "--"
                                       : list?.winNumber}
                                   </span>
@@ -1597,7 +1615,7 @@ function Lottery() {
                           <span
                             key={index}
                             className="w-14 rounded-lg mx-1 px-1 py-2 box-border font-bold"
-                            style={{background: 'rgba(255, 255, 255, 0.2)'}}
+                            style={{ background: "rgba(255, 255, 255, 0.2)" }}
                           >
                             {number}
                           </span>
@@ -1608,9 +1626,7 @@ function Lottery() {
                 );
               })}
           </Carousel>
-          <div
-            className="w-11/12 flex item-center justify-between absolute left-4 _carouselBtn"
-          >
+          <div className="w-11/12 flex item-center justify-between absolute left-4 _carouselBtn">
             <button
               className={`bg-neutral-600 rounded-full w-7 h-7 text-xl hover:bg-violet-600 ${
                 carouselIndex == 0
