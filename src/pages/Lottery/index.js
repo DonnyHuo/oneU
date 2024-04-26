@@ -1628,20 +1628,20 @@ function Lottery() {
           </Carousel>
           <div className="w-11/12 flex item-center justify-between absolute left-4 _carouselBtn">
             <button
-              className={`bg-neutral-600 rounded-full w-7 h-7 text-xl hover:bg-violet-600 ${
-                carouselIndex == 0
+              className={`bg-neutral-600 rounded-full w-7 h-7 text-xl ${
+                carouselIndex <= 0
                   ? "text-gray-500 hover:bg-neutral-600"
-                  : "text-white"
+                  : "text-white hover:bg-violet-600"
               }`}
               onClick={goToPrevSlide}
             >
               {"<"}
             </button>
             <button
-              className={`bg-neutral-600 rounded-full w-7 h-7 text-xl hover:bg-violet-600 ${
-                carouselIndex == selectTickets.length - 1
+              className={`bg-neutral-600 rounded-full w-7 h-7 text-xl  ${
+                carouselIndex >= selectTickets.length - 1
                   ? "text-gray-500 hover:bg-neutral-600"
-                  : "text-white"
+                  : "text-white hover:bg-violet-600"
               }`}
               onClick={goToNextSlide}
             >
