@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   useWeb3Modal,
@@ -89,15 +89,14 @@ const Header = () => {
   const inviteCode = location.search.split("?code=")[1] * 1;
   const [openTips, setOpenTips] = useState(true);
 
-  const inviteFun = useCallback(() => {
+  const inviteFun = () => {
     if (isConnected) {
       if (inviteCode * 1 > 0) {
         if (userId * 1 <= 0) {
           setCode(inviteCode);
           dispatch({ type: "CHANGE_REMODAL", payload: true });
-          
         } else {
-          setOpenTips(true)
+          setOpenTips(true);
           if (openTips) {
             notification.open({
               message: "Already registered, cannot bind invitation code！",
@@ -105,20 +104,25 @@ const Header = () => {
             });
           }
           dispatch({ type: "CHANGE_REMODAL", payload: false });
-          setOpenTips(false)
+          setOpenTips(false);
         }
-        
       }
     } else {
       if (inviteCode * 1 > 0) {
+        setCode(inviteCode);
         dispatch({ type: "CHANGE_REMODAL", payload: true });
       }
     }
-  }, [isConnected, address, inviteCode, openTips, userId]);
+  };
 
-  useInterval(() => {
-    inviteFun();
-  }, 2000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      inviteFun();
+    }, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isConnected, address, inviteCode, openTips, userId]);
 
   // user signup
   const signUp = () => {

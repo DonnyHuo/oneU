@@ -278,6 +278,7 @@ function Lottery() {
             poolId: openingRound.poolId,
             round: openingRound.round,
             winNumber: roundInfo.winNumber,
+            totalTickets: getPoolInfo.totalTickets.toString() * 1,
             prize:
               ethers.utils.formatUnits(getPoolInfo.prize, USDTDecimals) * 1,
           });
@@ -1116,7 +1117,7 @@ function Lottery() {
                               <Button
                                 loading={
                                   list?.roundInfo?.status * 1 == 5 &&
-                                  rememberSelect[index].loading
+                                  rememberSelect[index]?.loading
                                 }
                                 disabled={
                                   ![2, 5].includes(list?.roundInfo?.status * 1)
@@ -1686,7 +1687,10 @@ function Lottery() {
               <div className="flex-auto">
                 Winning Number:{" "}
                 <span className="_active">
-                  {getNewTickets(openingRound.winNumber * 1)}
+                  {getNewTickets(
+                    openingRound.winNumber * 1,
+                    openingRound.totalTickets * 1
+                  )}
                 </span>
               </div>
             </div>
@@ -1734,7 +1738,10 @@ function Lottery() {
               <div className="flex-auto">
                 Winning Number:{" "}
                 <span className="_active">
-                  {getNewTickets(openingRound.winNumber * 1)}
+                  {getNewTickets(
+                    openingRound.winNumber * 1,
+                    openingRound.totalTickets * 1
+                  )}
                 </span>
               </div>
             </div>
