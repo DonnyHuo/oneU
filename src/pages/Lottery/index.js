@@ -409,7 +409,7 @@ function Lottery() {
 
   useInterval(() => {
     getPoolList();
-  }, 3000);
+  }, 2000);
 
   // useEffect(() => {
   //   if (rememberOldTickets >= 0) {
