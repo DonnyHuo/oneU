@@ -832,9 +832,17 @@ function Lottery() {
   };
 
   const clickBuyBtnFun = (list) => {
-    setIsShareOpen(true);
-    setSelectPool(list);
-    setTicketAmount("");
+    if (!address) {
+      open();
+    } else {
+      if (userId * 1 > 0) {
+        setIsShareOpen(true);
+        setSelectPool(list);
+        setTicketAmount("");
+      } else {
+        dispatch({ type: "CHANGE_REMODAL", payload: true });
+      }
+    }
   };
 
   const clickLotteryDraw = async (list, index) => {
