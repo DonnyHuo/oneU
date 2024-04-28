@@ -846,6 +846,9 @@ function Lottery() {
   };
 
   const clickLotteryDraw = async (list, index) => {
+    if (!address) {
+      return open();
+    }
     setRememberSelect((state) => {
       state[index].loading = true;
       return state;
