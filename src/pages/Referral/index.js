@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { notification, Button, Modal } from "antd";
 import { getContract, getWriteContractLoad } from "../../utils";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
@@ -16,6 +16,7 @@ function Referral() {
   const address = useSelector((state) => state.address);
   const userId = useSelector((state) => state.userId);
 
+  const dispatch = useDispatch()
   const [api, contextHolder] = notification.useNotification({
     placement: "topRight",
     duration: 3,
@@ -25,6 +26,8 @@ function Referral() {
     if (userId * 1 > 0) {
       api["success"]({ message: "Copied Success!" });
       navigator.clipboard.writeText(msg);
+    } else {
+      dispatch({ type: "CHANGE_REMODAL", payload: true });
     }
   };
 

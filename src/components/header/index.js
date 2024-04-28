@@ -595,7 +595,7 @@ const Header = () => {
         onCancel={() => {
           dispatch({ type: "CHANGE_REMODAL", payload: false });
           setCode("");
-          navigate("");
+          navigate();
         }}
         footer={false}
         closeIcon={
