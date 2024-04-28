@@ -531,8 +531,15 @@ a:hover {
   .ant-collapse-expand-icon {
   flex-shrink: 0;
 }
+.sticky {
+  position: inherit!important;
+}
 
 @media screen and (min-width: 0px) and (max-width: 880px) {
+  .sticky {
+    position: fixed!important;
+    z-index: 1111!important;
+  }
   ._carouselBtn {
     position: inherit;
     margin: 20px auto;
