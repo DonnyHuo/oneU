@@ -178,7 +178,9 @@ function Referral() {
                 </div>
               </div>
               <div className="flex items-center justify-between mt-3 border rounded-md _borderS1 relative text-nowrap">
-                <span className="px-4 py-3 leading-5 text-sm">{`${window.location.origin}?code=${userId}`}</span>
+                <span className="px-4 py-3 leading-5 text-sm">{`${
+                  window.location.origin
+                }?code=${userId * 1 > 0 ? userId : "--"}`}</span>
                 <button
                   onClick={() =>
                     copyInfo(`${window.location.origin}?code=${userId}`)

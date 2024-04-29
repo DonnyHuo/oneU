@@ -242,7 +242,6 @@ function Lottery() {
   };
 
   const openingRoundFun = async () => {
-  
     if (openingRound.poolId) {
       const records = await getParticipationRecordsByPoolRound(
         openingRound.poolId,
@@ -285,7 +284,7 @@ function Lottery() {
           });
 
           epochChange(openingRound.round * 1 + 1, openingRound.poolId);
-
+          setOpeningRound({})
           if (wonAccount.toLowerCase() !== address.toLowerCase()) {
             setNoWon(true);
           } else {
@@ -324,7 +323,8 @@ function Lottery() {
           openingRound.poolId,
           openingRound.round
         );
-        if (roundInfo.winNumber * 1 > 0) { 
+        if (roundInfo.winNumber * 1 > 0) {
+          setOpeningRound({})
           epochChange(openingRound.round * 1 + 1, openingRound.poolId);
         }
       }
@@ -843,13 +843,9 @@ function Lottery() {
     if (!address) {
       open();
     } else {
-      if (userId * 1 > 0) {
-        setIsShareOpen(true);
-        setSelectPool(list);
-        setTicketAmount("");
-      } else {
-        dispatch({ type: "CHANGE_REMODAL", payload: true });
-      }
+      setIsShareOpen(true);
+      setSelectPool(list);
+      setTicketAmount("");
     }
   };
 
