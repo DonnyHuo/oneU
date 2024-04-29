@@ -544,48 +544,56 @@ const Header = () => {
               />
             </Link>
           </p>
-          <p className="pt-5 pb-5" onClick={onClose}>
+        </div>
+        <div className="flex items-center justify-around absolute bottom-8 w-full">
+          <div
+            className="rounded-xl w-1/4 h-12"
+            style={{ background: "#2a2539" }}
+          >
             <a
               target="_blank"
               href="https://discord.com"
-              className={`ml-6 mr-6  flex items-center justify-between`}
+              className="w-full h-full flex items-center justify-center"
             >
-              <span>Discord</span>
               <img
-                className="w-4"
-                src={require("../../asserts/img/drawerRight.png")}
+                className="w-5"
+                src={require("../../asserts/img/discordM.png")}
                 alt=""
               />
             </a>
-          </p>
-          <p className="pt-5 pb-5" onClick={onClose}>
+          </div>
+          <div
+            className="rounded-xl w-1/4 h-12"
+            style={{ background: "#2a2539" }}
+          >
             <a
               target="_blank"
               href="https://twitter.com"
-              className={`ml-6 mr-6  flex items-center justify-between`}
+              className="w-full h-full flex items-center justify-center"
             >
-              <span>Twitter</span>
               <img
-                className="w-4"
-                src={require("../../asserts/img/drawerRight.png")}
+                className="w-5"
+                src={require("../../asserts/img/twitterM.png")}
                 alt=""
               />
             </a>
-          </p>
-          <p className="pt-5 pb-5" onClick={onClose}>
+          </div>
+          <div
+            className="rounded-xl w-1/4 h-12"
+            style={{ background: "#2a2539" }}
+          >
             <a
               target="_blank"
               href="https://github.com"
-              className={`ml-6 mr-6  flex items-center justify-between`}
+              className="w-full h-full flex items-center justify-center"
             >
-              <span>Github</span>
               <img
-                className="w-4"
-                src={require("../../asserts/img/drawerRight.png")}
+                className="w-5"
+                src={require("../../asserts/img/githubM.png")}
                 alt=""
               />
             </a>
-          </p>
+          </div>
         </div>
       </Drawer>
       <Modal
