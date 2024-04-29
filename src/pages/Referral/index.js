@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { notification, Button, Modal } from "antd";
 import { getContract, getWriteContractLoad } from "../../utils";
-import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import { useWeb3ModalProvider, useWeb3Modal } from "@web3modal/ethers5/react";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
 import erc20Abi from "../../asserts/abi/erc20Abi.json";
@@ -16,13 +16,17 @@ function Referral() {
   const address = useSelector((state) => state.address);
   const userId = useSelector((state) => state.userId);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [api, contextHolder] = notification.useNotification({
     placement: "topRight",
     duration: 3,
     maxCount: 10,
   });
+  const { open } = useWeb3Modal();
   const copyInfo = (msg) => {
+    if (!address) {
+      return open();
+    }
     if (userId * 1 > 0) {
       api["success"]({ message: "Copied Success!" });
       navigator.clipboard.writeText(msg);
@@ -182,7 +186,11 @@ function Referral() {
                   className="px-4 _background-gradient2 absolute rounded-r-md"
                   style={{ top: "-1px", right: "-1px", height: "46px" }}
                 >
-                  Copy <span className="_hiddenM"> link</span>
+                  {!address
+                    ? "Connect"
+                    : userId * 1 <= 0
+                    ? "Get Code"
+                    : `Copy Link`}
                 </button>
               </div>
             </div>

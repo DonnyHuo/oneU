@@ -139,7 +139,9 @@ const Header = () => {
         getUserId();
         setCode("");
         api["success"]({ message: "Registration Success!" });
-        dispatch({ type: "CHANGE_REMODAL", payload: false });
+        setTimeout(() => {
+          dispatch({ type: "CHANGE_REMODAL", payload: false });
+        }, 2000);
       })
       .catch((err) => {
         setSignUpLoading(false);

@@ -558,10 +558,6 @@ function Lottery() {
       setIsShareOpen(false);
       return open();
     }
-    if (userId * 1 === 0) {
-      return dispatch({ type: "CHANGE_REMODAL", payload: true });
-    }
-
     const reg = /^[1-9]\d*$/;
 
     if (!reg.test(ticketAmount * 1)) {
