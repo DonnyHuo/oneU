@@ -242,6 +242,7 @@ function Lottery() {
   };
 
   const openingRoundFun = async () => {
+  
     if (openingRound.poolId) {
       const records = await getParticipationRecordsByPoolRound(
         openingRound.poolId,
@@ -315,6 +316,17 @@ function Lottery() {
         }
       } else {
         setRememberOldTickets(-1);
+        const roundInfo = await getContract(
+          walletProvider,
+          poolManager,
+          poolManagerAbi,
+          "getRoundInfo",
+          openingRound.poolId,
+          openingRound.round
+        );
+        if (roundInfo.winNumber * 1 > 0) { 
+          epochChange(openingRound.round * 1 + 1, openingRound.poolId);
+        }
       }
     }
   };
