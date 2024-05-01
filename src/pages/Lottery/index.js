@@ -293,7 +293,7 @@ function Lottery() {
           }
           setRememberOldTickets(roundInfo.winNumber * 1);
           epochChange(openingRound.round * 1 + 1, openingRound.poolId);
-          setOpeningRound({});
+         
         } else {
           setRememberOldTickets(0);
         }
