@@ -83,7 +83,6 @@ function Lottery() {
   const [USDTSymbol, setUSDTSymbol] = useState("USDT");
 
   // opening效果
-  const [openDraw, setOpenDraw] = useState(false);
   const [openingRound, setOpeningRound] = useState({});
 
   const [noWon, setNoWon] = useState(false);
@@ -113,22 +112,6 @@ function Lottery() {
   const [loading, setLoading] = useState(true);
 
   const [rows, setRows] = useState(2);
-
-  const [maxTicketsPerBuy, setMaxTicketsPerBuy] = useState(1000);
-
-  const getMaxTicketsPerBuy = async () => {
-    const maxTicketsPerBuy = await getContract(
-      walletProvider,
-      poolManager,
-      poolManagerAbi,
-      "MAX_TICKETS_PER_BUY"
-    );
-    setMaxTicketsPerBuy(maxTicketsPerBuy);
-  };
-
-  useEffect(() => {
-    // getMaxTicketsPerBuy();
-  });
 
   const [accountBalance, setAccountBalance] = useState(0);
   const getAccountBalance = async () => {
@@ -187,6 +170,7 @@ function Lottery() {
       const roundInformation = {
         contractAddress: allPools[i].toString(),
         selectRound: pool.currentRound.toString(),
+        showMore: false,
       };
       newRememberSelect.push(roundInformation);
     }
@@ -283,8 +267,6 @@ function Lottery() {
               ethers.utils.formatUnits(getPoolInfo.prize, USDTDecimals) * 1,
           });
 
-          epochChange(openingRound.round * 1 + 1, openingRound.poolId);
-          setOpeningRound({})
           if (wonAccount.toLowerCase() !== address.toLowerCase()) {
             setNoWon(true);
           } else {
@@ -310,6 +292,8 @@ function Lottery() {
             }
           }
           setRememberOldTickets(roundInfo.winNumber * 1);
+          epochChange(openingRound.round * 1 + 1, openingRound.poolId);
+          setOpeningRound({});
         } else {
           setRememberOldTickets(0);
         }
@@ -324,7 +308,7 @@ function Lottery() {
           openingRound.round
         );
         if (roundInfo.winNumber * 1 > 0) {
-          setOpeningRound({})
+          setOpeningRound({});
           epochChange(openingRound.round * 1 + 1, openingRound.poolId);
         }
       }
@@ -423,19 +407,6 @@ function Lottery() {
   useInterval(() => {
     getPoolList();
   }, 2000);
-
-  // useEffect(() => {
-  //   if (rememberOldTickets >= 0) {
-  //     if (rememberOldTickets * 1 == 0) {
-  //       setOpenDraw(true);
-  //     }
-  //     if (rememberOldTickets * 1 > 0) {
-  //       setOpenDraw(false);
-  //     }
-  //   } else {
-  //     setOpenDraw(false);
-  //   }
-  // }, [rememberOldTickets]);
 
   const epochOptions = (list) => {
     const options = [];
@@ -562,9 +533,6 @@ function Lottery() {
     return makeRandomArr(arr, amount);
   };
 
-  const userId = useSelector((state) => state.userId);
-  const dispatch = useDispatch();
-
   const buyTicketFun = async (selectPool, amount) => {
     if (!address) {
       setIsShareOpen(false);
@@ -585,12 +553,6 @@ function Lottery() {
     if (amount * 1 > selectPool.roundInfo.leftTickets * 1) {
       return api["error"]({
         message: `Not enough tickets remaining!`,
-      });
-    }
-
-    if (amount * 1 > maxTicketsPerBuy) {
-      return api["error"]({
-        message: `Each person can buy up to ${maxTicketsPerBuy} tickets!`,
       });
     }
 
@@ -645,7 +607,6 @@ function Lottery() {
         return setTicketAmount(
           Math.min(
             Math.floor(accountBalance / selectPool?.pricePerTicket),
-            maxTicketsPerBuy,
             selectPool?.roundInfo?.leftTickets
           )
         );
