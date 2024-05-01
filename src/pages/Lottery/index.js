@@ -1173,7 +1173,7 @@ function Lottery() {
                                 </span>
                               </div>
                               <div>
-                                <span>Contract Address</span>
+                                <span>Pool Id</span>
                                 <Popover
                                   content={list.contractAddress}
                                   placement="topRight"
