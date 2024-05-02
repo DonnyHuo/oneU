@@ -9,8 +9,10 @@ import erc20Abi from "../../asserts/abi/erc20Abi.json";
 import { ethers } from "ethers";
 import { Link } from "react-router-dom";
 import { useInterval } from "ahooks";
+import { useTranslation } from "react-i18next";
 
 function Referral() {
+  const { t } = useTranslation();
   const { walletProvider } = useWeb3ModalProvider();
   const union = require("../../asserts/img/union.png");
   const address = useSelector((state) => state.address);
@@ -28,7 +30,7 @@ function Referral() {
       return open();
     }
     if (userId * 1 > 0) {
-      api["success"]({ message: "Copied Success!" });
+      api["success"]({ message: t('referral.CopiedSuccess') });
       navigator.clipboard.writeText(msg);
     } else {
       dispatch({ type: "CHANGE_REMODAL", payload: true });
@@ -102,14 +104,14 @@ function Referral() {
       .then((res) => {
         setRewardLoading(false);
         api["success"]({
-          message: "Claim Success!",
+          message: t('referral.ClaimSuccess'),
         });
         referralRewardAccumulated();
       })
       .catch((err) => {
         setRewardLoading(false);
         api["error"]({
-          message: "Claim Fail!",
+          message: t('referral.ClaimFail'),
         });
         console.log(err);
       });
@@ -152,8 +154,8 @@ function Referral() {
         >
           <div className="_tipsBox _marginLR">
             <div className="text-5xl _referralTitle _size20 _lineHeight30">
-              <p>Invite friends. Earn 3%</p>
-              <p>commission on each friend’s participate.</p>
+              <p>{t("referral.title1")}</p>
+              <p>{t("referral.title2")}</p>
             </div>
             <div className="flex items-center justify-center _hiddenP">
               <img
@@ -164,9 +166,9 @@ function Referral() {
             </div>
             <div className="mt-10 _marginAutoM" style={{ maxWidth: "500px" }}>
               <div className="flex items-center justify-between">
-                <div className="font-bold">Invite Friends</div>
+                <div className="font-bold">{t("referral.InviteFriends")}</div>
                 <div className="flex items-center justify-between">
-                  <span className="_text">Invite Code:</span>
+                  <span className="_text">{t("referral.InviteCode")}:</span>
                   <span className="mx-2 _active">
                     {userId * 1 > 0 ? userId : "--"}
                   </span>
@@ -189,10 +191,10 @@ function Referral() {
                   style={{ top: "-1px", right: "-1px", height: "46px" }}
                 >
                   {!address
-                    ? "Connect"
+                    ? t("referral.ConnectWallet")
                     : userId * 1 <= 0
-                    ? "Get Code"
-                    : `Copy Link`}
+                    ? t("referral.GetCode")
+                    : t("referral.CopyLink")}
                 </button>
               </div>
             </div>
@@ -213,14 +215,16 @@ function Referral() {
               margin: "0 auto",
             }}
           >
-            <div className="_tipsTitle text-lg mb-6">My Comission</div>
+            <div className="_tipsTitle text-lg mb-6">
+              {t("referral.MyComission")}
+            </div>
             <div className="text-xs _text ">
               <div className="rounded-xl px-5 py-12 _background-gradient5 _M100 _border flex items-center text-center _flexM">
                 <div className="w-3/12 border-r border-zinc-800">
                   <div className="text-2xl _active font-bold">
                     {childrenCountOf}
                   </div>
-                  <p className="pt-4 text-xs">Friends</p>
+                  <p className="pt-4 text-xs">{t("referral.Friends")}</p>
                 </div>
                 <div className="w-4/12 flex items-center justify-center border-r border-zinc-800">
                   <div className="">
@@ -239,7 +243,9 @@ function Referral() {
                         {usdtSymbol}
                       </span>
                     </div>
-                    <p className="pt-4 text-xs">Claimed comission</p>
+                    <p className="pt-4 text-xs">
+                      {t("referral.ClaimedComission")}
+                    </p>
                   </div>
                 </div>
                 <div className="w-5/12 flex items-end justify-center">
@@ -254,7 +260,9 @@ function Referral() {
                         {userId > 0 ? rewardAccrued : "--"} {usdtSymbol}
                       </span>
                     </div>
-                    <p className="pt-4 text-xs">Unclaimed comission</p>
+                    <p className="pt-4 text-xs">
+                      {t("referral.UnclaimedComission")}
+                    </p>
                   </div>
                   {contextHolder}
                   <Button
@@ -263,7 +271,7 @@ function Referral() {
                     onClick={collectReferralReward}
                     className="_background-gradient2 h-10 pr-12 pl-12 rounded-full flex items-center justify-center text-sm text-white ml-10"
                   >
-                    Claim
+                    {t("lottery.Claim")}
                   </Button>
                 </div>
               </div>
@@ -280,7 +288,7 @@ function Referral() {
             overflow: "hidden",
           }}
         >
-          <div className="_tipsTitle text-lg">Tips</div>
+          <div className="_tipsTitle text-lg">{t("referral.Tips")}</div>
           <div className="text-xs _text flex items-start justify-between mt-6 relative pb-10 pt-10 _tips _background-gradient5 rounded-xl _border">
             <div className="w-1/4 flex flex-col items-center _tipDiv">
               <img
@@ -288,9 +296,7 @@ function Referral() {
                 src={require("../../asserts/img/i1.png")}
                 alt=""
               />
-              <div className="text-center mt-4 _desc">
-                1. Share your invite code with friends.
-              </div>
+              <div className="text-center mt-4 _desc">{t("referral.Tip1")}</div>
             </div>
             <div className="w-1/4 flex flex-col items-center _tipDiv">
               <img
@@ -298,9 +304,7 @@ function Referral() {
                 src={require("../../asserts/img/i2.png")}
                 alt=""
               />
-              <div className="text-center mt-4 _desc">
-                2. Invite friends to sign up and enter your invite code.
-              </div>
+              <div className="text-center mt-4 _desc">{t("referral.Tip2")}</div>
             </div>
             <div className="w-1/4 flex flex-col items-center _tipDiv _paddingBNo">
               <img
@@ -308,9 +312,7 @@ function Referral() {
                 src={require("../../asserts/img/i3.png")}
                 alt=""
               />
-              <div className="text-center mt-4 _desc">
-                3. Receive commission from each friend’s participate.
-              </div>
+              <div className="text-center mt-4 _desc">{t("referral.Tip3")}</div>
             </div>
             <div
               className="absolute flex items-center _hiddenM"
@@ -348,7 +350,7 @@ function Referral() {
         </div>
       </div>
       <Modal
-        title="You Got Deserve"
+        title={t('referral.YouGotDeserve')}
         centered
         destroyOnClose={true}
         open={isWonOpen}
@@ -367,10 +369,8 @@ function Referral() {
           <div className="_active text-4xl font-bold">
             {rewardAccrued} {usdtSymbol}
           </div>
-          <div className="mt-2 _title">Your commission</div>
-          <div className="mt-6 _text">
-            Your friends have invested, these are the commission you deserve！
-          </div>
+          <div className="mt-2 _title">{t("referral.YourCommission")}</div>
+          <div className="mt-6 _text">{t("referral.YourCommissionDesc")}</div>
           <Link
             to="/referral"
             onClick={() => {
@@ -378,7 +378,7 @@ function Referral() {
             }}
           >
             <button className="w-full _borderS rounded-full _background-gradient2 py-3 mt-6 font-bold">
-              Go To Claim
+              {t("referral.GoToClaim")}
             </button>
           </Link>
         </div>

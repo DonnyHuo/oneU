@@ -1,58 +1,34 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Collapse } from "antd";
-
+import { useTranslation } from "react-i18next";
 function Tutorials() {
+  const { t } = useTranslation();
   const [qaList] = useState([
     {
       key: "1",
-      label: "1. How much reward can l receive?",
-      children: (
-        <div>
-          Purchase just 1 share, you have the chance to win the entire prize
-          pool.
-        </div>
-      ),
+      label: t("tutorials.QAs.title1"),
+      children: <div>{t("tutorials.QAs.desc1")}</div>,
     },
     {
       key: "2",
-      label: "2. How to increase the probability of receiving rewards?",
-      children: (
-        <div>
-          The more shares you purchase, the greater the probability of receiving
-          rewards.
-        </div>
-      ),
+      label: t("tutorials.QAs.title2"),
+      children: <div>{t("tutorials.QAs.desc2")}</div>,
     },
     {
       key: "3",
-      label: "3. How do l verify that the draw is fair and impartial?",
-      children: (
-        <div>
-          The lottery rules are written in the smart contract, and you can
-          verify it in the smart contract address we published.
-        </div>
-      ),
+      label: t("tutorials.QAs.title3"),
+      children: <div>{t("tutorials.QAs.desc3")}</div>,
     },
     {
       key: "4",
-      label: "4. How do l view and claim my rewards?",
-      children: (
-        <div>
-          You can view and claim your rewards in [My reward], and you will need
-          to pay gas fees when claiming them.
-        </div>
-      ),
+      label: t("tutorials.QAs.title4"),
+      children: <div>{t("tutorials.QAs.desc4")}</div>,
     },
     {
       key: "5",
-      label: "5. How to get rewards for inviting friends?",
-      children: (
-        <div>
-          For every share purchased by a friend you invite, you will receive a
-          3% commission from the purchase amount.
-        </div>
-      ),
+      label: t("tutorials.QAs.title5"),
+      children: <div>{t("tutorials.QAs.desc5")}</div>,
     },
   ]);
 
@@ -72,9 +48,9 @@ function Tutorials() {
         >
           <div>
             <div className="text-5xl _lineHeight30 _referralTitle _size20">
-              <p>Earn crypto lotteries</p>
-              <p>simply, transparently</p>
-              <p> and fairly. </p>
+            <p>{t("tutorials.title1")}</p>
+            <p>{t("tutorials.title2")}</p>
+            <p>{t("tutorials.title3")}</p>
             </div>
 
             <div
@@ -86,7 +62,7 @@ function Tutorials() {
                   className="_background-gradient2 h-10 pr-3 pl-3 rounded-full flex items-center justify-center text-sm font-bold"
                   style={{ width: "180px" }}
                 >
-                  Play Now
+                  {t("tutorials.PlayNow")}
                 </button>
               </Link>
             </div>
@@ -94,7 +70,7 @@ function Tutorials() {
 
           <div className="_border rounded-3xl p-8 _background2 _marginLR _padding10 _marginTop _tutorialsInfo">
             <div className="_tutorialsInfoBox">
-              <div className="pb-4 _title font-bold">How to participate?</div>
+              <div className="pb-4 _title font-bold">{t("tutorials.HowParticipate")}</div>
               <div>
                 <div className="flex items-start _backgroundLine">
                   <img
@@ -103,9 +79,9 @@ function Tutorials() {
                     alt=""
                   />
                   <div>
-                    <p className="_title font-bold">Step 1</p>
+                    <p className="_title font-bold">{t("tutorials.Step1")}</p>
                     <p className="_text text-xs pt-2 pb-4">
-                      Onboarding with your wallet. (Metamask)
+                      {t("tutorials.StepDesc1")}
                     </p>
                   </div>
                 </div>
@@ -116,9 +92,9 @@ function Tutorials() {
                     alt=""
                   />
                   <div>
-                    <p className="_title font-bold">Step 2</p>
+                    <p className="_title font-bold">{t("tutorials.Step2")}</p>
                     <p className="_text text-xs pt-2 pb-4">
-                      Purchase at least one share to participate.
+                    {t("tutorials.StepDesc2")}
                     </p>
                   </div>
                 </div>
@@ -129,9 +105,9 @@ function Tutorials() {
                     alt=""
                   />
                   <div>
-                    <p className="_title font-bold">Step 3</p>
+                    <p className="_title font-bold">{t("tutorials.Step3")}</p>
                     <p className="_text text-xs pt-2 pb-4">
-                      Waiting for the lottery draw to get the big prize.
+                      {t("tutorials.StepDesc3")}
                     </p>
                   </div>
                 </div>
@@ -143,7 +119,7 @@ function Tutorials() {
           style={{ maxWidth: "1180px" }}
           className="_marginLR _marginAuto0 _paddingB20"
         >
-          <div className="text-2xl font-bold mb-6">Q&A</div>
+          <div className="text-2xl font-bold mb-6">{t("tutorials.Q&A")}</div>
           <div className="pb-20">
             <Collapse
               expandIconPosition={"end"}
@@ -151,7 +127,7 @@ function Tutorials() {
                 return (
                   <img
                     style={{
-                      width:'18px',
+                      width: "18px",
                       transform: value.isActive
                         ? "rotate(90deg)"
                         : "rotate(0deg)",

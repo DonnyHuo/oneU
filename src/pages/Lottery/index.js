@@ -33,8 +33,10 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useInterval } from "ahooks";
 import JSConfetti from "js-confetti";
 import Sticky from "react-sticky-el";
+import { useTranslation } from "react-i18next";
 
 function Lottery() {
+  const { t } = useTranslation();
   const { chainId } = useWeb3ModalAccount();
   const chainInfo = chainList.filter((list) => list.networkId == chainId)[0];
   const { walletProvider } = useWeb3ModalProvider();
@@ -43,18 +45,12 @@ function Lottery() {
   const descList = [
     {
       imgUrl: require("../../asserts/img/square.png"),
-      title: "Smart Contract Lottery",
-      desc: "Blockchain-based smart contract lotteries offer secure and fair play.",
     },
     {
       imgUrl: require("../../asserts/img/frame.png"),
-      title: "Untamper",
-      desc: "Information cannot be tampered with, ensuring data integrity.",
     },
     {
       imgUrl: require("../../asserts/img/scales.png"),
-      title: "Fair and Just",
-      desc: "The drawing information is absolutely fair and just.",
     },
   ];
 
@@ -293,7 +289,6 @@ function Lottery() {
           }
           setRememberOldTickets(roundInfo.winNumber * 1);
           epochChange(openingRound.round * 1 + 1, openingRound.poolId);
-         
         } else {
           setRememberOldTickets(0);
         }
@@ -504,13 +499,13 @@ function Lottery() {
         getAllowance(USDTAddress);
         setApproveLoading(false);
         api["success"]({
-          message: `Approve Success!`,
+          message: t('lottery.ApproveSuccess')
         });
       })
       .catch((err) => {
         setApproveLoading(false);
         api["error"]({
-          message: `Approve Fail!`,
+          message: t('lottery.ApproveFail')
         });
         console.log(err);
       });
@@ -542,17 +537,17 @@ function Lottery() {
 
     if (!reg.test(ticketAmount * 1)) {
       return api["error"]({
-        message: `please enter correct amount!`,
+        message: t('lottery.EnterCorrectAmount'),
       });
     }
     if (amount * 1 > accountBalance * 1) {
       return api["error"]({
-        message: `Insufficient balance!`,
+        message:  t('lottery.InsufficientBalance'),
       });
     }
     if (amount * 1 > selectPool.roundInfo.leftTickets * 1) {
       return api["error"]({
-        message: `Not enough tickets remaining!`,
+        message: t('lottery.NotEnoughTicketsRemaining'),
       });
     }
 
@@ -578,7 +573,7 @@ function Lottery() {
         setBuyLoading(false);
         setTicketAmount("");
         api["success"]({
-          message: `Buy Success!`,
+          message: t('lottery.BuySuccess')
         });
         getPoolList();
         getParticipationRecords();
@@ -590,7 +585,7 @@ function Lottery() {
       .catch((err) => {
         setBuyLoading(false);
         api["error"]({
-          message: `Buy Fail!`,
+          message: t('lottery.BuyFail')
         });
         setTimeout(() => {
           setIsShareOpen(false);
@@ -773,13 +768,13 @@ function Lottery() {
         getUnclaimedPrizes();
         getWonParticipationRecords();
         api["success"]({
-          message: `Claim Success!`,
+          message: t('referral.ClaimSuccess'),
         });
       })
       .catch((err) => {
         setClaimLoading(false);
         api["error"]({
-          message: `Claim Fail!`,
+          message: t('referral.ClaimFail'),
         });
         console.log(err);
       });
@@ -788,15 +783,15 @@ function Lottery() {
   const switchStatus = (value) => {
     switch (value) {
       case 1:
-        return "Waiting for Start";
+        return t("lottery.WaitingForStart");
       case 2:
-        return "On Going";
+        return t("lottery.OnGoing");
       case 3:
-        return "Ended";
+        return t("lottery.Ended");
       case 4:
-        return "Drawing in progress";
+        return t("lottery.DrawingInProgress");
       case 5:
-        return "Waiting for Draw";
+        return t("lottery.WaitingForDraw");
     }
   };
 
@@ -877,17 +872,19 @@ function Lottery() {
     <div className="_background1 _background-home text-center">
       <div className="_background-home2">
         <div className="text-white">
-          <div className="text-5xl font-bold _title _size35 pt-24">
-            Win Crypto Lotteries With One USDT
+          <div className="text-5xl font-bold _title _size35 pt-24 _hiddenM">
+            {t("lottery.title")}
+          </div>
+          <div className="text-5xl font-bold _title _size35 pt-24 _hiddenP">
+            <p>{t("lottery.title1")}</p>
+            <p>{t("lottery.title2")}</p>
           </div>
           <div className="text-sm mt-5 _title _hiddenM">
-            Users can win crypto lotteries just 1 USDT, trusted by the smart
-            contract.
+            {t("lottery.navTitle")}
           </div>
           <div className="text-sm mt-5 _title _hiddenP pr-2 pl-2">
-            Users can win crypto lotteries just 1 USDT,
-            <br />
-            trusted by the smart contract.
+            <p>{t("lottery.navTitle1")}</p>
+            <p>{t("lottery.navTitle2")}</p>
           </div>
           <div className="flex items-start justify-around _widthP _marginAuto _widthM _size12">
             {descList.map((list, index) => {
@@ -896,8 +893,12 @@ function Lottery() {
                   <div className="flex items-center justify-center">
                     <img className="w-16" src={list.imgUrl} alt="" />
                   </div>
-                  <div className="mt-5 mb-2 font-bold _title">{list.title}</div>
-                  <div className="text-sm _nav-title _hiddenM">{list.desc}</div>
+                  <div className="mt-5 mb-2 font-bold _title">
+                    {t(`lottery.descList.title${index + 1}`)}
+                  </div>
+                  <div className="text-sm _nav-title _hiddenM">
+                    {t(`lottery.descList.desc${index + 1}`)}
+                  </div>
                 </div>
               );
             })}
@@ -910,14 +911,14 @@ function Lottery() {
                     className={!tab ? "_title" : "_text"}
                     onClick={() => setTabFun(0)}
                   >
-                    Ongoing Lotteries
+                    {t("lottery.tabs.OngoingLotteries")}
                   </button>
                 </div>
                 <button
                   onClick={() => setTabFun(1)}
                   className={`${tab ? "_title" : "_text"} ml-5 font-bold`}
                 >
-                  My Reward
+                  {t("lottery.tabs.MyReward")}
                 </button>
               </div>
             </Sticky>
@@ -937,7 +938,7 @@ function Lottery() {
                       </div>
                       <div className="flex items-center justify-between">
                         <div className="_text text-xs">
-                          <span className="pr-2">Round</span>
+                          <span className="pr-2">{t("lottery.Round")}</span>
                           <Select
                             popupClassName="epochSelect"
                             className="w-20 h-6 _backgroundNo"
@@ -960,7 +961,7 @@ function Lottery() {
                             }
                           />
                           <span className="pl-2 _hiddenM">
-                            Next Round Start At:{" "}
+                            {t("lottery.NextRoundStartAt")}:{" "}
                             {moment(
                               list?.roundInfo?.endTime * 1000 +
                                 list?.roundGapTime * 1000
@@ -970,7 +971,7 @@ function Lottery() {
                       </div>
                       <div className="flex items-start _text text-sm mt-5 text-left _homeListM">
                         <div className="w-36 h-24 flex flex-col justify-between">
-                          <div>Reward Pool</div>
+                          <div> {t("lottery.RewardPool")}</div>
                           <div className="text-3xl _title _pt-20 _pb-20 _active font-bold">
                             <span>{(list?.prize * 1).toLocaleString()}</span>
                             <span className="ml-2">{list?.rewardSymbol}</span>
@@ -983,7 +984,7 @@ function Lottery() {
                             className="_hiddenM"
                           >
                             <button className="text-left text-xs underline decoration-slate-400 decoration-1 _popoverBtn">
-                              Pool Id
+                              {t("lottery.PoolId")}
                             </button>
                           </Popover>
                         </div>
@@ -993,7 +994,9 @@ function Lottery() {
                               "YYYY-MM-DD HH:mm:ss"
                             )}
                           </div>
-                          <div className="text-xs leading-4">End Time</div>
+                          <div className="text-xs leading-4">
+                            {t("lottery.EndTime")}
+                          </div>
                           <div
                             className={`_title mt-2 leading-4 ${
                               list?.roundInfo?.winNumber * 1 !== 0 &&
@@ -1001,19 +1004,21 @@ function Lottery() {
                             }`}
                           >
                             {list?.roundInfo?.winNumber * 1 == 0
-                              ? "To be drawn"
+                              ? t("lottery.ToBeDrawn")
                               : getNewTickets(
                                   list?.roundInfo?.winNumber * 1,
                                   list.totalTickets * 1
                                 )}
                           </div>
                           <div className="text-xs leading-4">
-                            Winning Number
+                            {t("lottery.WinningNumber")}
                           </div>
                         </div>
                         <div className="_hiddenP pt-4 mt-4 pb-4 mb-8 _borderLine _hiddenM">
                           <div className="flex item-center justify-between h-6">
-                            <div className="text-xs">Draw Time</div>
+                            <div className="text-xs">
+                              {t("lottery.EndTime")}
+                            </div>
                             <div className="_title">
                               {moment(list?.roundInfo?.endTime * 1000).format(
                                 "YYYY-MM-DD HH:mm:ss"
@@ -1021,7 +1026,9 @@ function Lottery() {
                             </div>
                           </div>
                           <div className="flex item-center justify-between h-6 _hiddenM">
-                            <div className="text-xs">Winning Number</div>
+                            <div className="text-xs">
+                              {t("lottery.WinningNumber")}
+                            </div>
                             <div className="_title">
                               {list?.roundInfo?.winNumber * 1 == 0
                                 ? "--"
@@ -1035,14 +1042,17 @@ function Lottery() {
                         <div className="w-80 h-24 flex flex-col justify-between _title  ml-16">
                           <div className="_hiddenM">
                             <span>
-                              Win {list?.prize * 1} {list?.rewardSymbol} lottery
-                              with just
+                              {t("lottery.WinUSDT", {
+                                number: list?.prize * 1,
+                              })}
+
+                              {/* Win {list?.prize * 1} {list?.rewardSymbol} lottery
+                              with just */}
                             </span>
-                            <span className="_tip-yellow pl-1">
+                            {/* <span className="_tip-yellow pl-1">
                               {list?.pricePerTicket * 1}
                               <span className="pl-1">{list?.rewardSymbol}</span>
-                            </span>
-                            .
+                            </span> */}
                           </div>
                           <div>
                             <Progress
@@ -1061,13 +1071,15 @@ function Lottery() {
                           </div>
                           <div className="flex items-center justify-between _pt-10">
                             <span>
-                              Tickets Purchased:
+                              {t("lottery.TicketsPurchased")}:
                               <span className="_active pl-2">
                                 {list?.totalTickets * 1 -
                                   list?.roundInfo?.leftTickets * 1}
                               </span>
                             </span>
-                            <span>Total Tickets: {list?.totalTickets}</span>
+                            <span>
+                              {t("lottery.TotalTickets")}: {list?.totalTickets}
+                            </span>
                           </div>
                         </div>
                         <div
@@ -1097,19 +1109,20 @@ function Lottery() {
                               }}
                             >
                               {[1, 2].includes(list?.roundInfo?.status * 1) &&
-                                "Buy Tickets"}
-                              {list?.roundInfo?.status * 1 == 3 && "Drawn"}
+                                t("lottery.BuyTickets")}
+                              {list?.roundInfo?.status * 1 == 3 &&
+                                t("lottery.Drawn")}
                               {list?.roundInfo?.status * 1 == 4 &&
-                                "Lottery Drawing"}
+                                t("lottery.LotteryDrawing")}
                               {list?.roundInfo?.status * 1 == 5 &&
-                                "Instant Drawing"}
+                                t("lottery.InstantDrawing")}
                             </Button>
                           </div>
                           <div className="_title _justB text-center">
                             <span>
                               {list?.roundInfo?.status == 2 && (
                                 <>
-                                  Time to end:{" "}
+                                  {t("lottery.TimeToEnd")}:{" "}
                                   <CountDown
                                     offsetTimestamp={Math.abs(
                                       list?.roundInfo?.endTime - nowDate
@@ -1119,7 +1132,7 @@ function Lottery() {
                               )}
                               {list?.roundInfo?.status == 1 && (
                                 <>
-                                  Time to start:{" "}
+                                  {t("lottery.StartTime")}:{" "}
                                   <CountDown
                                     offsetTimestamp={Math.abs(
                                       list?.roundInfo?.startTime - nowDate
@@ -1129,27 +1142,29 @@ function Lottery() {
                               )}
                               {list?.roundInfo?.status == 3 && (
                                 <>
-                                  End Time:{" "}
+                                  {t("lottery.TimeToEnd")}:{" "}
                                   {moment(
                                     list?.roundInfo?.endTime * 1000
                                   ).format("MM-DD HH:mm:ss")}
                                 </>
                               )}
                               {[4, 5].includes(list?.roundInfo?.status) && (
-                                <>Time to end: {"00:00:00"}</>
+                                <>
+                                  {t("lottery.TimeToEnd")}: {"00:00:00"}
+                                </>
                               )}
                             </span>
                             <button
                               className="_hiddenP _yellow font-bold"
                               onClick={() => setShowMoreInfoFun(index)}
                             >
-                              more view
+                              {t("lottery.MoreView")}
                             </button>
                           </div>
                           {list.showMore && (
                             <div className="_hiddenP _orderInfo">
                               <div>
-                                <span>End Time</span>
+                                <span>{t('lottery.EndTime')}</span>
                                 <span className="text-white">
                                   {moment(
                                     list?.roundInfo?.endTime * 1000
@@ -1157,7 +1172,7 @@ function Lottery() {
                                 </span>
                               </div>
                               <div>
-                                <span>Winning Number</span>
+                                <span>{t("lottery.WinningNumber")}</span>
                                 <span
                                   className={`_title ${
                                     list?.roundInfo?.winNumber * 1 !== 0 &&
@@ -1165,7 +1180,7 @@ function Lottery() {
                                   }`}
                                 >
                                   {list?.roundInfo?.winNumber * 1 == 0
-                                    ? "To be drawn"
+                                    ? t("lottery.ToBeDrawn")
                                     : getNewTickets(
                                         list?.roundInfo?.winNumber * 1,
                                         list.totalTickets * 1
@@ -1173,7 +1188,7 @@ function Lottery() {
                                 </span>
                               </div>
                               <div>
-                                <span>Pool Id</span>
+                                <span>{t("lottery.PoolId")}</span>
                                 <Popover
                                   content={list.contractAddress}
                                   placement="topRight"
@@ -1186,7 +1201,7 @@ function Lottery() {
                                 </Popover>
                               </div>
                               <div>
-                                <span>Next Round Start At</span>
+                                <span>{t("lottery.NextRoundStartAt")}</span>
                                 <span className="text-white">
                                   {moment(
                                     list?.roundInfo?.endTime * 1000 +
@@ -1198,7 +1213,7 @@ function Lottery() {
                           )}
 
                           <div className="pl-2 _hiddenP _hiddenM">
-                            Next Round Start At:{" "}
+                            {t("lottery.NextRoundStartAt")}:{" "}
                             {moment(
                               list?.roundInfo?.endTime * 1000 +
                                 list?.roundGapTime * 1000
@@ -1236,7 +1251,7 @@ function Lottery() {
                       </span>
                     </div>
                     <div className="_nav-title text-sm text-left pt-4">
-                      Total Reward
+                      {t("lottery.TotalReward")}
                     </div>
                   </div>
                   <div className="_w100 _mt-5">
@@ -1256,7 +1271,7 @@ function Lottery() {
                           </span>
                         </div>
                         <div className="_nav-title text-sm text-left pt-4">
-                          Unclaimed Reward
+                          {t("lottery.UnclaimedReward")}
                         </div>
                       </div>
                       {contextHolder}
@@ -1266,25 +1281,33 @@ function Lottery() {
                         onClick={claimPrizes}
                         className="rounded-full _background-gradient2 text-white h-12 pl-16 pr-16"
                       >
-                        Claim
+                        {t("lottery.Claim")}
                       </Button>
                     </div>
                   </div>
                 </div>
                 <div className="text-left mt-8">
-                  <div className="pt-4 pb-4 _borderT font-bold">History</div>
+                  <div className="pt-4 pb-4 _borderT font-bold">
+                    {t("lottery.History")}
+                  </div>
                 </div>
                 <div className="max-h-80 mb-2 overflow-auto">
                   <table className="w-full text-left _table _hiddenM">
                     <thead className="text-sm h-10 ">
                       <tr className="_nav-title _tableTitle">
-                        <th className="font-thin">Pool</th>
-                        <th className="font-thin">Round</th>
-                        <th className="font-thin">Purchased tickets</th>
-                        <th className="font-thin">Winner Number</th>
-                        <th className="font-thin">Purchase time</th>
+                        <th className="font-thin">{t("lottery.Pool")}</th>
+                        <th className="font-thin">{t("lottery.Round")}</th>
+                        <th className="font-thin">
+                          {t("lottery.PurchasedTickets")}
+                        </th>
+                        <th className="font-thin">
+                          {t("lottery.WinningNumber")}
+                        </th>
+                        <th className="font-thin">
+                          {t("lottery.PurchaseTime")}
+                        </th>
                         <th className="text-right font-thin">
-                          Your lottery number
+                          {t("lottery.YourLotteryNumber")}
                         </th>
                       </tr>
                     </thead>
@@ -1333,7 +1356,7 @@ function Lottery() {
                                     setIsRewardOpen(true);
                                   }}
                                 >
-                                  Check
+                                  {t("lottery.Check")}
                                 </Button>
                               </td>
                             </tr>
@@ -1347,7 +1370,7 @@ function Lottery() {
                         className="w-16"
                         src={require("../../asserts/img/noData.png")}
                       />
-                      <div className="mt-2 text-sm">No Data</div>
+                      <div className="mt-2 text-sm">{t("lottery.NoData")}</div>
                     </div>
                   )}
                 </div>
@@ -1374,7 +1397,7 @@ function Lottery() {
                                 </Popover>
                               </span>
                               <span>
-                                Winning number{" "}
+                                {t("lottery.WinningNumber")}{" "}
                                 <span className="_active">
                                   {list?.winNumber * 1 == 0
                                     ? "--"
@@ -1383,8 +1406,13 @@ function Lottery() {
                               </span>
                             </div>
                             <div className="flex items-center justify-between font-thin mt-2">
-                              <span>Round{list?.roundId}</span>
-                              <span>{list?.ticketsCount} tickets</span>
+                              <span>
+                                {t("lottery.Round")}
+                                {list?.roundId}
+                              </span>
+                              <span>
+                                {list?.ticketsCount} {t("lottery.Tickets")}
+                              </span>
                             </div>
                             <div className="flex items-center justify-between _nav-title font-thin mt-2">
                               <span>
@@ -1404,7 +1432,7 @@ function Lottery() {
                                 }}
                                 className="_active"
                               >
-                                Check Number
+                                {t("lottery.CheckNumber")}
                               </span>
                             </div>
                           </div>
@@ -1420,7 +1448,7 @@ function Lottery() {
               className="h-16 _background2 rounded-xl mx-auto mt-8 text-sm flex items-center justify-between px-4 _widthM"
               style={{ maxWidth: "1100px" }}
             >
-              <span className="text-left">Trusted by the smart contract</span>
+              <span className="text-left">{t("lottery.TrustedContract")}</span>
               <a
                 href={`${chainInfo?.explorerUrl}/address/${poolManager}#code`}
                 target="_blank"
@@ -1431,7 +1459,7 @@ function Lottery() {
                   {shortStr(poolManager)}
                 </span>
                 <button className="border rounded-xl px-3 py-1 ml-2 _borderS text-sm _hiddenM">
-                  Details
+                  {t("lottery.Details")}
                 </button>
               </a>
             </div>
@@ -1440,7 +1468,7 @@ function Lottery() {
       </div>
 
       <Modal
-        title="Buy Tickets"
+        title={t("lottery.BuyTickets")}
         centered
         destroyOnClose={true}
         open={isShareOpen}
@@ -1456,9 +1484,10 @@ function Lottery() {
         }
       >
         <div className="text-white flex items-center justify-between font-bold">
-          <span>Tickets</span>
+          <span>{t("lottery.Tickets")}</span>
           <span>
-            1 Ticket = {selectPool.pricePerTicket * 1} {USDTSymbol}
+            1 {t("lottery.Ticket")} = {selectPool.pricePerTicket * 1}{" "}
+            {USDTSymbol}
           </span>
         </div>
         <div
@@ -1469,22 +1498,22 @@ function Lottery() {
             value={ticketAmount}
             onChange={(value) => setTicketAmount(value.target.value)}
             className="outline-none bg-transparent w-4/5 _inputStyle"
-            placeholder="Enter amount"
+            placeholder={t("lottery.EnterAmount")}
           />
           <button className="_yellow text-base" onClick={maxBuyFun}>
-            Max
+            {t("lottery.Max")}
           </button>
         </div>
         <div className="flex items-center justify-between mt-3 _nav-title">
           <span>
-            Remaining tickets:{" "}
+          {t("lottery.RemainingTickets")}:{" "}
             <span className="_active">
               {" "}
               {selectPool?.roundInfo?.leftTickets}
             </span>
           </span>
           <span>
-            Balance: {accountBalance} {selectPool?.rewardSymbol}
+          {t("lottery.Balance")}: {accountBalance} {selectPool?.rewardSymbol}
           </span>
         </div>
         {contextHolder}
@@ -1497,7 +1526,7 @@ function Lottery() {
               open();
             }}
           >
-            Connect Wallet
+            {t("lottery.ConnectWallet")}
           </Button>
         ) : (
           <>
@@ -1507,7 +1536,7 @@ function Lottery() {
                 className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
                 onClick={() => buyTicketFun(selectPool, ticketAmount)}
               >
-                Buy
+                 {t("lottery.Buy")}
               </Button>
             ) : (
               <Button
@@ -1515,27 +1544,26 @@ function Lottery() {
                 className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
                 onClick={() => approveTicketFun(selectPool.USDTAddress)}
               >
-                Approve
+                {t("lottery.Approve")}
+                
               </Button>
             )}
           </>
         )}
 
         <div className="text-center mt-5 mb-5 font-bold text-sm">
-          Time to end: {""}
+          {t("lottery.EndTime")}: {""}
           <CountDown
             offsetTimestamp={Math.abs(selectPool?.roundInfo?.endTime - nowDate)}
           />
         </div>
         <div className="text-left _nav-title text-xs">
-          Instructions for participation：By purchasing 1 ticket, you have the
-          chance to win the entire prize pool. The more shares you purchase, the
-          greater the probability of winning the reward pool.
+          {t("lottery.BuyDesc")}
         </div>
       </Modal>
       {/*  */}
       <Modal
-        title="Your lottery number"
+        title={t("lottery.YourLotteryNumber")}
         centered
         destroyOnClose={true}
         open={isRewardOpen}
@@ -1566,7 +1594,7 @@ function Lottery() {
                   className="text-white h-56 flex items-center justify-center _backgroundTickets p-6"
                 >
                   <div className="_yellow block text-center text-lg">
-                    1 lottery number
+                    {t("lottery.LotteryNumber")}
                   </div>
                   <div className="text-center mt-4 text-6xl flex items-center justify-center">
                     {transferFun(list).map((number, index) => {
@@ -1608,11 +1636,11 @@ function Lottery() {
           </button>
         </div>
         <div className="text-center _nav-title">
-          A total of {selectTickets.length} lottery numbers
+          {t("lottery.TotalNumbers", { number: selectTickets.length })}
         </div>
       </Modal>
       <Modal
-        title="Congratulations!"
+        title={t('lottery.Congratulations')}
         centered
         destroyOnClose={true}
         open={isWonOpen}
@@ -1639,11 +1667,11 @@ function Lottery() {
           />
           <div className="flex flex-wrap items-center justify-between mt-10 _title _flexM2">
             <div className="flex-auto">
-              You got <span className="_active">{openingRound.prize}</span>{" "}
+              {t('lottery.YouGot')} <span className="_active">{openingRound.prize}</span>{" "}
               {USDTSymbol}!
             </div>
             <div className="flex-auto">
-              Winning Number:{" "}
+              {t('lottery.WinningNumber')}:{" "}
               <span className="_active">
                 {getNewTickets(
                   openingRound.winNumber * 1,
@@ -1660,13 +1688,13 @@ function Lottery() {
             }}
           >
             <button className="w-full _borderS rounded-full _background-gradient2 py-3 mt-6 font-bold">
-              Go To Claim
+            {t('referral.GoToClaim')}
             </button>
           </Link>
         </div>
       </Modal>
       <Modal
-        title="Unfortunately..."
+        title={t('lottery.Unfortunately')}
         centered
         destroyOnClose={true}
         open={noWon}
@@ -1692,9 +1720,9 @@ function Lottery() {
             alt=""
           />
           <div className="flex flex-wrap items-center justify-between mt-10 _title _flexM2">
-            <div className="flex-auto">Better luck next time!</div>
+            <div className="flex-auto">{t('lottery.BetterLuckNextTime')}</div>
             <div className="flex-auto">
-              Winning Number:{" "}
+            {t('lottery.WinningNumber')}:{" "}
               <span className="_active">
                 {getNewTickets(
                   openingRound.winNumber * 1,
@@ -1710,7 +1738,7 @@ function Lottery() {
               setOpeningRound({});
             }}
           >
-            Close
+            {t('lottery.Close')}
           </button>
         </div>
       </Modal>

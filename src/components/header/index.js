@@ -18,11 +18,15 @@ import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
 import { ethers } from "ethers";
 import { erc20Abi } from "viem";
-import { useInterval, useTimeout } from "ahooks";
+import { useInterval } from "ahooks";
+import { useTranslation } from "react-i18next";
+import { resources } from "../../config";
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+
   const logoIcon = require("../../asserts/img/logo.png");
   const { address, chainId, isConnected } = useWeb3ModalAccount();
 
@@ -99,7 +103,7 @@ const Header = () => {
           setOpenTips(true);
           if (openTips) {
             notification.open({
-              message: "Already registered, cannot bind invitation code！",
+              message: t("header.hadRegister"),
               duration: 5,
             });
           }
@@ -206,7 +210,7 @@ const Header = () => {
 
   const AccountContent = () => {
     const copy = (address) => {
-      api["success"]({ message: "Copied Success!" });
+      api["success"]({ message: t("referral.CopiedSuccess") });
       navigator.clipboard.writeText(address);
     };
     return (
@@ -262,7 +266,7 @@ const Header = () => {
         <div className="text-center">
           <a href="https://o3swap.com/swap" target="_black">
             <button className="mt-5 w-full h-11 rounded-xl _borderS2 _background-gradient6">
-              Bridge and Swap
+              {t("header.BridgeAndSwap")}
             </button>
           </a>
         </div>
@@ -323,6 +327,50 @@ const Header = () => {
     );
   };
 
+  const [openLang, setOpenLang] = useState(false);
+  const langOpenChange = (value) => {
+    setOpenLang(value);
+  };
+
+  const [currentLang, setCurrentLang] = useState(i18n.language);
+
+  const LangList = () => {
+    const langArr = [];
+    for (let key in resources) {
+      langArr.push(key);
+    }
+    return (
+      <div className="cursor-pointer">
+        {langArr.map((list) => {
+          return (
+            <div
+              className="w-20 py-1 px-2 text-center rounded-md hover:bg-black"
+              onClick={() => {
+                setOpenLang(false);
+                setCurrentLang(list);
+                i18n.changeLanguage(list);
+                window.localStorage.setItem('lang', list)
+              }}
+            >
+              {showLang(list)}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const showLang = (lang) => {
+    switch (lang) {
+      case "en":
+        return "English";
+      case "zh-CN":
+        return "简体中文";
+      default:
+        return "English";  
+    }
+  };
+
   return (
     <div className="h-18 flex items-center justify-between pl-5 pr-5 border-spacing-1 text-white _background1 _line relative">
       <div>
@@ -330,6 +378,7 @@ const Header = () => {
           <img className="h-5 mt-6 mb-6" src={logoIcon} alt="" />
         </Link>
       </div>
+
       <div
         className="flex items-center font-medium _hiddenM"
         style={{
@@ -345,7 +394,7 @@ const Header = () => {
           }`}
           to="/"
         >
-          Lottery
+          {t("header.Lottery")}
         </Link>
         <Link
           className={`ml-6 mr-6 ${
@@ -353,7 +402,7 @@ const Header = () => {
           }`}
           to="/referral"
         >
-          Referral
+          {t("header.Referral")}
         </Link>
         <Link
           className={`ml-6 mr-6 ${
@@ -361,7 +410,7 @@ const Header = () => {
           }`}
           to="/tutorials"
         >
-          Tutorials
+          {t("header.Tutorials")}
         </Link>
 
         <Popover
@@ -375,7 +424,7 @@ const Header = () => {
           overlayClassName="communityList"
         >
           <button className="px-6 cursor-pointer flex items-center">
-            <span>Community</span>
+            <span>{t("header.Community")}</span>
             <img
               className={`w-3 ml-1 mt-0.5 ${
                 openCommunity ? "rotate-180" : "animate-bounce"
@@ -391,25 +440,25 @@ const Header = () => {
           target="_blank"
           href="https://www.alchemy.com/faucets/ethereum-sepolia"
         >
-          <button className="_border rounded-full p-2 md:pl-4 md:pr-4 text-sm mr-2 flex items-center">
+          <button className="_border rounded-full p-2 text-sm mr-2 flex items-center">
             <img
               className="h-5"
               src={require("../../asserts/img/faucets.png")}
               alt=""
             />
-            <span className="ml-2 _hiddenM">Faucets</span>
+            {/* <span className="ml-2 _hiddenM">{t("header.Faucets")}</span> */}
           </button>
         </a>
 
         {isConnected && (
           <button
-            className="_border rounded-full p-2 md:pl-4 md:pr-4 text-sm mr-2 flex items-center"
+            className="_border rounded-full p-2 text-sm mr-2 flex items-center"
             onClick={() => open({ view: "Networks" })}
           >
             <img className="w-5" src={selectNetworkIcon(chainId)?.url} alt="" />
-            <span className="ml-2 _hiddenM">
+            {/* <span className="ml-2 _hiddenM">
               {selectNetworkIcon(chainId)?.name}
-            </span>
+            </span> */}
           </button>
         )}
 
@@ -444,7 +493,7 @@ const Header = () => {
               </div>
             </Popover>
           ) : (
-            <span onClick={() => open()}>Connect Wallet</span>
+            <span onClick={() => open()}>{t("lottery.ConnectWallet")}</span>
           )}
         </button>
         <button
@@ -457,6 +506,22 @@ const Header = () => {
             src={require("../../asserts/img/menu.png")}
             alt=""
           />
+        </button>
+        <button>
+          <Popover
+            content={<LangList />}
+            trigger="click"
+            placement="bottomRight"
+            arrow={false}
+            color={"#1C172A"}
+            open={openLang}
+            onOpenChange={langOpenChange}
+            overlayClassName="langList"
+          >
+            <button className="_border rounded-full p-2 px-4 text-sm ml-2 flex items-center">
+              {showLang(currentLang)}
+            </button>
+          </Popover>
         </button>
       </div>
       <Drawer
@@ -488,7 +553,7 @@ const Header = () => {
               }`}
               to="/"
             >
-              <span>Lottery</span>
+              <span>{t("header.Lottery")}</span>
               <img
                 className="w-4"
                 src={require("../../asserts/img/drawerRight.png")}
@@ -504,7 +569,7 @@ const Header = () => {
               }`}
               to="/referral"
             >
-              <span>Referral</span>
+              <span>{t("header.Referral")}</span>
               <img
                 className="w-4"
                 src={require("../../asserts/img/drawerRight.png")}
@@ -519,7 +584,7 @@ const Header = () => {
               }`}
               to="/tutorials"
             >
-              <span>Tutorials</span>
+              <span>{t("header.Tutorials")}</span>
               <img
                 className="w-4"
                 src={require("../../asserts/img/drawerRight.png")}
@@ -536,7 +601,7 @@ const Header = () => {
               }`}
               to="/?reward"
             >
-              <span>My Reward</span>
+              <span>{t("lottery.tabs.MyReward")}</span>
               <img
                 className="w-4"
                 src={require("../../asserts/img/drawerRight.png")}
@@ -597,7 +662,7 @@ const Header = () => {
         </div>
       </Drawer>
       <Modal
-        title="Join Us"
+        title={t("header.JoinUs")}
         destroyOnClose={true}
         centered
         maskClosable={false}
@@ -618,10 +683,7 @@ const Header = () => {
         width={420}
         zIndex={3000}
       >
-        <p className="mt-5 _nav-title">
-          Get an invite code from an existing user to sign up or sign up
-          directly.
-        </p>
+        <p className="mt-5 _nav-title">{t("header.JoinUsDesc")}</p>
         <div>
           <input
             value={code}
@@ -639,7 +701,7 @@ const Header = () => {
             address ? signUp() : open();
           }}
         >
-          {address ? "Sign Up" : "Connect Wallet"}
+          {address ? t("header.SignUp") : t("lottery.ConnectWallet")}
         </Button>
       </Modal>
     </div>

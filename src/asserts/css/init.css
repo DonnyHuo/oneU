@@ -387,6 +387,26 @@ a:hover {
   border-bottom-right-radius: 10px;
   padding: 20px;
 }
+.langList {
+  inset: 70px 10px auto auto !important;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.langList .ant-popover-content {
+  /* width: 100px; */
+  max-height: 200px;
+  overflow: auto;
+}
+.langList .ant-popover-inner-content {
+  color: #f4f3f9;
+}
+
+.langList .ant-popover-inner {
+  border-radius: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 10px;
+}
 
 ._borderS1 {
   border: 1px solid #a851ff;
@@ -532,13 +552,13 @@ a:hover {
   flex-shrink: 0;
 }
 .sticky {
-  position: inherit!important;
+  position: inherit !important;
 }
 
-@media screen and (min-width: 0px) and (max-width: 880px) {
+@media screen and (min-width: 0px) and (max-width: 500px) {
   .sticky {
-    position: fixed!important;
-    z-index: 1111!important;
+    position: fixed !important;
+    z-index: 1111 !important;
   }
   ._carouselBtn {
     position: inherit;
@@ -860,7 +880,7 @@ a:hover {
   }
 }
 
-@media screen and (min-width: 880px) and (max-width: 5000px) {
+@media screen and (min-width: 500px) and (max-width: 5000px) {
   .content {
     min-height: 100vh;
     background-color: #0b051a;
