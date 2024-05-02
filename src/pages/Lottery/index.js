@@ -499,13 +499,13 @@ function Lottery() {
         getAllowance(USDTAddress);
         setApproveLoading(false);
         api["success"]({
-          message: t('lottery.ApproveSuccess')
+          message: t("lottery.ApproveSuccess"),
         });
       })
       .catch((err) => {
         setApproveLoading(false);
         api["error"]({
-          message: t('lottery.ApproveFail')
+          message: t("lottery.ApproveFail"),
         });
         console.log(err);
       });
@@ -537,17 +537,17 @@ function Lottery() {
 
     if (!reg.test(ticketAmount * 1)) {
       return api["error"]({
-        message: t('lottery.EnterCorrectAmount'),
+        message: t("lottery.EnterCorrectAmount"),
       });
     }
     if (amount * 1 > accountBalance * 1) {
       return api["error"]({
-        message:  t('lottery.InsufficientBalance'),
+        message: t("lottery.InsufficientBalance"),
       });
     }
     if (amount * 1 > selectPool.roundInfo.leftTickets * 1) {
       return api["error"]({
-        message: t('lottery.NotEnoughTicketsRemaining'),
+        message: t("lottery.NotEnoughTicketsRemaining"),
       });
     }
 
@@ -573,7 +573,7 @@ function Lottery() {
         setBuyLoading(false);
         setTicketAmount("");
         api["success"]({
-          message: t('lottery.BuySuccess')
+          message: t("lottery.BuySuccess"),
         });
         getPoolList();
         getParticipationRecords();
@@ -585,7 +585,7 @@ function Lottery() {
       .catch((err) => {
         setBuyLoading(false);
         api["error"]({
-          message: t('lottery.BuyFail')
+          message: t("lottery.BuyFail"),
         });
         setTimeout(() => {
           setIsShareOpen(false);
@@ -768,13 +768,13 @@ function Lottery() {
         getUnclaimedPrizes();
         getWonParticipationRecords();
         api["success"]({
-          message: t('referral.ClaimSuccess'),
+          message: t("referral.ClaimSuccess"),
         });
       })
       .catch((err) => {
         setClaimLoading(false);
         api["error"]({
-          message: t('referral.ClaimFail'),
+          message: t("referral.ClaimFail"),
         });
         console.log(err);
       });
@@ -1164,7 +1164,7 @@ function Lottery() {
                           {list.showMore && (
                             <div className="_hiddenP _orderInfo">
                               <div>
-                                <span>{t('lottery.EndTime')}</span>
+                                <span>{t("lottery.EndTime")}</span>
                                 <span className="text-white">
                                   {moment(
                                     list?.roundInfo?.endTime * 1000
@@ -1407,8 +1407,7 @@ function Lottery() {
                             </div>
                             <div className="flex items-center justify-between font-thin mt-2">
                               <span>
-                                {t("lottery.Round")}
-                                {list?.roundId}
+                                {list?.roundId} {t("lottery.Round")}
                               </span>
                               <span>
                                 {list?.ticketsCount} {t("lottery.Tickets")}
@@ -1506,14 +1505,14 @@ function Lottery() {
         </div>
         <div className="flex items-center justify-between mt-3 _nav-title">
           <span>
-          {t("lottery.RemainingTickets")}:{" "}
+            {t("lottery.RemainingTickets")}:{" "}
             <span className="_active">
               {" "}
               {selectPool?.roundInfo?.leftTickets}
             </span>
           </span>
           <span>
-          {t("lottery.Balance")}: {accountBalance} {selectPool?.rewardSymbol}
+            {t("lottery.Balance")}: {accountBalance} {selectPool?.rewardSymbol}
           </span>
         </div>
         {contextHolder}
@@ -1536,7 +1535,7 @@ function Lottery() {
                 className="w-full h-12 mt-6 _background-gradient2 text-white rounded-full text-base font-bold pt-2 pb-2 pl-5 pr-5"
                 onClick={() => buyTicketFun(selectPool, ticketAmount)}
               >
-                 {t("lottery.Buy")}
+                {t("lottery.Buy")}
               </Button>
             ) : (
               <Button
@@ -1545,7 +1544,6 @@ function Lottery() {
                 onClick={() => approveTicketFun(selectPool.USDTAddress)}
               >
                 {t("lottery.Approve")}
-                
               </Button>
             )}
           </>
@@ -1640,7 +1638,7 @@ function Lottery() {
         </div>
       </Modal>
       <Modal
-        title={t('lottery.Congratulations')}
+        title={t("lottery.Congratulations")}
         centered
         destroyOnClose={true}
         open={isWonOpen}
@@ -1667,11 +1665,12 @@ function Lottery() {
           />
           <div className="flex flex-wrap items-center justify-between mt-10 _title _flexM2">
             <div className="flex-auto">
-              {t('lottery.YouGot')} <span className="_active">{openingRound.prize}</span>{" "}
-              {USDTSymbol}!
+              {t("lottery.YouGot")}{" "}
+              <span className="_active">{openingRound.prize}</span> {USDTSymbol}
+              !
             </div>
             <div className="flex-auto">
-              {t('lottery.WinningNumber')}:{" "}
+              {t("lottery.WinningNumber")}:{" "}
               <span className="_active">
                 {getNewTickets(
                   openingRound.winNumber * 1,
@@ -1688,13 +1687,13 @@ function Lottery() {
             }}
           >
             <button className="w-full _borderS rounded-full _background-gradient2 py-3 mt-6 font-bold">
-            {t('referral.GoToClaim')}
+              {t("referral.GoToClaim")}
             </button>
           </Link>
         </div>
       </Modal>
       <Modal
-        title={t('lottery.Unfortunately')}
+        title={t("lottery.Unfortunately")}
         centered
         destroyOnClose={true}
         open={noWon}
@@ -1720,9 +1719,9 @@ function Lottery() {
             alt=""
           />
           <div className="flex flex-wrap items-center justify-between mt-10 _title _flexM2">
-            <div className="flex-auto">{t('lottery.BetterLuckNextTime')}</div>
+            <div className="flex-auto">{t("lottery.BetterLuckNextTime")}</div>
             <div className="flex-auto">
-            {t('lottery.WinningNumber')}:{" "}
+              {t("lottery.WinningNumber")}:{" "}
               <span className="_active">
                 {getNewTickets(
                   openingRound.winNumber * 1,
@@ -1738,7 +1737,7 @@ function Lottery() {
               setOpeningRound({});
             }}
           >
-            {t('lottery.Close')}
+            {t("lottery.Close")}
           </button>
         </div>
       </Modal>
