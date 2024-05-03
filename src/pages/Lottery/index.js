@@ -1,4 +1,4 @@
-import { useEffect, useState, createRef } from "react";
+import { useEffect, useState, createRef, useRef } from "react";
 import {
   useWeb3ModalProvider,
   useWeb3Modal,
@@ -32,7 +32,6 @@ import Footer from "../../components/footer";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useInterval } from "ahooks";
 import JSConfetti from "js-confetti";
-import Sticky from "react-sticky-el";
 import { useTranslation } from "react-i18next";
 
 function Lottery() {
@@ -868,6 +867,21 @@ function Lottery() {
     }
   };
 
+  const stickyRef = useRef(null);
+  const [top, setTop] = useState(0);
+  const [stickyShow, setStickyShow] = useState(false)
+  const scrollTopFun = (e) => {
+    const scrollTop = document.documentElement.scrollTop;
+    console.log('scrollTop', scrollTop, top)
+    setStickyShow(scrollTop > top)
+  };
+
+  useEffect(() => {
+    setTop(stickyRef.current.offsetTop);
+    window.addEventListener("scroll", scrollTopFun);
+    return () => window.removeEventListener("scroll", scrollTopFun);
+  });
+
   return (
     <div className="_background1 _background-home text-center">
       <div className="_background-home2">
@@ -903,8 +917,8 @@ function Lottery() {
               );
             })}
           </div>
-          <div className="_border px-6 rounded-xl _widthP _marginAuto0 _widthM _borderNo _paddingNo">
-            <Sticky>
+          <div className="_border px-6 rounded-xl _widthP _marginAuto0 _widthM _borderNo _paddingNo" ref={stickyRef}>
+            <div className={`${stickyShow && 'sticky' }`}>
               <div className="flex items-center text-lg _justA z-50 h-16 _background4">
                 <div className="flex items-center font-bold">
                   <button
@@ -921,7 +935,7 @@ function Lottery() {
                   {t("lottery.tabs.MyReward")}
                 </button>
               </div>
-            </Sticky>
+            </div>
 
             {!tab ? (
               <div className="">
