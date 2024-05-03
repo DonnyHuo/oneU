@@ -1428,7 +1428,7 @@ function Lottery() {
                             </div>
                             <div className="flex items-center justify-between font-thin mt-2">
                               <span>
-                                {list?.roundId} {t("lottery.Round")}
+                              {t("lottery.Round")} {list?.roundId} 
                               </span>
                               <span>
                                 {list?.ticketsCount} {t("lottery.Tickets")}
