@@ -138,7 +138,8 @@
     "hadRegister": "已注册，无法绑定邀请码！",
     "JoinUs": "加入我们",
     "JoinUsDesc": "通过好友邀请码进行注册或直接注册。",
-    "SignUp": "注册"
+    "SignUp": "注册",
+    "Language": "语言"
   },
   "footer": {
     "Terms": "条款",

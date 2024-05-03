@@ -14,7 +14,6 @@ export const formatNumber = (number) => {
   return number.replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
 };
 
-export const isMobile = window.innerWidth <= 768;
 
 export function formate(time) {
   return `${time < 10 ? "0" : ""}${time}`;

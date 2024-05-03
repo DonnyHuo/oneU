@@ -37,7 +37,10 @@ import { useTranslation } from "react-i18next";
 function Lottery() {
   const { t } = useTranslation();
   const { chainId } = useWeb3ModalAccount();
-  const chainInfo = chainList.filter((list) => list.networkId == chainId)[0];
+  const chainInfo = chainId
+    ? chainList.filter((list) => list.networkId == chainId)[0]
+    : chainList[2];
+
   const { walletProvider } = useWeb3ModalProvider();
   const { open } = useWeb3Modal();
 

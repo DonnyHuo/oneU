@@ -138,7 +138,8 @@
     "hadRegister": "Already registered, cannot bind invitation code！",
     "JoinUs": "Join Us",
     "JoinUsDesc": "Get an invite code from an existing user to sign up or sign up directly.",
-    "SignUp": "Sign Up"
+    "SignUp": "Sign Up",
+    "Language": "Language"
   },
   "footer": {
     "Terms": "Terms",

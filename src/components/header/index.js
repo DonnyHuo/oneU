@@ -334,26 +334,63 @@ const Header = () => {
 
   const [currentLang, setCurrentLang] = useState(i18n.language);
 
+
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(()=>{
+    setIsMobile(window.innerWidth <= 768)
+  },[window.innerWidth])
+
   const LangList = () => {
     const langArr = [];
     for (let key in resources) {
       langArr.push(key);
     }
+
     return (
       <div className="cursor-pointer">
-        {langArr.map((list) => {
+        {langArr.map((list, index) => {
           return (
-            <div
-              className="w-20 py-1 px-2 text-center rounded-md hover:bg-black"
-              onClick={() => {
-                setOpenLang(false);
-                setCurrentLang(list);
-                i18n.changeLanguage(list);
-                window.localStorage.setItem('lang', list)
-              }}
-            >
-              {showLang(list)}
-            </div>
+            <>
+              {!isMobile ? (
+                <div key={index} className="text-center _langList">
+                  <button
+                    className={`rounded-md px-2 h-8 m-2 ${
+                      i18n.language == list && "active"
+                    }`}
+                    onClick={() => {
+                      setOpenLang(false);
+                      setCurrentLang(list);
+                      i18n.changeLanguage(list);
+                      window.localStorage.setItem("lang", list);
+                    }}
+                  >
+                    {showLang(list)}
+                  </button>
+                </div>
+              ) : (
+                <div key={index} className="text-left _text text-sm">
+                  <div
+                    className={
+                      "flex item-center justify-between rounded-md px-4 h-8 m-2"
+                    }
+                    onClick={() => {
+                      setOpenLang(false);
+                      setCurrentLang(list);
+                      i18n.changeLanguage(list);
+                      window.localStorage.setItem("lang", list);
+                    }}
+                  >
+                    <span>{showLang(list)}</span>
+                    {i18n.language == list && (
+                      <img
+                        className="w-5 h-5"
+                        src={require("../../asserts/img/selected.png")}
+                      />
+                    )}
+                  </div>
+                </div>
+              )}
+            </>
           );
         })}
       </div>
@@ -367,9 +404,11 @@ const Header = () => {
       case "zh-CN":
         return "简体中文";
       default:
-        return "English";  
+        return "English";
     }
   };
+
+  const [showList, setShowList] = useState(false);
 
   return (
     <div className="h-18 flex items-center justify-between pl-5 pr-5 border-spacing-1 text-white _background1 _line relative">
@@ -507,7 +546,7 @@ const Header = () => {
             alt=""
           />
         </button>
-        <button>
+        <div className="_hiddenM">
           <Popover
             content={<LangList />}
             trigger="click"
@@ -516,13 +555,17 @@ const Header = () => {
             color={"#1C172A"}
             open={openLang}
             onOpenChange={langOpenChange}
-            overlayClassName="langList"
+            overlayClassName="langList _hiddenM"
           >
-            <button className="_border rounded-full p-2 px-4 text-sm ml-2 flex items-center">
-              {showLang(currentLang)}
+            <button className="_border rounded-full p-2 text-sm ml-2 flex items-center _hiddenM">
+              <img
+                className="w-5"
+                src={require("../../asserts/img/lang.png")}
+                alt=""
+              />
             </button>
           </Popover>
-        </button>
+        </div>
       </div>
       <Drawer
         width={"80vw"}
@@ -609,7 +652,25 @@ const Header = () => {
               />
             </Link>
           </p>
+          <p
+            className="pt-5 pb-5"
+            onClick={() => setShowList((state) => (state = !state))}
+          >
+            <div className="ml-6 mr-6 flex items-center justify-between">
+              <span>{t("header.Language")}</span>
+              <div className="flex items-center">
+                <span className="text-sm _text">{showLang(currentLang)}</span>
+                <img
+                  className={`w-4 ml-1 ${showList && "rotate-90"}`}
+                  src={require("../../asserts/img/drawerRight.png")}
+                  alt=""
+                />
+              </div>
+            </div>
+          </p>
+          {showList && <LangList />}
         </div>
+
         <div className="flex items-center justify-around absolute bottom-8 w-full">
           <div
             className="rounded-xl w-1/4 h-12"
