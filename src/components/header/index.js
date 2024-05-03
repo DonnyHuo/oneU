@@ -46,6 +46,7 @@ const Header = () => {
 
   const onClose = () => {
     setOpenDrawer(false);
+    setShowList(false)
   };
 
   // get userID fun
