@@ -920,22 +920,24 @@ function Lottery() {
             className="_border px-6 rounded-xl _widthP _marginAuto0 _widthM _borderNo _paddingNo"
             ref={stickyRef}
           >
-            <div className={`_background4 ${stickyShow ? "sticky" : ""}`}>
-              <div className="flex items-center text-lg _justA z-50 h-16">
-                <div className="flex items-center font-bold">
+            <div className="h-16">
+              <div className={`_background4 ${stickyShow ? "sticky" : ""}`}>
+                <div className="flex items-center text-lg _justA z-50 h-16">
+                  <div className="flex items-center font-bold">
+                    <button
+                      className={!tab ? "_title" : "_text"}
+                      onClick={() => setTabFun(0)}
+                    >
+                      {t("lottery.tabs.OngoingLotteries")}
+                    </button>
+                  </div>
                   <button
-                    className={!tab ? "_title" : "_text"}
-                    onClick={() => setTabFun(0)}
+                    onClick={() => setTabFun(1)}
+                    className={`${tab ? "_title" : "_text"} ml-5 font-bold`}
                   >
-                    {t("lottery.tabs.OngoingLotteries")}
+                    {t("lottery.tabs.MyReward")}
                   </button>
                 </div>
-                <button
-                  onClick={() => setTabFun(1)}
-                  className={`${tab ? "_title" : "_text"} ml-5 font-bold`}
-                >
-                  {t("lottery.tabs.MyReward")}
-                </button>
               </div>
             </div>
 
@@ -1249,7 +1251,7 @@ function Lottery() {
               </div>
             ) : (
               <div>
-                <div className="flex items-center justify-between _flex-col _mt-5">
+                <div className="flex items-center justify-between _flex-col">
                   <div className="_background2 rounded-xl p-6 _w100">
                     <div className="flex items-center">
                       <img
