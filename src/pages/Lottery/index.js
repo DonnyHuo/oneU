@@ -869,10 +869,10 @@ function Lottery() {
 
   const stickyRef = useRef(null);
   const [top, setTop] = useState(0);
-  const [stickyShow, setStickyShow] = useState(false)
+  const [stickyShow, setStickyShow] = useState(false);
   const scrollTopFun = () => {
     const scrollTop = document.documentElement.scrollTop;
-    setStickyShow(scrollTop > top)
+    setStickyShow(scrollTop > top);
   };
 
   useEffect(() => {
@@ -916,9 +916,12 @@ function Lottery() {
               );
             })}
           </div>
-          <div className="_border px-6 rounded-xl _widthP _marginAuto0 _widthM _borderNo _paddingNo" ref={stickyRef}>
-            <div className={`${stickyShow && 'sticky' }`}>
-              <div className="flex items-center text-lg _justA z-50 h-16 _background4">
+          <div
+            className="_border px-6 rounded-xl _widthP _marginAuto0 _widthM _borderNo _paddingNo"
+            ref={stickyRef}
+          >
+            <div className={`_background4 ${stickyShow ? "sticky" : ""}`}>
+              <div className="flex items-center text-lg _justA z-50 h-16">
                 <div className="flex items-center font-bold">
                   <button
                     className={!tab ? "_title" : "_text"}
