@@ -870,9 +870,8 @@ function Lottery() {
   const stickyRef = useRef(null);
   const [top, setTop] = useState(0);
   const [stickyShow, setStickyShow] = useState(false)
-  const scrollTopFun = (e) => {
+  const scrollTopFun = () => {
     const scrollTop = document.documentElement.scrollTop;
-    console.log('scrollTop', scrollTop, top)
     setStickyShow(scrollTop > top)
   };
 
