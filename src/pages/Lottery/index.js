@@ -137,7 +137,7 @@ function Lottery() {
     setPrice(realPrice);
   };
 
-  const PriceItem = (props) => {
+  const PriceItem = useCallback((props) => {
     const { list } = props;
     const ImgUrl = () => {
       if (list.prize * 1 > 10000) {
@@ -161,7 +161,7 @@ function Lottery() {
         <img className="w-4" src={ImgUrl()} />
       </>
     );
-  };
+  }, [price]);
 
   const switchPrice = (status) => {
     switch (status) {
@@ -179,8 +179,6 @@ function Lottery() {
   useEffect(() => {
     priceStatus * 1 > 0 && switchPrice(priceStatus);
   }, [priceStatus]);
-
-  useInterval(() => switchPrice(priceStatus), 5000, { immediate: true });
 
   const getAccountBalance = async () => {
     const usdt = await getContract(
