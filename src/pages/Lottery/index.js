@@ -957,571 +957,492 @@ function Lottery() {
   return (
     <div className="_background1 _background-home text-center">
       <div className="_background-home2">
-          <div className="text-white">
-            <div className="text-5xl font-bold _title _size35 pt-24 _hiddenM">
-              {t("lottery.title")}
-            </div>
-            <div className="text-5xl font-bold _title _size35 pt-24 _hiddenP">
-              <p>{t("lottery.title1")}</p>
-              <p>{t("lottery.title2")}</p>
-            </div>
-            <div className="text-sm mt-5 _title _hiddenM">
-              {t("lottery.navTitle")}
-            </div>
-            <div className="text-sm mt-5 _title _hiddenP pr-2 pl-2">
-              <p>{t("lottery.navTitle1")}</p>
-              <p>{t("lottery.navTitle2")}</p>
-            </div>
-            <div className="flex items-start justify-around _widthP _marginAuto _widthM _size12">
-              {descList.map((list, index) => {
-                return (
-                  <div key={index} className="w-3/12 text-center _widthM-30">
-                    <div className="flex items-center justify-center">
-                      <img className="w-16" src={list.imgUrl} alt="" />
-                    </div>
-                    <div className="mt-5 mb-2 font-bold _title">
-                      {t(`lottery.descList.title${index + 1}`)}
-                    </div>
-                    <div className="text-sm _nav-title _hiddenM">
-                      {t(`lottery.descList.desc${index + 1}`)}
-                    </div>
+        <div className="text-white">
+          <div className="text-5xl font-bold _title _size35 pt-24 _hiddenM">
+            {t("lottery.title")}
+          </div>
+          <div className="text-5xl font-bold _title _size35 pt-24 _hiddenP">
+            <p>{t("lottery.title1")}</p>
+            <p>{t("lottery.title2")}</p>
+          </div>
+          <div className="text-sm mt-5 _title _hiddenM">
+            {t("lottery.navTitle")}
+          </div>
+          <div className="text-sm mt-5 _title _hiddenP pr-2 pl-2">
+            <p>{t("lottery.navTitle1")}</p>
+            <p>{t("lottery.navTitle2")}</p>
+          </div>
+          <div className="flex items-start justify-around _widthP _marginAuto _widthM _size12">
+            {descList.map((list, index) => {
+              return (
+                <div key={index} className="w-3/12 text-center _widthM-30">
+                  <div className="flex items-center justify-center">
+                    <img className="w-16" src={list.imgUrl} alt="" />
                   </div>
-                );
-              })}
-            </div>
-            <div
-              className="_border px-6 rounded-xl _widthP _marginAuto0 _widthM _borderNo _paddingNo"
-              ref={stickyRef}
-            >
-              <div className="h-16">
-                <div className={`_background4 ${stickyShow ? "sticky" : ""}`}>
-                  <div className="flex items-center text-lg _justA z-50 h-16">
-                    <div className="flex items-center font-bold">
-                      <button
-                        className={!tab ? "_title" : "_text"}
-                        onClick={() => setTabFun(0)}
-                      >
-                        {t("lottery.tabs.OngoingLotteries")}
-                      </button>
-                    </div>
-                    <button
-                      onClick={() => setTabFun(1)}
-                      className={`${tab ? "_title" : "_text"} ml-5 font-bold`}
-                    >
-                      {t("lottery.tabs.MyReward")}
-                    </button>
+                  <div className="mt-5 mb-2 font-bold _title">
+                    {t(`lottery.descList.title${index + 1}`)}
+                  </div>
+                  <div className="text-sm _nav-title _hiddenM">
+                    {t(`lottery.descList.desc${index + 1}`)}
                   </div>
                 </div>
+              );
+            })}
+          </div>
+          <div
+            className="_border px-6 rounded-xl _widthP _marginAuto0 _widthM _borderNo _paddingNo"
+            ref={stickyRef}
+          >
+            <div className="h-16">
+              <div className={`_background4 ${stickyShow ? "sticky" : ""}`}>
+                <div className="flex items-center text-lg _justA z-50 h-16">
+                  <div className="flex items-center font-bold">
+                    <button
+                      className={!tab ? "_title" : "_text"}
+                      onClick={() => setTabFun(0)}
+                    >
+                      {t("lottery.tabs.OngoingLotteries")}
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => setTabFun(1)}
+                    className={`${tab ? "_title" : "_text"} ml-5 font-bold`}
+                  >
+                    {t("lottery.tabs.MyReward")}
+                  </button>
+                </div>
               </div>
+            </div>
 
-              {!tab ? (
-                <div className="">
-                  {pools.map((list, index) => {
-                    return (
+            {!tab ? (
+              <div className="">
+                {pools.map((list, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="rounded-xl p-6 _background-gradient4 mb-6 relative"
+                    >
                       <div
-                        key={index}
-                        className="rounded-xl p-6 _background-gradient4 mb-6 relative"
+                        className={`text-white _roundStatus _roundStatus${list?.roundInfo?.status}`}
                       >
-                        <div
-                          className={`text-white _roundStatus _roundStatus${list?.roundInfo?.status}`}
-                        >
-                          {switchStatus(list?.roundInfo?.status)}
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="_text text-xs">
-                            <span className="pr-2">{t("lottery.Round")}</span>
-                            <Select
-                              popupClassName="epochSelect"
-                              className="w-20 h-6 _backgroundNo"
-                              defaultValue={list.currentRound}
-                              value={
-                                rememberSelect[index]?.selectRound ||
-                                list.currentRound
-                              }
-                              onChange={(value) =>
-                                epochChange(value, list.contractAddress)
-                              }
-                              overlayClassName="dropdown-class"
-                              options={epochOptions(list.currentRound)}
-                              suffixIcon={
-                                <img
-                                  style={{ width: "10px", marginRight: "10px" }}
-                                  src={require("../../asserts/img/down.png")}
-                                  alt=""
-                                />
-                              }
-                            />
-                            <span className="pl-2 _hiddenM">
-                              {t("lottery.NextRoundStartAt")}:{" "}
-                              {moment(
-                                list?.roundInfo?.endTime * 1000 +
-                                  list?.roundGapTime * 1000
-                              ).format("YYYY-MM-DD HH:mm:ss")}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-start _text text-sm mt-5 text-left _homeListM">
-                          <div className="w-40 h-24 flex flex-col justify-between">
-                            <div>{t("lottery.RewardPool")}</div>
-                            <div className="flex items-center _center text-3xl _title _pt-20  _active font-bold">
-                              <span className="green">
-                                {(list?.prize * 1).toLocaleString()}
-                              </span>
+                        {switchStatus(list?.roundInfo?.status)}
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="_text text-xs">
+                          <span className="pr-2">{t("lottery.Round")}</span>
+                          <Select
+                            popupClassName="epochSelect"
+                            className="w-20 h-6 _backgroundNo"
+                            defaultValue={list.currentRound}
+                            value={
+                              rememberSelect[index]?.selectRound ||
+                              list.currentRound
+                            }
+                            onChange={(value) =>
+                              epochChange(value, list.contractAddress)
+                            }
+                            overlayClassName="dropdown-class"
+                            options={epochOptions(list.currentRound)}
+                            suffixIcon={
                               <img
-                                className="w-7 ml-2"
-                                src={require("../../asserts/img/USDT.png")}
+                                style={{ width: "10px", marginRight: "10px" }}
+                                src={require("../../asserts/img/down.png")}
+                                alt=""
                               />
-                            </div>
-                            <div className="w-full flex items-center text-sm _pt-10 _pb-10 _center">
-                              <PriceItem list={list} />
-                            </div>
+                            }
+                          />
+                          <span className="pl-2 _hiddenM">
+                            {t("lottery.NextRoundStartAt")}:{" "}
+                            {moment(
+                              list?.roundInfo?.endTime * 1000 +
+                                list?.roundGapTime * 1000
+                            ).format("YYYY-MM-DD HH:mm:ss")}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-start _text text-sm mt-5 text-left _homeListM">
+                        <div className="w-40 h-24 flex flex-col justify-between">
+                          <div>{t("lottery.RewardPool")}</div>
+                          <div className="flex items-center _center text-3xl _title _pt-20  _active font-bold">
+                            <span className="green">
+                              {(list?.prize * 1).toLocaleString()}
+                            </span>
+                            <img
+                              className="w-7 ml-2"
+                              src={require("../../asserts/img/USDT.png")}
+                            />
                           </div>
-                          <div className="w-40 h-24 flex flex-col justify-between _hiddenM ml-20">
-                            <div className="_title leading-4">
+                          <div className="w-full flex items-center text-sm _pt-10 _pb-10 _center">
+                            <PriceItem list={list} />
+                          </div>
+                        </div>
+                        <div className="w-40 h-24 flex flex-col justify-between _hiddenM ml-12">
+                          <div className="_title leading-4">
+                            {moment(list?.roundInfo?.endTime * 1000).format(
+                              "YYYY-MM-DD HH:mm:ss"
+                            )}
+                          </div>
+                          <div className="text-xs leading-4">
+                            {t("lottery.EndTime")}
+                          </div>
+                          <div
+                            className={`_title mt-2 leading-4 ${
+                              list?.roundInfo?.winNumber * 1 !== 0 &&
+                              "_winNumber"
+                            }`}
+                          >
+                            {list?.roundInfo?.winNumber * 1 == 0
+                              ? t("lottery.ToBeDrawn")
+                              : getNewTickets(
+                                  list?.roundInfo?.winNumber * 1,
+                                  list.totalTickets * 1
+                                )}
+                          </div>
+                          <div className="text-xs leading-4">
+                            {t("lottery.WinningNumber")}
+                          </div>
+                        </div>
+                        <div className="_hiddenP pt-4 mt-4 pb-4 mb-8 _borderLine _hiddenM">
+                          <div className="flex item-center justify-between h-6">
+                            <div className="text-xs">
+                              {t("lottery.EndTime")}
+                            </div>
+                            <div className="_title">
                               {moment(list?.roundInfo?.endTime * 1000).format(
                                 "YYYY-MM-DD HH:mm:ss"
                               )}
                             </div>
-                            <div className="text-xs leading-4">
-                              {t("lottery.EndTime")}
+                          </div>
+                          <div className="flex item-center justify-between h-6 _hiddenM">
+                            <div className="text-xs">
+                              {t("lottery.WinningNumber")}
                             </div>
-                            <div
-                              className={`_title mt-2 leading-4 ${
-                                list?.roundInfo?.winNumber * 1 !== 0 &&
-                                "_winNumber"
-                              }`}
-                            >
+                            <div className="_title">
                               {list?.roundInfo?.winNumber * 1 == 0
-                                ? t("lottery.ToBeDrawn")
+                                ? "--"
                                 : getNewTickets(
                                     list?.roundInfo?.winNumber * 1,
                                     list.totalTickets * 1
                                   )}
                             </div>
-                            <div className="text-xs leading-4">
-                              {t("lottery.WinningNumber")}
-                            </div>
                           </div>
-                          <div className="_hiddenP pt-4 mt-4 pb-4 mb-8 _borderLine _hiddenM">
-                            <div className="flex item-center justify-between h-6">
-                              <div className="text-xs">
-                                {t("lottery.EndTime")}
-                              </div>
-                              <div className="_title">
-                                {moment(list?.roundInfo?.endTime * 1000).format(
-                                  "YYYY-MM-DD HH:mm:ss"
-                                )}
-                              </div>
-                            </div>
-                            <div className="flex item-center justify-between h-6 _hiddenM">
-                              <div className="text-xs">
-                                {t("lottery.WinningNumber")}
-                              </div>
-                              <div className="_title">
-                                {list?.roundInfo?.winNumber * 1 == 0
-                                  ? "--"
-                                  : getNewTickets(
-                                      list?.roundInfo?.winNumber * 1,
-                                      list.totalTickets * 1
-                                    )}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="w-80 h-24 flex flex-col justify-between _title  ml-16">
-                            <div className="_hiddenM flex items-center justify-between">
-                              <span>
-                                {t("lottery.WinUSDT", {
-                                  number: list?.prize * 1,
-                                })}{" "}
-                                <span className="orange">1 USDT</span>
-                              </span>
-                              <Popover
-                                content={list.contractAddress}
-                                placement="top"
-                                trigger="hover"
-                                overlayClassName="_popover"
-                                className="_hiddenM"
-                              >
-                                <button className="text-left _text ml-2 underline decoration-slate-400 decoration-1 _popoverBtn">
-                                  {t("lottery.PoolId")}
-                                </button>
-                              </Popover>
-                              {/* <span className="_tip-yellow pl-1">
+                        </div>
+                        <div className="h-24 flex flex-col justify-between _title ml-12" style={{width: '340px'}}>
+                          <div className="_hiddenM flex items-center justify-between">
+                            <span>
+                              {t("lottery.WinUSDT", {
+                                number: list?.prize * 1,
+                              })}{" "}
+                              <span className="orange">1 USDT</span>
+                            </span>
+                            <Popover
+                              content={list.contractAddress}
+                              placement="top"
+                              trigger="hover"
+                              overlayClassName="_popover"
+                              className="_hiddenM"
+                            >
+                              <button className="text-left _text ml-2 underline decoration-slate-400 decoration-1 _popoverBtn">
+                                {t("lottery.PoolId")}
+                              </button>
+                            </Popover>
+                            {/* <span className="_tip-yellow pl-1">
                               {list?.pricePerTicket * 1}
                               <span className="pl-1">{list?.rewardSymbol}</span>
                             </span> */}
-                            </div>
-                            <div>
-                              <Progress
-                                status={"normal"}
-                                percent={
-                                  (100 *
-                                    (list?.totalTickets * 1 -
-                                      list?.roundInfo?.leftTickets * 1)) /
-                                  list?.totalTickets
-                                }
-                                // strokeColor={
-                                //   "linear-gradient(90deg, #CE00FF 0%, #7F00FF 100%)"
-                                // }
-                                trailColor={"rgba(163,159,173, 0.2)"}
-                              />
-                            </div>
-                            <div className="flex items-center justify-between _pt-10">
-                              <span>
-                                {t("lottery.TicketsPurchased")}:
-                                <span className="_active pl-2">
-                                  {list?.totalTickets * 1 -
-                                    list?.roundInfo?.leftTickets * 1}
-                                </span>
-                              </span>
-                              <span>
-                                {t("lottery.TotalTickets")}:{" "}
-                                {list?.totalTickets}
-                              </span>
-                            </div>
                           </div>
-                          <div
-                            className="h-24 flex flex-col justify-between ml-auto"
-                            // style={{ minWidth: "200px" }}
-                          >
-                            {contextHolder}
-                            <div className="text-right">
-                              <Button
-                                loading={
-                                  list?.roundInfo?.status * 1 == 5 &&
-                                  rememberSelect[index]?.loading
-                                }
-                                disabled={
-                                  ![2, 5].includes(list?.roundInfo?.status * 1)
-                                }
-                                className={`rounded-full p-2 w-40 h-10 _title _listBtn ${
-                                  list?.roundInfo?.status * 1 == 4 && "beatBox"
-                                }`}
-                                onClick={() => {
-                                  if (list?.roundInfo?.status * 1 == 2) {
-                                    clickBuyBtnFun(list);
-                                  }
-                                  if (list?.roundInfo?.status * 1 == 5) {
-                                    clickLotteryDraw(list, index);
-                                  }
-                                }}
-                              >
-                                {[1, 2].includes(list?.roundInfo?.status * 1) &&
-                                  t("lottery.BuyTickets")}
-                                {list?.roundInfo?.status * 1 == 3 &&
-                                  t("lottery.Drawn")}
-                                {list?.roundInfo?.status * 1 == 4 &&
-                                  t("lottery.LotteryDrawing")}
-                                {list?.roundInfo?.status * 1 == 5 &&
-                                  t("lottery.InstantDrawing")}
-                              </Button>
-                            </div>
-                            <div className="_title _justB text-center">
-                              <span>
-                                {list?.roundInfo?.status == 2 && (
-                                  <>
-                                    {t("lottery.TimeToEnd")}:{" "}
-                                    <CountDown
-                                      offsetTimestamp={Math.abs(
-                                        list?.roundInfo?.endTime - nowDate
-                                      )}
-                                    />
-                                  </>
-                                )}
-                                {list?.roundInfo?.status == 1 && (
-                                  <>
-                                    {t("lottery.StartTime")}:{" "}
-                                    <CountDown
-                                      offsetTimestamp={Math.abs(
-                                        list?.roundInfo?.startTime - nowDate
-                                      )}
-                                    />
-                                  </>
-                                )}
-                                {list?.roundInfo?.status == 3 && (
-                                  <>
-                                    {t("lottery.TimeToEnd")}:{" "}
-                                    {moment(
-                                      list?.roundInfo?.endTime * 1000
-                                    ).format("MM-DD HH:mm:ss")}
-                                  </>
-                                )}
-                                {[4, 5].includes(list?.roundInfo?.status) && (
-                                  <>
-                                    {t("lottery.TimeToEnd")}: {"00:00:00"}
-                                  </>
-                                )}
-                              </span>
-                              <button
-                                className="_hiddenP _yellow font-bold"
-                                onClick={() => setShowMoreInfoFun(index)}
-                              >
-                                {t("lottery.MoreView")}
-                              </button>
-                            </div>
-                            {list.showMore && (
-                              <div className="_hiddenP _orderInfo">
-                                <div>
-                                  <span>{t("lottery.EndTime")}</span>
-                                  <span className="text-white">
-                                    {moment(
-                                      list?.roundInfo?.endTime * 1000
-                                    ).format("YYYY-MM-DD HH:mm:ss")}
-                                  </span>
-                                </div>
-                                <div>
-                                  <span>{t("lottery.WinningNumber")}</span>
-                                  <span
-                                    className={`_title ${
-                                      list?.roundInfo?.winNumber * 1 !== 0 &&
-                                      "_winNumber"
-                                    }`}
-                                  >
-                                    {list?.roundInfo?.winNumber * 1 == 0
-                                      ? t("lottery.ToBeDrawn")
-                                      : getNewTickets(
-                                          list?.roundInfo?.winNumber * 1,
-                                          list.totalTickets * 1
-                                        )}
-                                  </span>
-                                </div>
-                                <div>
-                                  <span>{t("lottery.PoolId")}</span>
-                                  <Popover
-                                    content={list.contractAddress}
-                                    placement="topRight"
-                                    trigger="click"
-                                    overlayClassName="_popover"
-                                  >
-                                    <button className="text-left text-xs text-white underline decoration-slate-400 decoration-1 _popoverBtn">
-                                      {shortStr(list.contractAddress)}
-                                    </button>
-                                  </Popover>
-                                </div>
-                                <div>
-                                  <span>{t("lottery.NextRoundStartAt")}</span>
-                                  <span className="text-white">
-                                    {moment(
-                                      list?.roundInfo?.endTime * 1000 +
-                                        list?.roundGapTime * 1000
-                                    ).format("YYYY-MM-DD HH:mm:ss")}
-                                  </span>
-                                </div>
-                              </div>
-                            )}
-
-                            <div className="pl-2 _hiddenP _hiddenM">
-                              {t("lottery.NextRoundStartAt")}:{" "}
-                              {moment(
-                                list?.roundInfo?.endTime * 1000 +
-                                  list?.roundGapTime * 1000
-                              ).format("YYYY-MM-DD HH:mm:ss")}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                  <Skeleton
-                    active
-                    loading={loading}
-                    title={false}
-                    paragraph={{ rows: rows }}
-                  ></Skeleton>
-                </div>
-              ) : (
-                <div>
-                  <div className="flex items-center justify-between _flex-col">
-                    <div className="_background2 rounded-xl p-6 _w100">
-                      <div className="flex items-center">
-                        <img
-                          className="w-6 mr-2"
-                          src={require("../../asserts/img/USDT.png")}
-                          alt=""
-                        />
-                        <span className="text-2xl font-bold">
-                          {address
-                            ? parseFloat(
-                                (wonParticipationRecords?.totalPrizes).toFixed(
-                                  2
-                                )
-                              ).toLocaleString()
-                            : "--"}{" "}
-                          {USDTSymbol}
-                        </span>
-                      </div>
-                      <div className="_nav-title text-sm text-left pt-4">
-                        {t("lottery.TotalReward")}
-                      </div>
-                    </div>
-                    <div className="_w100 _mt-5">
-                      <div className="flex items-center justify-between _background2 rounded-xl p-6">
-                        <div>
-                          <div className="flex items-center">
-                            <img
-                              className="w-6 mr-2"
-                              src={require("../../asserts/img/USDT.png")}
-                              alt=""
+                          <div>
+                            <Progress
+                              status={"normal"}
+                              percent={
+                                (100 *
+                                  (list?.totalTickets * 1 -
+                                    list?.roundInfo?.leftTickets * 1)) /
+                                list?.totalTickets
+                              }
+                              // strokeColor={
+                              //   "linear-gradient(90deg, #CE00FF 0%, #7F00FF 100%)"
+                              // }
+                              trailColor={"rgba(163,159,173, 0.2)"}
                             />
-                            <span className="text-2xl font-bold">
-                              {address
-                                ? (unclaimedPrizes * 1).toLocaleString()
-                                : "--"}{" "}
-                              {USDTSymbol}
+                          </div>
+                          <div className="flex items-center justify-between _pt-10">
+                            <span>
+                              {t("lottery.TicketsPurchased")}:
+                              <span className="_active pl-2">
+                                {list?.totalTickets * 1 -
+                                  list?.roundInfo?.leftTickets * 1}
+                              </span>
+                            </span>
+                            <span>
+                              {t("lottery.TotalTickets")}: {list?.totalTickets}
                             </span>
                           </div>
-                          <div className="_nav-title text-sm text-left pt-4">
-                            {t("lottery.UnclaimedReward")}
+                        </div>
+                        <div
+                          className="h-24 flex flex-col justify-between ml-auto"
+                          // style={{ minWidth: "200px" }}
+                        >
+                          {contextHolder}
+                          <div className="text-right">
+                            <Button
+                              loading={
+                                list?.roundInfo?.status * 1 == 5 &&
+                                rememberSelect[index]?.loading
+                              }
+                              disabled={
+                                ![2, 5].includes(list?.roundInfo?.status * 1)
+                              }
+                              className={`rounded-full p-2 w-40 h-10 _title _listBtn ${
+                                list?.roundInfo?.status * 1 == 4 && "beatBox"
+                              }`}
+                              onClick={() => {
+                                if (list?.roundInfo?.status * 1 == 2) {
+                                  clickBuyBtnFun(list);
+                                }
+                                if (list?.roundInfo?.status * 1 == 5) {
+                                  clickLotteryDraw(list, index);
+                                }
+                              }}
+                            >
+                              {[1, 2].includes(list?.roundInfo?.status * 1) &&
+                                t("lottery.BuyTickets")}
+                              {list?.roundInfo?.status * 1 == 3 &&
+                                t("lottery.Drawn")}
+                              {list?.roundInfo?.status * 1 == 4 &&
+                                t("lottery.LotteryDrawing")}
+                              {list?.roundInfo?.status * 1 == 5 &&
+                                t("lottery.InstantDrawing")}
+                            </Button>
+                          </div>
+                          <div className="_title _justB text-center">
+                            <span>
+                              {list?.roundInfo?.status == 2 && (
+                                <>
+                                  {t("lottery.TimeToEnd")}:{" "}
+                                  <CountDown
+                                    offsetTimestamp={Math.abs(
+                                      list?.roundInfo?.endTime - nowDate
+                                    )}
+                                  />
+                                </>
+                              )}
+                              {list?.roundInfo?.status == 1 && (
+                                <>
+                                  {t("lottery.StartTime")}:{" "}
+                                  <CountDown
+                                    offsetTimestamp={Math.abs(
+                                      list?.roundInfo?.startTime - nowDate
+                                    )}
+                                  />
+                                </>
+                              )}
+                              {list?.roundInfo?.status == 3 && (
+                                <>
+                                  {t("lottery.TimeToEnd")}:{" "}
+                                  {moment(
+                                    list?.roundInfo?.endTime * 1000
+                                  ).format("MM-DD HH:mm:ss")}
+                                </>
+                              )}
+                              {[4, 5].includes(list?.roundInfo?.status) && (
+                                <>
+                                  {t("lottery.TimeToEnd")}: {"00:00:00"}
+                                </>
+                              )}
+                            </span>
+                            <button
+                              className="_hiddenP _yellow font-bold"
+                              onClick={() => setShowMoreInfoFun(index)}
+                            >
+                              {t("lottery.MoreView")}
+                            </button>
+                          </div>
+                          {list.showMore && (
+                            <div className="_hiddenP _orderInfo">
+                              <div>
+                                <span>{t("lottery.EndTime")}</span>
+                                <span className="text-white">
+                                  {moment(
+                                    list?.roundInfo?.endTime * 1000
+                                  ).format("YYYY-MM-DD HH:mm:ss")}
+                                </span>
+                              </div>
+                              <div>
+                                <span>{t("lottery.WinningNumber")}</span>
+                                <span
+                                  className={`_title ${
+                                    list?.roundInfo?.winNumber * 1 !== 0 &&
+                                    "_winNumber"
+                                  }`}
+                                >
+                                  {list?.roundInfo?.winNumber * 1 == 0
+                                    ? t("lottery.ToBeDrawn")
+                                    : getNewTickets(
+                                        list?.roundInfo?.winNumber * 1,
+                                        list.totalTickets * 1
+                                      )}
+                                </span>
+                              </div>
+                              <div>
+                                <span>{t("lottery.PoolId")}</span>
+                                <Popover
+                                  content={list.contractAddress}
+                                  placement="topRight"
+                                  trigger="click"
+                                  overlayClassName="_popover"
+                                >
+                                  <button className="text-left text-xs text-white underline decoration-slate-400 decoration-1 _popoverBtn">
+                                    {shortStr(list.contractAddress)}
+                                  </button>
+                                </Popover>
+                              </div>
+                              <div>
+                                <span>{t("lottery.NextRoundStartAt")}</span>
+                                <span className="text-white">
+                                  {moment(
+                                    list?.roundInfo?.endTime * 1000 +
+                                      list?.roundGapTime * 1000
+                                  ).format("YYYY-MM-DD HH:mm:ss")}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="pl-2 _hiddenP _hiddenM">
+                            {t("lottery.NextRoundStartAt")}:{" "}
+                            {moment(
+                              list?.roundInfo?.endTime * 1000 +
+                                list?.roundGapTime * 1000
+                            ).format("YYYY-MM-DD HH:mm:ss")}
                           </div>
                         </div>
-                        {contextHolder}
-                        <Button
-                          loading={claimLoading}
-                          disabled={!unclaimedPrizes * 1 > 0}
-                          onClick={claimPrizes}
-                          className="rounded-full _background-gradient2 text-white h-12 pl-16 pr-16"
-                        >
-                          {t("lottery.Claim")}
-                        </Button>
                       </div>
                     </div>
-                  </div>
-                  <div className="text-left mt-8">
-                    <div className="pt-4 pb-4 _borderT font-bold">
-                      {t("lottery.History")}
+                  );
+                })}
+                <Skeleton
+                  active
+                  loading={loading}
+                  title={false}
+                  paragraph={{ rows: rows }}
+                ></Skeleton>
+              </div>
+            ) : (
+              <div>
+                <div className="flex items-center justify-between _flex-col">
+                  <div className="_background2 rounded-xl p-6 _w100">
+                    <div className="flex items-center">
+                      <img
+                        className="w-6 mr-2"
+                        src={require("../../asserts/img/USDT.png")}
+                        alt=""
+                      />
+                      <span className="text-2xl font-bold">
+                        {address
+                          ? parseFloat(
+                              (wonParticipationRecords?.totalPrizes).toFixed(2)
+                            ).toLocaleString()
+                          : "--"}{" "}
+                        {USDTSymbol}
+                      </span>
+                    </div>
+                    <div className="_nav-title text-sm text-left pt-4">
+                      {t("lottery.TotalReward")}
                     </div>
                   </div>
-                  <div className="max-h-80 mb-2 overflow-auto">
-                    <table className="w-full text-left _table _hiddenM">
-                      <thead className="text-sm h-10 ">
-                        <tr className="_nav-title _tableTitle">
-                          <th className="font-thin">{t("lottery.Pool")}</th>
-                          <th className="font-thin">{t("lottery.Round")}</th>
-                          <th className="font-thin">
-                            {t("lottery.PurchasedTickets")}
-                          </th>
-                          <th className="font-thin">
-                            {t("lottery.WinningNumber")}
-                          </th>
-                          <th className="font-thin">
-                            {t("lottery.PurchaseTime")}
-                          </th>
-                          <th className="text-right font-thin">
-                            {t("lottery.YourLotteryNumber")}
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {participationRecords.length > 0 &&
-                          participationRecords.map((list, index) => {
-                            return (
-                              <tr className="h-14" key={index}>
-                                <td>
-                                  <Popover
-                                    content={list?.poolId}
-                                    placement="topLeft"
-                                    trigger="hover"
-                                    overlayClassName="_popover"
-                                    className="_hiddenM"
-                                  >
-                                    <span className="underline decoration-white cursor-pointer">
-                                      {shortStr(list?.poolId)}
-                                    </span>
-                                  </Popover>
-                                </td>
-                                <td>{list?.roundId?.toString()}</td>
-                                <td>{list?.ticketsCount?.toString()}</td>
-                                <td>
-                                  <span className="_active">
-                                    {list?.winNumber * 1 == 0
-                                      ? "--"
-                                      : list?.winNumber}
-                                  </span>
-                                </td>
-                                <td>
-                                  {moment(
-                                    list?.timestamp?.toString() * 1000
-                                  ).format("YYYY-MM-DD HH:mm:ss")}
-                                </td>
-                                <td className="text-right">
-                                  <Button
-                                    className="tableBtn min-w-24"
-                                    onClick={() => {
-                                      setSelectTickets(
-                                        getNewTickets(
-                                          list?.tickets,
-                                          list?.totalTickets
-                                        )
-                                      );
-                                      setIsRewardOpen(true);
-                                    }}
-                                  >
-                                    {t("lottery.Check")}
-                                  </Button>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
-                    {participationRecords.length == 0 && (
-                      <div className="text-center w-full h-56 flex flex-col items-center justify-center _tip">
-                        <img
-                          className="w-16"
-                          src={require("../../asserts/img/noData.png")}
-                        />
-                        <div className="mt-2 text-sm">
-                          {t("lottery.NoData")}
+                  <div className="_w100 _mt-5">
+                    <div className="flex items-center justify-between _background2 rounded-xl p-6">
+                      <div>
+                        <div className="flex items-center">
+                          <img
+                            className="w-6 mr-2"
+                            src={require("../../asserts/img/USDT.png")}
+                            alt=""
+                          />
+                          <span className="text-2xl font-bold">
+                            {address
+                              ? (unclaimedPrizes * 1).toLocaleString()
+                              : "--"}{" "}
+                            {USDTSymbol}
+                          </span>
+                        </div>
+                        <div className="_nav-title text-sm text-left pt-4">
+                          {t("lottery.UnclaimedReward")}
                         </div>
                       </div>
-                    )}
+                      {contextHolder}
+                      <Button
+                        loading={claimLoading}
+                        disabled={!unclaimedPrizes * 1 > 0}
+                        onClick={claimPrizes}
+                        className="rounded-full _background-gradient2 text-white h-12 pl-16 pr-16"
+                      >
+                        {t("lottery.Claim")}
+                      </Button>
+                    </div>
                   </div>
-                  <div className="_hiddenP">
-                    <div className="text-sm">
-                      {participationRecords &&
+                </div>
+                <div className="text-left mt-8">
+                  <div className="pt-4 pb-4 _borderT font-bold">
+                    {t("lottery.History")}
+                  </div>
+                </div>
+                <div className="max-h-80 mb-2 overflow-auto">
+                  <table className="w-full text-left _table _hiddenM">
+                    <thead className="text-sm h-10 ">
+                      <tr className="_nav-title _tableTitle">
+                        <th className="font-thin">{t("lottery.Pool")}</th>
+                        <th className="font-thin">{t("lottery.Round")}</th>
+                        <th className="font-thin">
+                          {t("lottery.PurchasedTickets")}
+                        </th>
+                        <th className="font-thin">
+                          {t("lottery.WinningNumber")}
+                        </th>
+                        <th className="font-thin">
+                          {t("lottery.PurchaseTime")}
+                        </th>
+                        <th className="text-right font-thin">
+                          {t("lottery.YourLotteryNumber")}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {participationRecords.length > 0 &&
                         participationRecords.map((list, index) => {
                           return (
-                            <div key={index} className="mb-8 mt-4">
-                              <div
-                                className="flex items-center justify-between"
-                                key={list?.ticket}
-                              >
-                                <span>
-                                  <Popover
-                                    content={list?.poolId}
-                                    placement="topRight"
-                                    trigger="hover"
-                                    overlayClassName="_popover"
-                                  >
-                                    <span className="underline decoration-white cursor-pointer">
-                                      {shortStr(list?.poolId)}
-                                    </span>
-                                  </Popover>
-                                </span>
-                                <span>
-                                  {t("lottery.WinningNumber")}{" "}
-                                  <span className="_active">
-                                    {list?.winNumber * 1 == 0
-                                      ? "--"
-                                      : list?.winNumber}
+                            <tr className="h-14" key={index}>
+                              <td>
+                                <Popover
+                                  content={list?.poolId}
+                                  placement="topLeft"
+                                  trigger="hover"
+                                  overlayClassName="_popover"
+                                  className="_hiddenM"
+                                >
+                                  <span className="underline decoration-white cursor-pointer">
+                                    {shortStr(list?.poolId)}
                                   </span>
+                                </Popover>
+                              </td>
+                              <td>{list?.roundId?.toString()}</td>
+                              <td>{list?.ticketsCount?.toString()}</td>
+                              <td>
+                                <span className="_active">
+                                  {list?.winNumber * 1 == 0
+                                    ? "--"
+                                    : list?.winNumber}
                                 </span>
-                              </div>
-                              <div className="flex items-center justify-between font-thin mt-2">
-                                <span>
-                                  {t("lottery.Round")} {list?.roundId}
-                                </span>
-                                <span>
-                                  {list?.ticketsCount} {t("lottery.Tickets")}
-                                </span>
-                              </div>
-                              <div className="flex items-center justify-between _nav-title font-thin mt-2">
-                                <span>
-                                  {moment(list?.timestamp * 1000).format(
-                                    "YYYY-MM-DD HH:mm:ss"
-                                  )}
-                                </span>
-                                <span
+                              </td>
+                              <td>
+                                {moment(
+                                  list?.timestamp?.toString() * 1000
+                                ).format("YYYY-MM-DD HH:mm:ss")}
+                              </td>
+                              <td className="text-right">
+                                <Button
+                                  className="tableBtn min-w-24"
                                   onClick={() => {
                                     setSelectTickets(
                                       getNewTickets(
@@ -1531,43 +1452,115 @@ function Lottery() {
                                     );
                                     setIsRewardOpen(true);
                                   }}
-                                  className="_active"
                                 >
-                                  {t("lottery.CheckNumber")}
-                                </span>
-                              </div>
-                            </div>
+                                  {t("lottery.Check")}
+                                </Button>
+                              </td>
+                            </tr>
                           );
                         })}
+                    </tbody>
+                  </table>
+                  {participationRecords.length == 0 && (
+                    <div className="text-center w-full h-56 flex flex-col items-center justify-center _tip">
+                      <img
+                        className="w-16"
+                        src={require("../../asserts/img/noData.png")}
+                      />
+                      <div className="mt-2 text-sm">{t("lottery.NoData")}</div>
                     </div>
+                  )}
+                </div>
+                <div className="_hiddenP">
+                  <div className="text-sm">
+                    {participationRecords &&
+                      participationRecords.map((list, index) => {
+                        return (
+                          <div key={index} className="mb-8 mt-4">
+                            <div
+                              className="flex items-center justify-between"
+                              key={list?.ticket}
+                            >
+                              <span>
+                                <Popover
+                                  content={list?.poolId}
+                                  placement="topRight"
+                                  trigger="hover"
+                                  overlayClassName="_popover"
+                                >
+                                  <span className="underline decoration-white cursor-pointer">
+                                    {shortStr(list?.poolId)}
+                                  </span>
+                                </Popover>
+                              </span>
+                              <span>
+                                {t("lottery.WinningNumber")}{" "}
+                                <span className="_active">
+                                  {list?.winNumber * 1 == 0
+                                    ? "--"
+                                    : list?.winNumber}
+                                </span>
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between font-thin mt-2">
+                              <span>
+                                {t("lottery.Round")} {list?.roundId}
+                              </span>
+                              <span>
+                                {list?.ticketsCount} {t("lottery.Tickets")}
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between _nav-title font-thin mt-2">
+                              <span>
+                                {moment(list?.timestamp * 1000).format(
+                                  "YYYY-MM-DD HH:mm:ss"
+                                )}
+                              </span>
+                              <span
+                                onClick={() => {
+                                  setSelectTickets(
+                                    getNewTickets(
+                                      list?.tickets,
+                                      list?.totalTickets
+                                    )
+                                  );
+                                  setIsRewardOpen(true);
+                                }}
+                                className="_active"
+                              >
+                                {t("lottery.CheckNumber")}
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
-              )}
-            </div>
-            {!tab && (
-              <div
-                className="h-16 _background2 rounded-xl mx-auto mt-8 text-sm flex items-center justify-between px-4 _widthM"
-                style={{ maxWidth: "1100px" }}
-              >
-                <span className="text-left">
-                  {t("lottery.TrustedContract")}
-                </span>
-                <a
-                  href={`${chainInfo?.explorerUrl}/address/${poolManager}#code`}
-                  target="_blank"
-                  className="flex items-center"
-                >
-                  <span className="_text _hiddenM">{poolManager}</span>
-                  <span className="_title _hiddenP underline">
-                    {shortStr(poolManager)}
-                  </span>
-                  <button className="border rounded-xl px-3 py-1 ml-2 _borderS text-sm _hiddenM">
-                    {t("lottery.Details")}
-                  </button>
-                </a>
               </div>
             )}
           </div>
+          {!tab && (
+            <div
+              className="h-16 _background2 rounded-xl mx-auto mt-8 text-sm flex items-center justify-between px-4 _widthM"
+              style={{ maxWidth: "1100px" }}
+            >
+              <span className="text-left">{t("lottery.TrustedContract")}</span>
+              <a
+                href={`${chainInfo?.explorerUrl}/address/${poolManager}#code`}
+                target="_blank"
+                className="flex items-center"
+              >
+                <span className="_text _hiddenM">{poolManager}</span>
+                <span className="_title _hiddenP underline">
+                  {shortStr(poolManager)}
+                </span>
+                <button className="border rounded-xl px-3 py-1 ml-2 _borderS text-sm _hiddenM">
+                  {t("lottery.Details")}
+                </button>
+              </a>
+            </div>
+          )}
+        </div>
       </div>
 
       <Modal
