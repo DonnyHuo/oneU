@@ -26,7 +26,7 @@
     "ToBeDrawn": "To be drawn",
     "WinningNumber": "Winning Number",
     "PoolId": "Pool Id",
-    "WinUSDT": "Win {{number}} USDT lottery with just 1 USDT.",
+    "WinUSDT": "Won {{number}} USDT from",
     "TicketsPurchased": "Tickets Purchased",
     "TotalTickets": "Total Tickets",
     "TimeToEnd": "Time to end",

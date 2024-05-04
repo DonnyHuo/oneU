@@ -26,7 +26,7 @@
     "ToBeDrawn": "待开奖",
     "WinningNumber": "中奖号码",
     "PoolId": "池子ID",
-    "WinUSDT": "只需 1 USDT 即可赢取 {{number}} USDT抽奖。",
+    "WinUSDT": "赢取 {{number}} USDT 只需",
     "TicketsPurchased": "已购买票数",
     "TotalTickets": "总票数",
     "TimeToEnd": "结束时间",

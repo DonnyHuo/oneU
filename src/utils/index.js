@@ -14,7 +14,6 @@ export const formatNumber = (number) => {
   return number.replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,");
 };
 
-
 export function formate(time) {
   return `${time < 10 ? "0" : ""}${time}`;
 }
@@ -82,6 +81,28 @@ const infuraProvider = new ethers.providers.InfuraProvider(
   "sepolia",
   "f9eae046939d4b969a42a377d109d17a"
 );
+
+const infuraMainProvider = new ethers.providers.InfuraProvider(
+  "mainnet",
+  "f9eae046939d4b969a42a377d109d17a"
+);
+
+export function getContractPrice(contractAddress, abi, funcName, ...params) {
+  const provider = infuraMainProvider;
+  const contract = new ethers.Contract(contractAddress, abi, provider);
+  return new Promise((resolve, reject) => {
+    contract[funcName](...params).then(
+      (response) => {
+        resolve(response);
+      },
+      (err) => {
+        // 合约调用错误
+        console.log(err);
+        reject(err);
+      }
+    );
+  });
+}
 
 /**
  * 读取合约方法
