@@ -1076,7 +1076,7 @@ function Lottery() {
                             <PriceItem list={list} />
                           </div>
                         </div>
-                        <div className="w-40 h-24 flex flex-col justify-between _hiddenM ml-12">
+                        <div className="w-40 h-24 flex flex-col justify-between _hiddenM ml-16">
                           <div className="_title leading-4">
                             {moment(list?.roundInfo?.endTime * 1000).format(
                               "YYYY-MM-DD HH:mm:ss"
@@ -1127,7 +1127,7 @@ function Lottery() {
                             </div>
                           </div>
                         </div>
-                        <div className="h-24 flex flex-col justify-between _title ml-12" style={{width: '340px'}}>
+                        <div className="w-80 h-24 flex flex-col justify-between _title ml-12">
                           <div className="_hiddenM flex items-center justify-between">
                             <span>
                               {t("lottery.WinUSDT", {
