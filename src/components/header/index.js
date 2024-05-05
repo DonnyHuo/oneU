@@ -312,7 +312,7 @@ const Header = () => {
         </div>
         <div className="p-2 font-bold">
           <a
-            href="https://github.com"
+            href="https://github.com/1ustd"
             target="_blank"
             className="flex items-center py-2 pl-4 pr-8 rounded-xl cursor-pointer list"
           >
@@ -711,7 +711,7 @@ const Header = () => {
           >
             <a
               target="_blank"
-              href="https://github.com"
+              href="https://github.com/1ustd"
               className="w-full h-full flex items-center justify-center"
             >
               <img
