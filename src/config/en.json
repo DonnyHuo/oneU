@@ -139,7 +139,8 @@
     "JoinUs": "Join Us",
     "JoinUsDesc": "Get an invite code from an existing user to sign up or sign up directly.",
     "SignUp": "Sign Up",
-    "Language": "Language"
+    "Language": "Language",
+    "EnterInviteCode": "Enter Invite Code"
   },
   "footer": {
     "Terms": "Terms",

@@ -1,17 +1,20 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-//中文语言包
+
 import zh from "./zh.json";
-//英文语言包
 import en from "./en.json";
+import zhTW from "./zh-TW.json"
 
 export const resources = {
   en: {
     translation: en,
   },
-  "zh-CN": {
-    translation: zh,
-  },
+  // "zh-CN": {
+  //   translation: zh,
+  // },
+  "zh-TW": {
+    translation: zhTW,
+  }
 };
 
 const resourcesArr = [];

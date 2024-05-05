@@ -26,6 +26,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  console.log(window.navigator.language);
 
   const logoIcon = require("../../asserts/img/logo.png");
   const { address, chainId, isConnected } = useWeb3ModalAccount();
@@ -46,7 +47,7 @@ const Header = () => {
 
   const onClose = () => {
     setOpenDrawer(false);
-    setShowList(false)
+    setShowList(false);
   };
 
   // get userID fun
@@ -335,11 +336,10 @@ const Header = () => {
 
   const [currentLang, setCurrentLang] = useState(i18n.language);
 
-
   const [isMobile, setIsMobile] = useState(false);
-  useEffect(()=>{
-    setIsMobile(window.innerWidth <= 768)
-  },[window.innerWidth])
+  useEffect(() => {
+    setIsMobile(window.innerWidth <= 768);
+  }, [window.innerWidth]);
 
   const LangList = () => {
     const langArr = [];
@@ -404,6 +404,8 @@ const Header = () => {
         return "English";
       case "zh-CN":
         return "简体中文";
+      case "zh-TW":
+        return "繁体中文";
       default:
         return "English";
     }
@@ -752,7 +754,7 @@ const Header = () => {
             onChange={(value) => setCode(value.target.value)}
             className="w-full h-12 rounded-xl outline-none text-white pl-4 pr-4 text-sm mt-5"
             style={{ background: "rgba(42, 37, 57, 1)" }}
-            placeholder="Enter invite code"
+            placeholder={t('header.EnterInviteCode')}
           />
         </div>
         {contextHolder}
