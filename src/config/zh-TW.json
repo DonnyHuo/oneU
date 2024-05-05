@@ -94,13 +94,13 @@
     "Tip1": "1. 與好友分享您的邀請碼。",
     "Tip2": "2. 邀請好友註冊並輸入您的邀請碼。",
     "Tip3": "3. 從每個朋友的參與中獲得傭金。",
-    "YourCommission": "您的佣金",
-    "YourCommissionDesc": "您的朋友参与了，这些是您应得的佣金",
-    "GoToClaim": "去领取",
-    "CopiedSuccess": "复制成功!",
-    "YouGotDeserve": "您获得的佣金",
-    "ClaimSuccess": "领取成功!",
-    "ClaimFail": "领取失败!"
+    "YourCommission": "您的傭金",
+    "YourCommissionDesc": "您的朋友參與了，這些是您應得的傭金",
+    "GoToClaim": "去領取",
+    "CopiedSuccess": "複製成功!",
+    "YouGotDeserve": "您獲得的傭金",
+    "ClaimSuccess": "領取成功!",
+    "ClaimFail": "領取失敗!"
   },
   "tutorials": {
     "title1": "简单、透明、公平地赚取",
