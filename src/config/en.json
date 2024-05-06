@@ -142,11 +142,18 @@
     "JoinUsDesc": "Get an invite code from an existing user to sign up or sign up directly.",
     "SignUp": "Sign Up",
     "Language": "Language",
-    "EnterInviteCode": "Enter Invite Code"
+    "EnterInviteCode": "Enter Invite Code",
+    "OneUSDTTestnetFaucet": "OneUSDT Testnet Faucet",
+    "TestnetFaucetDesc1":"Based on ETHEREUM SEPOLIA FAUCET",
+    "TestnetFaucetDesc2":"Get some USDT for yourself",
+    "GetETH": "Go to get ETH",
+    "GetUSDT": "Get 1000 USDT",
+    "getSuccess": "Get Success!",
+    "getFail": "Get Fail!"
   },
   "footer": {
     "Terms": "Terms",
-    "PrivacyPlicy": "Privacy Plicy",
+    "PrivacyPolicy": "Privacy Policy",
     "Email": "For any inquiries, contact us at contact@innoguild.com",
     "AllRightsReserved": "All Rights Reserved"
   }

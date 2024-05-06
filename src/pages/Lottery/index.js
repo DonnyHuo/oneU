@@ -41,8 +41,8 @@ function Lottery() {
   const { t } = useTranslation();
   const { chainId } = useWeb3ModalAccount();
   const chainInfo = chainId
-    ? chainList.filter((list) => list.networkId == chainId)[0]
-    : chainList[2];
+    ? chainList.filter((list) => list.chainId == chainId)[0]
+    : chainList[0];
 
   const { walletProvider } = useWeb3ModalProvider();
   const { open } = useWeb3Modal();

@@ -17,8 +17,8 @@ import { Drawer, notification, Button, Modal, Popover } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
+import erc20Abi from "../../asserts/abi/erc20Abi.json";
 import { ethers } from "ethers";
-import { erc20Abi } from "viem";
 import { useInterval } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { resources } from "../../config";
@@ -419,6 +419,45 @@ const Header = () => {
 
   const [showList, setShowList] = useState(false);
 
+  const [faucetModalOpen, setFaucetModalOpen] = useState(false);
+
+  const [mintLoading, setMintLoading] = useState(false);
+  const mintUSDT = async () => {
+    const usdt = await getContract(
+      walletProvider,
+      poolManager,
+      poolManagerAbi,
+      "usdt"
+    );
+
+    const decimals = await getContract(
+      walletProvider,
+      usdt,
+      erc20Abi,
+      "decimals"
+    );
+    setMintLoading(true);
+
+    await getWriteContractLoad(
+      walletProvider,
+      usdt,
+      erc20Abi,
+      "mint",
+      ethers.utils.parseUnits("1000", decimals)
+    )
+      .then((res) => {
+        setMintLoading(false);
+        api["success"]({ message: t('header.getSuccess') });
+        setTimeout(()=>{
+          setFaucetModalOpen(false)
+        }, 2000)
+      })
+      .catch((err) => {
+        setMintLoading(false);
+        api["error"]({ message: t('header.getFail') });
+      });
+  };
+
   return (
     <div className="h-18 flex items-center justify-between pl-5 pr-5 border-spacing-1 text-white _background1 _line relative">
       <div>
@@ -484,19 +523,19 @@ const Header = () => {
         </Popover>
       </div>
       <div className="flex items-center">
-        <a
-          target="_blank"
-          href="https://www.alchemy.com/faucets/ethereum-sepolia"
+        <button
+          className="_border rounded-full p-2 text-sm mr-2 flex items-center"
+          onClick={() => {
+            isConnected ? setFaucetModalOpen(true) : open();
+          }}
         >
-          <button className="_border rounded-full p-2 text-sm mr-2 flex items-center">
-            <img
-              className="h-5"
-              src={require("../../asserts/img/faucets.png")}
-              alt=""
-            />
-            {/* <span className="ml-2 _hiddenM">{t("header.Faucets")}</span> */}
-          </button>
-        </a>
+          <img
+            className="h-5"
+            src={require("../../asserts/img/faucets.png")}
+            alt=""
+          />
+          {/* <span className="ml-2 _hiddenM">{t("header.Faucets")}</span> */}
+        </button>
 
         {isConnected && (
           <button
@@ -773,6 +812,75 @@ const Header = () => {
         >
           {address ? t("header.SignUp") : t("lottery.ConnectWallet")}
         </Button>
+      </Modal>
+      <Modal
+        title={t('header.OneUSDTTestnetFaucet')}
+        destroyOnClose={true}
+        centered
+        maskClosable={true}
+        open={faucetModalOpen}
+        onCancel={() => {
+          setFaucetModalOpen(false);
+        }}
+        footer={false}
+        closeIcon={
+          <img
+            className="w-6 mt-2 mr-2"
+            src={require("../../asserts/img/closeModal.png")}
+            alt=""
+          />
+        }
+        width={400}
+        zIndex={3000}
+      >
+        <div className="flex items-center justify-between text-center">
+          <div className="flex flex-col items-center">
+            <div
+              className="flex items-center justify-center rounded-full w-14 h-14"
+              style={{ boxShadow: "0px 3px 6px 0px #A301FF inset" }}
+            >
+              <img
+                className="w-10"
+                src={require("../../asserts/img/ETH.png")}
+                alt=""
+              />
+            </div>
+            <div className="w-full text-xs _title opacity-80 my-4">
+            {t('header.TestnetFaucetDesc1')}
+            </div>
+            <a
+              target="_blank"
+              href="https://www.alchemy.com/faucets/ethereum-sepolia"
+            >
+              <button className="_borderS1 rounded-full px-4 py-2 font-bold">
+              {t('header.GetETH')}
+              </button>
+            </a>
+          </div>
+          <div className="flex flex-col items-center">
+            <div
+              className="flex items-center justify-center rounded-full w-14 h-14"
+              style={{ boxShadow: "0px 3px 6px 0px #A301FF inset" }}
+            >
+              <img
+                className="w-10"
+                src={require("../../asserts/img/USDT.png")}
+                alt=""
+              />
+            </div>
+            <div className="w-full text-xs _title opacity-80 my-4">
+            {t('header.TestnetFaucetDesc2')}
+            </div>
+            {contextHolder}
+            <Button
+              loading={mintLoading}
+              className="_background-gradient2 rounded-full px-4 h-10 font-bold"
+              onClick={mintUSDT}
+            >
+             {t('header.GetUSDT')}
+            </Button>
+          </div>
+        </div>
       </Modal>
     </div>
   );

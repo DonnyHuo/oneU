@@ -142,11 +142,18 @@
     "JoinUsDesc": "通過好友邀請碼進行註冊或直接註冊。",
     "SignUp": "註冊",
     "Language": "語言",
-    "EnterInviteCode": "輸入邀請碼"
+    "EnterInviteCode": "輸入邀請碼",
+    "OneUSDTTestnetFaucet": "OneUSDT 測試水龍頭",
+    "TestnetFaucetDesc1":"基於以太坊 SEPOLIA 水龍頭",
+    "TestnetFaucetDesc2":"為自己獲取一些 USDT",
+    "GetETH": "去獲取 ETH",
+    "GetUSDT": "去獲取 1000 USDT",
+    "getSuccess": "獲取成功!",
+    "getFail": "獲取失敗!"
   },
   "footer": {
     "Terms": "條款",
-    "PrivacyPlicy": "隱私政策",
+    "PrivacyPolicy": "隱私政策",
     "Email": "如有任何疑問，請通過 contact@innoguild.com 聯系我們",
     "AllRightsReserved": "版權所有"
   }

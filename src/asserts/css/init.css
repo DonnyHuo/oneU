@@ -79,7 +79,7 @@ a:hover {
   background-image: url("../img/homeBg.png");
   background-repeat: no-repeat;
   background-position: top center;
-  background-size: 880px;
+  background-size: 680px;
 }
 ._background-home2 {
   background-image: url("../img/homeBg2.png");
@@ -216,8 +216,8 @@ a:hover {
 }
 .ant-progress .ant-progress-inner {
   width: 100%;
-  background-color: transparent !important;
-  border: 1px solid rgba(168, 81, 255, 0.4);
+  background-color: rgba(118, 58, 177, 0.4) !important;
+  /* border: 1px solid rgba(168, 81, 255, 0.4); */
 }
 .ant-progress-text {
   position: absolute;

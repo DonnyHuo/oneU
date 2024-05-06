@@ -16,7 +16,7 @@ const Footer = () => {
           <div className="w-80 flex items-center justify-around h-32 text-sm _title _footerList">
             <a href="">{t("footer.Terms")}</a>
             <a href="" className="ml-8">
-            {t("footer.PrivacyPlicy")}
+            {t("footer.PrivacyPolicy")}
             </a>
           </div>
         </div>
