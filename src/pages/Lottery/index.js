@@ -155,7 +155,7 @@ function Lottery() {
     };
     return (
       <>
-        <span className="mr-1 _text _white">
+        <span className="mr-1 _title _white opacity-80">
           ≈ {price * 1 > 0 ? ((list.prize * 1) / price).toFixed(8) : "--"}
         </span>
         <img className="w-4" src={ImgUrl()} />
