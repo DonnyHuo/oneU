@@ -55,10 +55,8 @@ const ethersConfig = defaultConfig({
 
   /*Optional*/
   enableEIP6963: true, // true by default
-  enableInjected: true, // true by default
-  enableCoinbase: true, // true by default
-  rpcUrl: "...", // used for the Coinbase SDK
-  defaultChainId: 1, // used for the Coinbase SDK
+  enableInjected: false, // true by default
+  enableCoinbase: false
 });
 
 // 5. Create a Web3Modal instance
@@ -71,9 +69,18 @@ createWeb3Modal({
   themeVariables: {
     "--w3m-font-family": "Poppins-Regular",
     "--w3m-font-size-master": "10px",
-    "--w3m-z-index": 10000
+    "--w3m-z-index": 10000,
   },
 });
+// const checkNetWork = async () => {
+//   const chainId = await window.ethereum.request({ method: "eth_chainId" });
+//   const chainIdNow = parseInt(chainId, 16);
+//   const chainIdList = chainList.map((list) => list.networkId);
+//   console.log(chainIdList[2] == chainIdNow);
+//   return chainIdList[2] == chainIdNow;
+// };
+// await checkNetWork();
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

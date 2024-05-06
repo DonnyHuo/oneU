@@ -69,6 +69,8 @@
     "ApproveFail": "授權失敗!",
     "BuySuccess": "購買成功！",
     "BuyFail": "購買失敗！",
+    "InstantDrawingSuccess":"開獎成功!",
+    "InstantDrawingFailed":"開獎失敗!",
     "EnterCorrectAmount": "請輸入正確的購買數量!",
     "InsufficientBalance": "餘額不足!",
     "NotEnoughTicketsRemaining": "剩餘彩券不足!",

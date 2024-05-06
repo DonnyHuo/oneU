@@ -896,7 +896,7 @@ function Lottery() {
           return state;
         });
         api["success"]({
-          message: `Instant Drawing Success!`,
+          message: t('lottery.InstantDrawingSuccess'),
         });
       })
       .catch((err) => {
@@ -905,7 +905,7 @@ function Lottery() {
           return state;
         });
         api["error"]({
-          message: `Instant Drawing Failed!`,
+          message: t('lottery.InstantDrawingFailed'),
         });
         console.log(err);
       });

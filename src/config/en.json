@@ -69,6 +69,8 @@
     "ApproveFail": "Approve Fail!",
     "BuySuccess": "Buy Success!",
     "BuyFail": "Buy Fail!",
+    "InstantDrawingSuccess":"Instant Drawing Success!",
+    "InstantDrawingFailed":"Instant Drawing Failed!",
     "EnterCorrectAmount": "please enter correct amount!",
     "InsufficientBalance": "Insufficient balance!",
     "NotEnoughTicketsRemaining": "Not enough tickets remaining!",
