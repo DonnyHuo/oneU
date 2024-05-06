@@ -155,7 +155,7 @@ function Lottery() {
     };
     return (
       <>
-        <span className="mr-1 orange _white">
+        <span className="mr-1 _text _white">
           ≈ {price * 1 > 0 ? ((list.prize * 1) / price).toFixed(8) : "--"}
         </span>
         <img className="w-4" src={ImgUrl()} />
@@ -1127,7 +1127,7 @@ function Lottery() {
                         </div>
                         <div className="w-80 h-24 flex flex-col justify-between _title ml-12">
                           <div className="_hiddenM flex items-center justify-between">
-                            <span>
+                            <span className="_text">
                               {t("lottery.WinUSDT", {
                                 number: list?.prize * 1,
                               })}{" "}

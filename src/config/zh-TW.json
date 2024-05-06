@@ -26,7 +26,7 @@
     "ToBeDrawn": "待開獎",
     "WinningNumber": "中獎號碼",
     "PoolId": "獎池ID",
-    "WinUSDT": "贏取 {{number}} USDT 只需",
+    "WinUSDT": "贏取 {{number}} USDT獎勵 只需",
     "TicketsPurchased": "已購買票數",
     "TotalTickets": "總票數",
     "TimeToEnd": "結束時間",
