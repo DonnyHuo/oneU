@@ -5,6 +5,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store";
+import {chainList} from './utils/config'
+
 
 import "./asserts/css/tailwind.css";
 import "./asserts/css/init.css";
@@ -13,10 +15,11 @@ import './config'
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers5/react";
 
 // 1. Get projectId
-const projectId = "454269b43ef322b9349e9336c5df2477";
+const projectId = "3bd9bb9bb5be4409a0363e80453f0a17";
 
 // 2. Set chains
-const networks = [
+const networks = chainList
+// [
   // {
   //   chainId: 1,
   //   name: "Ethereum",
@@ -31,20 +34,20 @@ const networks = [
   //   explorerUrl: "https://arbiscan.io",
   //   rpcUrl: "https://arb1.arbitrum.io/rpc",
   // },
-  {
-    chainId: 11155111,
-    name: "Sepolia",
-    currency: "SepoliaETH",
-    explorerUrl: "https://sepolia.etherscan.io",
-    rpcUrl: "https://rpc.sepolia.org",
-  },
-];
+  // {
+  //   chainId: 11155111,
+  //   name: "Sepolia",
+  //   currency: "SepoliaETH",
+  //   explorerUrl: "https://sepolia.etherscan.io",
+  //   rpcUrl: "https://rpc.sepolia.org",
+  // },
+// ];
 
 // 3. Create a metadata object
 const metadata = {
   name: "oneU",
   description: "Win crypro lotteries with just One Usdt.",
-  url: "https://one-u.vercel.app", // origin must match your domain & subdomain
+  url: "https://1usdt.io", // origin must match your domain & subdomain
   icons: [""],
 };
 

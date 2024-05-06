@@ -5,6 +5,7 @@ import {
   useWeb3ModalAccount,
   useWeb3ModalProvider,
   useDisconnect,
+  useSwitchNetwork,
 } from "@web3modal/ethers5/react";
 import {
   shortStr,
@@ -26,7 +27,6 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  console.log(window.navigator.language);
 
   const logoIcon = require("../../asserts/img/logo.png");
   const { address, chainId, isConnected } = useWeb3ModalAccount();
@@ -35,8 +35,14 @@ const Header = () => {
 
   const { open } = useWeb3Modal();
 
+  const { switchNetwork } = useSwitchNetwork();
+
+  useEffect(() => {
+    isConnected && chainId && switchNetwork(chainList[0].chainId);
+  }, [chainId, isConnected]);
+
   const selectNetworkIcon = (chainId) => {
-    return chainList.filter((list) => list.networkId == chainId)[0];
+    return chainList.filter((list) => list.chainId == chainId)[0];
   };
 
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -754,7 +760,7 @@ const Header = () => {
             onChange={(value) => setCode(value.target.value)}
             className="w-full h-12 rounded-xl outline-none text-white pl-4 pr-4 text-sm mt-5"
             style={{ background: "rgba(42, 37, 57, 1)" }}
-            placeholder={t('header.EnterInviteCode')}
+            placeholder={t("header.EnterInviteCode")}
           />
         </div>
         {contextHolder}
