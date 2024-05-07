@@ -357,9 +357,9 @@ const Header = () => {
       <div className="cursor-pointer">
         {langArr.map((list, index) => {
           return (
-            <>
+            <div key={list}>
               {!isMobile ? (
-                <div key={index} className="text-center _langList">
+                <div className="text-center _langList">
                   <button
                     className={`rounded-md px-2 h-8 m-2 ${
                       i18n.language == list && "active"
@@ -375,7 +375,7 @@ const Header = () => {
                   </button>
                 </div>
               ) : (
-                <div key={index} className="text-left _text text-sm">
+                <div className="text-left _text text-sm">
                   <div
                     className={
                       "flex item-center justify-between rounded-md px-4 h-8 m-2"
@@ -397,7 +397,7 @@ const Header = () => {
                   </div>
                 </div>
               )}
-            </>
+            </div>
           );
         })}
       </div>
