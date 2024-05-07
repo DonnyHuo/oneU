@@ -15,7 +15,7 @@ import './config'
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers5/react";
 
 // 1. Get projectId
-const projectId = "3bd9bb9bb5be4409a0363e80453f0a17";
+const projectId = "454269b43ef322b9349e9336c5df2477";
 
 // 2. Set chains
 const networks = chainList
