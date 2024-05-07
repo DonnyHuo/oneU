@@ -832,11 +832,11 @@ const Header = () => {
             alt=""
           />
         }
-        width={400}
+        width={430}
         zIndex={3000}
       >
-        <div className="flex items-center justify-between text-center">
-          <div className="flex flex-col items-center">
+        <div className={`flex items-center justify-around text-center ${currentLang == 'ko' && '_flex-col h-auto'}`}>
+          <div className={`h-40 flex flex-col items-center justify-between ${currentLang == 'ko' && 'w-full'}`}>
             <div
               className="flex items-center justify-center rounded-full w-14 h-14"
               style={{ boxShadow: "0px 3px 6px 0px #A301FF inset" }}
@@ -847,7 +847,7 @@ const Header = () => {
                 alt=""
               />
             </div>
-            <div className="w-full text-xs _title opacity-80 my-4">
+            <div className="w-11/12 text-xs _title opacity-80 my-4">
               {t("header.TestnetFaucetDesc1")}
             </div>
             <a
@@ -859,7 +859,7 @@ const Header = () => {
               </button>
             </a>
           </div>
-          <div className="flex flex-col items-center">
+          <div className={`h-40 flex flex-col items-center justify-between ${currentLang == 'ko' && '_mt-6'}`}>
             <div
               className="flex items-center justify-center rounded-full w-14 h-14"
               style={{ boxShadow: "0px 3px 6px 0px #A301FF inset" }}
@@ -870,7 +870,7 @@ const Header = () => {
                 alt=""
               />
             </div>
-            <div className="w-full text-xs _title opacity-80 my-4">
+            <div className="w-11/12 text-xs _title opacity-80 my-4">
               {t("header.TestnetFaucetDesc2")}
             </div>
             {contextHolder}
