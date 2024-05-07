@@ -478,7 +478,7 @@ function Lottery() {
     for (let i = 1; i <= list * 1; i++) {
       let option = {
         value: i,
-        label: i == list ? "Current Round" : i,
+        label: i == list ? t('lottery.CurrentRound') : i,
       };
       options.push(option);
     }
@@ -1131,7 +1131,7 @@ function Lottery() {
                               {t("lottery.WinUSDT", {
                                 number: list?.prize * 1,
                               })}{" "}
-                              <span className="orange">1 USDT</span>
+                              <span className="orange"></span>
                             </span>
                             <Popover
                               content={list.contractAddress}

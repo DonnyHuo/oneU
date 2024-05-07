@@ -4,7 +4,7 @@ import { Collapse } from "antd";
 import { useTranslation } from "react-i18next";
 function Tutorials() {
   const { t } = useTranslation();
-  const [qaList] = useState([
+  const qaList = [
     {
       key: "1",
       label: t("tutorials.QAs.title1"),
@@ -30,7 +30,7 @@ function Tutorials() {
       label: t("tutorials.QAs.title5"),
       children: <div>{t("tutorials.QAs.desc5")}</div>,
     },
-  ]);
+  ];
 
   const onChange = (key) => {
     console.log(key);

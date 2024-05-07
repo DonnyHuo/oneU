@@ -26,7 +26,7 @@
     "ToBeDrawn": "待開獎",
     "WinningNumber": "中獎號碼",
     "PoolId": "獎池ID",
-    "WinUSDT": "贏取 {{number}} USDT獎勵 只需",
+    "WinUSDT": "只需 1 USDT 即可贏取 {{number}} USDT獎勵",
     "TicketsPurchased": "已購買票數",
     "TotalTickets": "總票數",
     "TimeToEnd": "結束時間",
@@ -78,7 +78,8 @@
     "YouGot": "您獲得",
     "Unfortunately": "很遺憾...",
     "BetterLuckNextTime": "下次好運",
-    "Close": "關閉"
+    "Close": "關閉",
+    "CurrentRound": "本輪"
   },
   "referral": {
     "title1": "邀請朋友, 每個好友的參與",

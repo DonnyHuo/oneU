@@ -408,8 +408,10 @@ const Header = () => {
     switch (lang) {
       case "en":
         return "English";
-      case "zh-CN":
-        return "简体中文";
+      case "ko":
+        return "한국인";
+      case "vi":
+        return "Tiếng Việt";
       case "zh-TW":
         return "繁体中文";
       default:
@@ -447,14 +449,14 @@ const Header = () => {
     )
       .then((res) => {
         setMintLoading(false);
-        api["success"]({ message: t('header.getSuccess') });
-        setTimeout(()=>{
-          setFaucetModalOpen(false)
-        }, 2000)
+        api["success"]({ message: t("header.getSuccess") });
+        setTimeout(() => {
+          setFaucetModalOpen(false);
+        }, 2000);
       })
       .catch((err) => {
         setMintLoading(false);
-        api["error"]({ message: t('header.getFail') });
+        api["error"]({ message: t("header.getFail") });
       });
   };
 
@@ -814,7 +816,7 @@ const Header = () => {
         </Button>
       </Modal>
       <Modal
-        title={t('header.OneUSDTTestnetFaucet')}
+        title={t("header.OneUSDTTestnetFaucet")}
         destroyOnClose={true}
         centered
         maskClosable={true}
@@ -846,14 +848,14 @@ const Header = () => {
               />
             </div>
             <div className="w-full text-xs _title opacity-80 my-4">
-            {t('header.TestnetFaucetDesc1')}
+              {t("header.TestnetFaucetDesc1")}
             </div>
             <a
               target="_blank"
               href="https://www.alchemy.com/faucets/ethereum-sepolia"
             >
               <button className="_borderS1 rounded-full px-4 py-2 font-bold">
-              {t('header.GetETH')}
+                {t("header.GetETH")}
               </button>
             </a>
           </div>
@@ -869,7 +871,7 @@ const Header = () => {
               />
             </div>
             <div className="w-full text-xs _title opacity-80 my-4">
-            {t('header.TestnetFaucetDesc2')}
+              {t("header.TestnetFaucetDesc2")}
             </div>
             {contextHolder}
             <Button
@@ -877,7 +879,7 @@ const Header = () => {
               className="_background-gradient2 rounded-full px-4 h-10 font-bold"
               onClick={mintUSDT}
             >
-             {t('header.GetUSDT')}
+              {t("header.GetUSDT")}
             </Button>
           </div>
         </div>

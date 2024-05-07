@@ -1,17 +1,21 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-// import zh from "./zh.json";
 import en from "./en.json";
 import zhTW from "./zh-TW.json"
+import ko from "./ko.json";
+import vi from "./vi.json";
 
 export const resources = {
   en: {
     translation: en,
   },
-  // "zh-CN": {
-  //   translation: zh,
-  // },
+  ko: {
+    translation: ko,
+  },
+  vi: {
+    translation: vi,
+  },
   "zh-TW": {
     translation: zhTW,
   }
@@ -22,6 +26,8 @@ const resourcesArr = [];
 for (let key in resources) {
   resourcesArr.push(key);
 }
+
+console.log('window.navigator.language', window.navigator.language)
 
 i18n.use(initReactI18next).init({
   resources,

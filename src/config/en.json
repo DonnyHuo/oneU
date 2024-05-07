@@ -26,7 +26,7 @@
     "ToBeDrawn": "To be drawn",
     "WinningNumber": "Winning Number",
     "PoolId": "Pool Id",
-    "WinUSDT": "Win {{number}} USDT reward with just",
+    "WinUSDT": "Win {{number}} USDT reward with just 1 USDT",
     "TicketsPurchased": "Tickets Purchased",
     "TotalTickets": "Total Tickets",
     "TimeToEnd": "Time to end",
@@ -78,7 +78,8 @@
     "YouGot": "You got",
     "Unfortunately": "Unfortunately...",
     "BetterLuckNextTime": "Better luck next time",
-    "Close": "Close"
+    "Close": "Close",
+    "CurrentRound": "Current Round"
   },
   "referral": {
     "title1": "Invite friends. Earn 3% ",
