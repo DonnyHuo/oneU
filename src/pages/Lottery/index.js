@@ -478,7 +478,7 @@ function Lottery() {
     for (let i = 1; i <= list * 1; i++) {
       let option = {
         value: i,
-        label: i == list ? t('lottery.CurrentRound') : i,
+        label: i == list ? t("lottery.CurrentRound") : i,
       };
       options.push(option);
     }
@@ -896,7 +896,7 @@ function Lottery() {
           return state;
         });
         api["success"]({
-          message: t('lottery.InstantDrawingSuccess'),
+          message: t("lottery.InstantDrawingSuccess"),
         });
       })
       .catch((err) => {
@@ -905,7 +905,7 @@ function Lottery() {
           return state;
         });
         api["error"]({
-          message: t('lottery.InstantDrawingFailed'),
+          message: t("lottery.InstantDrawingFailed"),
         });
         console.log(err);
       });

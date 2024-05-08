@@ -272,7 +272,7 @@ const Header = () => {
           </div>
         </div>
         <div className="text-center">
-          <a href="https://o3swap.com/swap" target="_black">
+          <a href="https://www.okx.com/zh-hans/web3/dex-swap/bridge#inputChain=1&inputCurrency=0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE&outputChain=42161&outputCurrency=0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9" target="_black">
             <button className="mt-5 w-full h-11 rounded-xl _borderS2 _background-gradient6">
               {t("header.BridgeAndSwap")}
             </button>
