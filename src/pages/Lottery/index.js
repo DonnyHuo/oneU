@@ -170,7 +170,7 @@ function Lottery() {
 
   const [prices, setPrices] = useState([]);
 
-  const getPriceList = async (status) => {
+  const getPriceList = async () => {
     // BTC
     const btcPrice = await getPrice(
       "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c"
