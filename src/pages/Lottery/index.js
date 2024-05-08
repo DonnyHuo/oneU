@@ -116,9 +116,6 @@ function Lottery() {
 
   const [accountBalance, setAccountBalance] = useState(0);
 
-  const [price, setPrice] = useState(0);
-  const [priceStatus, setPriceStatus] = useState(0);
-
   const getPrice = async (address) => {
     const decimals = await getContractPrice(
       address,
@@ -134,51 +131,66 @@ function Lottery() {
       price.answer.toString(),
       decimals
     );
-    setPrice(realPrice);
+    return realPrice;
   };
 
-  const PriceItem = useCallback((props) => {
+  const PriceItem = (props) => {
     const { list } = props;
+    const price =
+      prices[
+        list.prize * 1 >= 10000
+          ? 0
+          : list.prize * 1 < 10000 && list.prize * 1 >= 1000
+          ? 1
+          : 2
+      ];
     const ImgUrl = () => {
       if (list.prize * 1 >= 10000) {
-        setPriceStatus(1);
         return require(`../../asserts/img/BTC.png`);
       }
       if (list.prize * 1 < 10000 && list.prize * 1 >= 1000) {
-        setPriceStatus(2);
         return require(`../../asserts/img/ETH.png`);
       }
       if (list.prize * 1 < 1000) {
-        setPriceStatus(3);
         return require(`../../asserts/img/SOL.png`);
       }
     };
     return (
       <>
         <span className="mr-1 _title _white opacity-80">
-          ≈ {price * 1 > 0 ? ((list.prize * 1) / price).toFixed(8) : "--"}
+          ≈{" "}
+          {price * 1 > 0
+            ? ((list.prize * 1) / price).toFixed(8)
+            : "--"}
         </span>
         <img className="w-4" src={ImgUrl()} />
       </>
     );
-  }, [price]);
-
-  const switchPrice = (status) => {
-    switch (status) {
-      case 1:
-        // BTC
-        return getPrice("0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c");
-      case 2:
-        // ETH
-        return getPrice("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419");
-      case 3:
-        // SOL
-        return getPrice("0x4ffC43a60e009B551865A93d232E33Fce9f01507");
-    }
   };
+
+  const [prices, setPrices] = useState([]);
+
+  const getPriceList = async (status) => {
+    // BTC
+    const btcPrice = await getPrice(
+      "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c"
+    );
+    // ETH
+    const ethPrice = await getPrice(
+      "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419"
+    );
+
+    // SOL
+    const solPrice = await getPrice(
+      "0x4ffC43a60e009B551865A93d232E33Fce9f01507"
+    );
+
+    setPrices([btcPrice, ethPrice, solPrice]);
+  };
+
   useEffect(() => {
-    priceStatus * 1 > 0 && switchPrice(priceStatus);
-  }, [priceStatus]);
+    getPriceList();
+  }, []);
 
   const getAccountBalance = async () => {
     const usdt = await getContract(
