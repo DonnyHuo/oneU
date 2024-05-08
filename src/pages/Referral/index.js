@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { notification, Button, Modal } from "antd";
-import { getContract, getWriteContractLoad } from "../../utils";
+import { getContract, getWriteContractLoad, checkNetWork } from "../../utils";
 import { useWeb3ModalProvider, useWeb3Modal } from "@web3modal/ethers5/react";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
@@ -93,6 +93,9 @@ function Referral() {
   // collectReferralReward
   const [rewardLoading, setRewardLoading] = useState(false);
   const collectReferralReward = async () => {
+    if (!await checkNetWork()) {
+      return open({view: 'Networks'})
+    }
     setRewardLoading(true);
     await getWriteContractLoad(
       walletProvider,

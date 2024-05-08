@@ -577,6 +577,10 @@ a:hover {
 #dynamic {
   display: none!important;
 }
+.content {
+  min-height: 100vh;
+  background-color: #0b051a;
+}
 
 @media screen and (min-width: 0px) and (max-width: 500px) {
   ._mt-6 {
@@ -611,7 +615,7 @@ a:hover {
   .w-36 {
     width: 100%;
   }
-  .ml-12 {
+  .ml-8 {
     margin-left: 0;
   }
   .ml-16 {
@@ -916,11 +920,9 @@ a:hover {
   }
 }
 
+
 @media screen and (min-width: 500px) and (max-width: 5000px) {
-  .content {
-    min-height: 100vh;
-    background-color: #0b051a;
-  }
+  
   .ant-modal-root .ant-modal-centered .ant-modal {
     width: 420px;
   }

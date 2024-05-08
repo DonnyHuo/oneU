@@ -19,29 +19,6 @@ const projectId = "454269b43ef322b9349e9336c5df2477";
 
 // 2. Set chains
 const networks = chainList
-// [
-  // {
-  //   chainId: 1,
-  //   name: "Ethereum",
-  //   currency: "ETH",
-  //   explorerUrl: "https://etherscan.io",
-  //   rpcUrl: "https://cloudflare-eth.com",
-  // },
-  // {
-  //   chainId: 42161,
-  //   name: "Arbitrum",
-  //   currency: "ETH",
-  //   explorerUrl: "https://arbiscan.io",
-  //   rpcUrl: "https://arb1.arbitrum.io/rpc",
-  // },
-  // {
-  //   chainId: 11155111,
-  //   name: "Sepolia",
-  //   currency: "SepoliaETH",
-  //   explorerUrl: "https://sepolia.etherscan.io",
-  //   rpcUrl: "https://rpc.sepolia.org",
-  // },
-// ];
 
 // 3. Create a metadata object
 const metadata = {

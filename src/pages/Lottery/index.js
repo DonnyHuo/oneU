@@ -22,6 +22,7 @@ import {
   makeRandomArr,
   chainList,
   getNewTickets,
+  checkNetWork,
 } from "../../utils";
 import { useSelector } from "react-redux";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
@@ -158,10 +159,7 @@ function Lottery() {
     return (
       <>
         <span className="mr-1 _title _white opacity-80">
-          ≈{" "}
-          {price * 1 > 0
-            ? ((list.prize * 1) / price).toFixed(8)
-            : "--"}
+          ≈ {price * 1 > 0 ? ((list.prize * 1) / price).toFixed(8) : "--"}
         </span>
         <img className="w-4" src={ImgUrl()} />
       </>
@@ -483,7 +481,7 @@ function Lottery() {
 
   useInterval(() => {
     getPoolList();
-  }, 2000);
+  }, 4000);
 
   const epochOptions = (list) => {
     const options = [];
@@ -568,6 +566,9 @@ function Lottery() {
       setIsShareOpen(false);
       return open();
     }
+    if (!(await checkNetWork())) {
+      return open({ view: "Networks" });
+    }
     setApproveLoading(true);
     await getWriteContractLoad(
       walletProvider,
@@ -614,6 +615,9 @@ function Lottery() {
     if (!address) {
       setIsShareOpen(false);
       return open();
+    }
+    if (!(await checkNetWork())) {
+      return open({ view: "Networks" });
     }
     const reg = /^[1-9]\d*$/;
 
@@ -835,6 +839,9 @@ function Lottery() {
   const [claimLoading, setClaimLoading] = useState(false);
 
   const claimPrizes = async () => {
+    if (!(await checkNetWork())) {
+      return open({ view: "Networks" });
+    }
     setClaimLoading(true);
     await getWriteContractLoad(
       walletProvider,
@@ -877,19 +884,24 @@ function Lottery() {
     }
   };
 
-  const clickBuyBtnFun = (list) => {
+  const clickBuyBtnFun = async (list) => {
     if (!address) {
-      open();
-    } else {
-      setIsShareOpen(true);
-      setSelectPool(list);
-      setTicketAmount("");
+      return open();
     }
+    if (!(await checkNetWork())) {
+      return open({ view: "Networks" });
+    }
+    setIsShareOpen(true);
+    setSelectPool(list);
+    setTicketAmount("");
   };
 
   const clickLotteryDraw = async (list, index) => {
     if (!address) {
       return open();
+    }
+    if (!(await checkNetWork())) {
+      return open({ view: "Networks" });
     }
     setRememberSelect((state) => {
       state[index].loading = true;
@@ -1086,7 +1098,7 @@ function Lottery() {
                             <PriceItem list={list} />
                           </div>
                         </div>
-                        <div className="w-40 h-24 flex flex-col justify-between _hiddenM ml-16">
+                        <div className="w-40 h-24 flex flex-col justify-between _hiddenM ml-8">
                           <div className="_title leading-4">
                             {moment(list?.roundInfo?.endTime * 1000).format(
                               "YYYY-MM-DD HH:mm:ss"
@@ -1137,7 +1149,7 @@ function Lottery() {
                             </div>
                           </div>
                         </div>
-                        <div className="w-80 h-24 flex flex-col justify-between _title ml-12">
+                        <div className="w-96 h-24 flex flex-col justify-between _title ml-8">
                           <div className="_hiddenM flex items-center justify-between">
                             <span className="_text">
                               {t("lottery.WinUSDT", {
@@ -1666,7 +1678,7 @@ function Lottery() {
           {t("lottery.BuyDesc")}
         </div>
       </Modal>
-      {/*  */}
+
       <Modal
         title={t("lottery.YourLotteryNumber")}
         centered
@@ -1744,6 +1756,7 @@ function Lottery() {
           {t("lottery.TotalNumbers", { number: selectTickets.length })}
         </div>
       </Modal>
+
       <Modal
         title={t("lottery.Congratulations")}
         centered
@@ -1799,6 +1812,7 @@ function Lottery() {
           </Link>
         </div>
       </Modal>
+
       <Modal
         title={t("lottery.Unfortunately")}
         centered
@@ -1848,14 +1862,20 @@ function Lottery() {
           </button>
         </div>
       </Modal>
-      {/* {openDraw && (
-          <div
-            className="fixed top-0 left-0 w-full h-full flex items-center justify-center"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.45)" }}
-          >
-            <img src={require("../../asserts/img/openDrawn.gif")} alt="" />
-          </div>
-        )} */}
+      {stickyShow && (
+        <button
+          onClick={() =>
+            window.scrollTo({
+              top: 0,
+              left: 0,
+              behavior: "smooth",
+            })
+          }
+          className="_hiddenP fixed bottom-10 right-8 bg-gray-800 w-9 h-9 rounded-full flex items-center justify-center border border-neutral-500"
+        >
+          <img className="w-3.5" src={require("../../asserts/img/upTop.png")} />
+        </button>
+      )}
       <Footer />
     </div>
   );

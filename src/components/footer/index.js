@@ -14,10 +14,10 @@ const Footer = () => {
             <img className="h-5 mt-14 mb-14 _margin0" src={logoIcon} alt="" />
           </Link>
           <div className="w-80 flex items-center justify-around h-32 text-sm _title _footerList">
-            <a href="">{t("footer.Terms")}</a>
-            <a href="" className="ml-8">
+            <Link to="/terms">{t("footer.Terms")}</Link>
+            <Link to="/policy" className="ml-8">
             {t("footer.PrivacyPolicy")}
-            </a>
+            </Link>
           </div>
         </div>
         <div className="flex items-center justify-between _flexNo">

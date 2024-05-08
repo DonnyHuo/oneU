@@ -150,7 +150,8 @@
     "GetETH": "Go to get ETH",
     "GetUSDT": "Get 1000 USDT",
     "getSuccess": "Get Success!",
-    "getFail": "Get Fail!"
+    "getFail": "Get Fail!",
+    "WrongNetwork": "Wrong Network"
   },
   "footer": {
     "Terms": "Terms",

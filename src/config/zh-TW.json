@@ -150,7 +150,8 @@
     "GetETH": "去獲取 ETH",
     "GetUSDT": "去獲取 1000 USDT",
     "getSuccess": "獲取成功!",
-    "getFail": "獲取失敗!"
+    "getFail": "獲取失敗!",
+    "WrongNetwork": "網路錯誤"
   },
   "footer": {
     "Terms": "條款",

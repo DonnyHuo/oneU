@@ -5,13 +5,13 @@ import {
   useWeb3ModalAccount,
   useWeb3ModalProvider,
   useDisconnect,
-  useSwitchNetwork,
 } from "@web3modal/ethers5/react";
 import {
   shortStr,
   getContract,
   getWriteContractLoad,
   chainList,
+  checkNetWork
 } from "../../utils";
 import { Drawer, notification, Button, Modal, Popover } from "antd";
 import { useSelector, useDispatch } from "react-redux";
@@ -35,11 +35,11 @@ const Header = () => {
 
   const { open } = useWeb3Modal();
 
-  const { switchNetwork } = useSwitchNetwork();
+  // const { switchNetwork } = useSwitchNetwork();
 
-  useEffect(() => {
-    isConnected && chainId && switchNetwork(chainList.filter(list=> list.chainId == chainId)[0].chainId);
-  }, [chainId, isConnected]);
+  // useEffect(() => {
+  //   isConnected && chainId && switchNetwork(chainList.filter(list=> list.chainId == chainId)[0].chainId);
+  // }, [chainId, isConnected]);
 
   const selectNetworkIcon = (chainId) => {
     return chainList.filter((list) => list.chainId == chainId)[0];
@@ -272,7 +272,10 @@ const Header = () => {
           </div>
         </div>
         <div className="text-center">
-          <a href="https://www.okx.com/zh-hans/web3/dex-swap/bridge#inputChain=1&inputCurrency=0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE&outputChain=42161&outputCurrency=0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9" target="_black">
+          <a
+            href="https://www.okx.com/zh-hans/web3/dex-swap/bridge#inputChain=1&inputCurrency=0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE&outputChain=42161&outputCurrency=0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9"
+            target="_black"
+          >
             <button className="mt-5 w-full h-11 rounded-xl _borderS2 _background-gradient6">
               {t("header.BridgeAndSwap")}
             </button>
@@ -413,7 +416,7 @@ const Header = () => {
       case "vi":
         return "Tiếng Việt";
       case "zh-TW":
-        return "繁体中文";
+        return "繁體中文";
       default:
         return "English";
     }
@@ -425,6 +428,9 @@ const Header = () => {
 
   const [mintLoading, setMintLoading] = useState(false);
   const mintUSDT = async () => {
+    if (!await checkNetWork()) {
+      return open({view: 'Networks'})
+    }
     const usdt = await getContract(
       walletProvider,
       poolManager,
@@ -544,10 +550,15 @@ const Header = () => {
             className="_border rounded-full p-2 text-sm mr-2 flex items-center"
             onClick={() => open({ view: "Networks" })}
           >
-            <img className="w-5" src={selectNetworkIcon(chainId)?.url} alt="" />
-            {/* <span className="ml-2 _hiddenM">
-              {selectNetworkIcon(chainId)?.name}
-            </span> */}
+            {selectNetworkIcon(chainId) ? (
+              <img
+                className="w-5"
+                src={selectNetworkIcon(chainId)?.url}
+                alt=""
+              />
+            ) : (
+              <span className="px-2 text-red-600">{t('header.WrongNetwork')}</span>
+            )}
           </button>
         )}
 
@@ -835,8 +846,16 @@ const Header = () => {
         width={430}
         zIndex={3000}
       >
-        <div className={`flex items-center justify-around text-center ${currentLang == 'ko' && '_flex-col h-auto'}`}>
-          <div className={`h-40 flex flex-col items-center justify-between ${currentLang == 'ko' && 'w-full'}`}>
+        <div
+          className={`flex items-center justify-around text-center ${
+            currentLang == "ko" && "_flex-col h-auto"
+          }`}
+        >
+          <div
+            className={`h-40 flex flex-col items-center justify-between ${
+              currentLang == "ko" && "w-full"
+            }`}
+          >
             <div
               className="flex items-center justify-center rounded-full w-14 h-14"
               style={{ boxShadow: "0px 3px 6px 0px #A301FF inset" }}
@@ -859,7 +878,11 @@ const Header = () => {
               </button>
             </a>
           </div>
-          <div className={`h-40 flex flex-col items-center justify-between ${currentLang == 'ko' && '_mt-6'}`}>
+          <div
+            className={`h-40 flex flex-col items-center justify-between ${
+              currentLang == "ko" && "_mt-6"
+            }`}
+          >
             <div
               className="flex items-center justify-center rounded-full w-14 h-14"
               style={{ boxShadow: "0px 3px 6px 0px #A301FF inset" }}

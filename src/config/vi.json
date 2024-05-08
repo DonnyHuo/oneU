@@ -150,7 +150,8 @@
     "GetETH": "Đi lấy ETH",
     "GetUSDT": "Đi nhận 1000 USDT",
     "getSuccess": "đạt được thành công!",
-    "getFail": "Không thể lấy được!"
+    "getFail": "Không thể lấy được!",
+    "WrongNetwork": "Mạng sai"
   },
   "footer": {
     "Terms": "Điều khoản",
