@@ -22,7 +22,7 @@ const Footer = () => {
         </div>
         <div className="flex items-center justify-between _flexNo">
           <div className="text-xs text-slate-400 _nav-title">
-            © 2024 OneU, {t("footer.AllRightsReserved")}
+            © 2024 OneUSDT, {t("footer.AllRightsReserved")}
           </div>
           <div className="text-xs text-slate-400 _nav-title _paddingTop10">
           {t("footer.Email")}
