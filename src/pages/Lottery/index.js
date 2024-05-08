@@ -140,11 +140,11 @@ function Lottery() {
   const PriceItem = useCallback((props) => {
     const { list } = props;
     const ImgUrl = () => {
-      if (list.prize * 1 > 10000) {
+      if (list.prize * 1 >= 10000) {
         setPriceStatus(1);
         return require(`../../asserts/img/BTC.png`);
       }
-      if (list.prize * 1 < 10000 && list.prize * 1 > 1000) {
+      if (list.prize * 1 < 10000 && list.prize * 1 >= 1000) {
         setPriceStatus(2);
         return require(`../../asserts/img/ETH.png`);
       }
