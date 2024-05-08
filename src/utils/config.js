@@ -11,6 +11,7 @@ export const chainList = [
   // {
   //   chainId: 42161,
   //   name: "Arbitrum",
+  //   currency: "ETH",
   //   url: "https://cryptologos.cc/logos/arbitrum-arb-logo.png?v=029",
   //   explorerUrl: "https://arbiscan.io",
   //   rpcUrl: "https://arb1.arbitrum.io/rpc",

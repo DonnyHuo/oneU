@@ -38,7 +38,7 @@ const Header = () => {
   const { switchNetwork } = useSwitchNetwork();
 
   useEffect(() => {
-    isConnected && chainId && switchNetwork(chainList[0].chainId);
+    isConnected && chainId && switchNetwork(chainList.filter(list=> list.chainId == chainId)[0].chainId);
   }, [chainId, isConnected]);
 
   const selectNetworkIcon = (chainId) => {
