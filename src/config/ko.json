@@ -157,7 +157,8 @@
     "getFail": "획득하지 못했습니다!",
     "WrongNetwork": "잘못된 네트워크",
     "bindSuccess": "바인딩 성공!",
-    "bindFail": "바인딩에 실패했습니다! 다시 시도해 주세요!"
+    "bindFail": "바인딩에 실패했습니다! 다시 시도해 주세요!",
+    "NetworkUnsupported": "네트워크가 지원되지 않습니다"
   },
   "footer": {
     "Terms": "약관",

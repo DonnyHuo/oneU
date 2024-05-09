@@ -157,7 +157,8 @@
     "getFail": "獲取失敗!",
     "WrongNetwork": "網路錯誤",
     "bindSuccess": "綁定成功！",
-    "bindFail": "綁定失敗！ 請重試！"
+    "bindFail": "綁定失敗！ 請重試！",
+    "NetworkUnsupported": "不支持的網路"
   },
   "footer": {
     "Terms": "條款",

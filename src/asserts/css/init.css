@@ -581,6 +581,18 @@ a:hover {
   min-height: 100vh;
   background-color: #0b051a;
 }
+.wrongNetwork {
+  color: #fff;
+  top: 60px!important
+}
+
+.wrongNetwork .ant-popover-inner-content {
+  color: #fff;
+}
+
+.wrongNetwork .ant-popover-inner {
+  padding: 8px 10px;
+}
 
 @media screen and (min-width: 0px) and (max-width: 500px) {
   ._mt-6 {

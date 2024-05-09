@@ -158,7 +158,8 @@
     "getFail": "Get Fail!",
     "WrongNetwork": "Wrong Network",
     "bindSuccess": "Binding successful!",
-    "bindFail": "Binding failed! Please try again!"
+    "bindFail": "Binding failed! Please try again!",
+    "NetworkUnsupported": "Network is unsupported"
   },
   "footer": {
     "Terms": "Terms",

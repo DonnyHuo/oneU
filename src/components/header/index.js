@@ -150,14 +150,14 @@ const Header = () => {
         setSignUpLoading(false);
         getUserId();
         setCode("");
-        api["success"]({ message: t('header.bindSuccess') });
+        api["success"]({ message: t("header.bindSuccess") });
         setTimeout(() => {
           dispatch({ type: "CHANGE_REMODAL", payload: false });
         }, 2000);
       })
       .catch((err) => {
         setSignUpLoading(false);
-        api["error"]({ message:t('header.bindFail') });
+        api["error"]({ message: t("header.bindFail") });
         console.log(err);
       });
   };
@@ -566,9 +566,17 @@ const Header = () => {
                   alt=""
                 />
 
-                <span className="px-2 text-red-500 _hiddenM">
-                  {t("header.WrongNetwork")}
-                </span>
+                <Popover
+                  content={t('header.NetworkUnsupported')}
+                  trigger="hover"
+                  placement="bottom"
+                  color={"#1C172A"}
+                  overlayClassName="wrongNetwork"
+                >
+                  <span className="px-2 text-red-500 _hiddenM">
+                    {t("header.WrongNetwork")}
+                  </span>
+                </Popover>
               </>
             )}
           </button>

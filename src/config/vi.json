@@ -157,7 +157,8 @@
     "getFail": "Không thể lấy được!",
     "WrongNetwork": "Mạng sai",
     "bindSuccess": "Ràng buộc thành công!",
-    "bindFail": "Ràng buộc không thành công! Vui lòng thử lại!"
+    "bindFail": "Ràng buộc không thành công! Vui lòng thử lại!",
+    "NetworkUnsupported": "Mạng không được hỗ trợ"
   },
   "footer": {
     "Terms": "Điều khoản",
