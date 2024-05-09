@@ -72,7 +72,7 @@ function Referral() {
     }
     if (userId * 1 > 0) {
       notification.open({
-        message: "You have bound the invitation relationship!",
+        message: t('header.hadRegister'),
         duration: 5,
       });
     } else {
