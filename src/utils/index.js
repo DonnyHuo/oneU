@@ -76,10 +76,16 @@ export const getNewTickets = (tickets, total = 100) => {
   }
 };
 
-const infuraProvider = new ethers.providers.JsonRpcProvider('https://ethereum-sepolia-rpc.publicnode.com')
+const infuraProvider = new ethers.providers.InfuraProvider(
+  "sepolia",
+  "f9eae046939d4b969a42a377d109d17a"
+);
 
 export function getContractPrice(contractAddress, abi, funcName, ...params) {
-  const provider = new ethers.providers.JsonRpcProvider("https://eth.llamarpc.com");;
+  const provider = new ethers.providers.InfuraProvider(
+    "mainnet",
+    "f9eae046939d4b969a42a377d109d17a"
+  );
   const contract = new ethers.Contract(contractAddress, abi, provider);
   return new Promise((resolve, reject) => {
     contract[funcName](...params).then(
@@ -102,7 +108,6 @@ export const checkNetWork = async () => {
   return chainIdList.length ? true : false;
 };
 
-
 /**
  * 读取合约方法
  * @param {*} contractAddress 合约地址
@@ -118,10 +123,12 @@ export async function getContract(
   funcName,
   ...params
 ) {
+  console.log('1111111111')
   const isTrueNetWork = await checkNetWork();
-  const provider = walletProvider && isTrueNetWork
-    ? new ethers.providers.Web3Provider(walletProvider)
-    : infuraProvider;
+  const provider =
+    walletProvider && isTrueNetWork
+      ? new ethers.providers.Web3Provider(walletProvider)
+      : infuraProvider;
   const contract = new ethers.Contract(contractAddress, abi, provider);
   return new Promise((resolve, reject) => {
     contract[funcName](...params).then(
@@ -152,10 +159,9 @@ export function getWriteContract(
   funcName,
   ...params
 ) {
-  const provider =
-    walletProvider
-      ? new ethers.providers.Web3Provider(walletProvider)
-      : infuraProvider;
+  const provider = walletProvider
+    ? new ethers.providers.Web3Provider(walletProvider)
+    : infuraProvider;
   const contract = new ethers.Contract(contractAddress, abi, provider);
   const contractWithSigner = contract.connect(provider.getSigner());
   return new Promise((resolve, reject) => {
@@ -185,10 +191,9 @@ export function getContractLoad(
   funcName,
   ...params
 ) {
-  const provider =
-    walletProvider
-      ? new ethers.providers.Web3Provider(walletProvider)
-      : infuraProvider;
+  const provider = walletProvider
+    ? new ethers.providers.Web3Provider(walletProvider)
+    : infuraProvider;
   const contract = new ethers.Contract(contractAddress, abi, provider);
   return new Promise((resolve, reject) => {
     contract[funcName](...params).then(
@@ -240,10 +245,9 @@ export function getWriteContractLoad(
   funcName,
   ...params
 ) {
-  const provider =
-    walletProvider
-      ? new ethers.providers.Web3Provider(walletProvider)
-      : infuraProvider;
+  const provider = walletProvider
+    ? new ethers.providers.Web3Provider(walletProvider)
+    : infuraProvider;
   const contract = new ethers.Contract(contractAddress, abi, provider);
   const contractWithSigner = contract.connect(provider.getSigner());
   return new Promise((resolve, reject) => {

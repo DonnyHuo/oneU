@@ -479,9 +479,15 @@ function Lottery() {
     setPools(pools);
   };
 
+
+  useEffect(()=>{
+    getPoolList();
+  },[])
+
+
   useInterval(() => {
     getPoolList();
-  }, 4000);
+  }, 5000);
 
   const epochOptions = (list) => {
     const options = [];
