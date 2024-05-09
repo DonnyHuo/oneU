@@ -105,7 +105,9 @@
     "ClaimSuccess": "Đã nhận thành công!",
     "ClaimFail": "Không thể thu thập!",
     "GetCodeSuccess": "Mã mời đã được tạo thành công!",
-    "GetCodeFail": "Không tạo được mã mời! Vui lòng thử lại!"
+    "GetCodeFail": "Không tạo được mã mời! Vui lòng thử lại!",
+    "BindCode": "Mã của bạn bè ràng buộc",
+    "GoToBind": "Đi tới ràng buộc"
   },
   "tutorials": {
     "title1": "Dễ dàng, minh bạch,",

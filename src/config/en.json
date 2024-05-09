@@ -105,7 +105,10 @@
     "ClaimSuccess": "Claim Success!",
     "ClaimFail": "Claim Fail!",
     "GetCodeSuccess": "Successfully generated invitation code!",
-    "GetCodeFail": "Failed to generate invitation code! Please try again!"
+    "GetCodeFail": "Failed to generate invitation code! Please try again!",
+    "BindCode": "Bind Friend‘s code",
+    "GoToBind": "Go To Bind"
+
   },
   "tutorials": {
     "title1": "Earn crypto lotteries",

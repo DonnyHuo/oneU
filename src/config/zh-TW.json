@@ -105,7 +105,9 @@
     "ClaimSuccess": "領取成功!",
     "ClaimFail": "領取失敗!",
     "GetCodeSuccess": "成功產生邀請碼!",
-    "GetCodeFail": "產生邀請碼失敗！請重試!"
+    "GetCodeFail": "產生邀請碼失敗！請重試!",
+    "BindCode": "綁定好友碼",
+    "GoToBind": "去綁定"
   },
   "tutorials": {
     "title1": "简单、透明、公平地赚取",

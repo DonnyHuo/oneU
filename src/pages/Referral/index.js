@@ -245,9 +245,9 @@ function Referral() {
                 </Button>
               </div>
               <div className="flex items-center justify-between mt-4">
-                <span>Bind Friend‘s code</span>
+                <span>{t('referral.BindCode')}</span>
                 <button className="_active" onClick={() => BindFun()}>
-                  Go To Bind{">"}{" "}
+                {t('referral.GoToBind')}{">"}{" "}
                 </button>
               </div>
             </div>

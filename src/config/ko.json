@@ -105,7 +105,9 @@
     "ClaimSuccess": "성공적으로 받았습니다!",
     "ClaimFail": "수집 실패!",
     "GetCodeSuccess": "초대 코드가 생성되었습니다!",
-    "GetCodeFail": "초대코드 생성에 실패했습니다! 다시 시도해 주세요!"
+    "GetCodeFail": "초대코드 생성에 실패했습니다! 다시 시도해 주세요!",
+    "BindCode": "친구의 코드를 바인딩하세요",
+    "GoToBind": "바인딩으로 이동"
   },
   "tutorials": {
     "title1": "간단하고 투명하며 공정하게",
