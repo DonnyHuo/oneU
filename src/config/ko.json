@@ -103,7 +103,9 @@
     "CopiedSuccess": "성공적으로 복사되었습니다!",
     "YouGotDeserve": "당신이 얻는 커미션",
     "ClaimSuccess": "성공적으로 받았습니다!",
-    "ClaimFail": "수집 실패!"
+    "ClaimFail": "수집 실패!",
+    "GetCodeSuccess": "초대 코드가 생성되었습니다!",
+    "GetCodeFail": "초대코드 생성에 실패했습니다! 다시 시도해 주세요!"
   },
   "tutorials": {
     "title1": "간단하고 투명하며 공정하게",
@@ -140,10 +142,10 @@
     "BridgeAndSwap": "크로스 체인 브릿지",
     "hadRegister": "이미 등록되어 있으므로 초대 코드를 바인딩할 수 없습니다!",
     "JoinUs": "우리에 합류하세요",
-    "JoinUsDesc": "친구 초대 코드를 통해 등록하거나 직접 등록하십시오.",
-    "SignUp": "등록",
+    "JoinUsDesc": "초대 관계를 연결하려면 기존 사용자로부터 초대 코드를 받으세요.",
+    "SignUp": "묶다",
     "Language": "언어",
-    "EnterInviteCode": "초대 코드 입력",
+    "EnterInviteCode": "친구의 초대 코드를 입력하세요",
     "OneUSDTTestnetFaucet": "OneUSDT 테스트 수도꼭지",
     "TestnetFaucetDesc1":"Ethereum SEPOLIA 수도꼭지 기반",
     "TestnetFaucetDesc2":"USDT를 확보하세요",
@@ -151,7 +153,9 @@
     "GetUSDT": "가서 1000 USDT를 받으세요",
     "getSuccess": "성공하다!",
     "getFail": "획득하지 못했습니다!",
-    "WrongNetwork": "잘못된 네트워크"
+    "WrongNetwork": "잘못된 네트워크",
+    "bindSuccess": "바인딩 성공!",
+    "bindFail": "바인딩에 실패했습니다! 다시 시도해 주세요!"
   },
   "footer": {
     "Terms": "약관",

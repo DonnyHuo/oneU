@@ -11,7 +11,7 @@ import {
   getContract,
   getWriteContractLoad,
   chainList,
-  checkNetWork
+  checkNetWork,
 } from "../../utils";
 import { Drawer, notification, Button, Modal, Popover } from "antd";
 import { useSelector, useDispatch } from "react-redux";
@@ -150,14 +150,14 @@ const Header = () => {
         setSignUpLoading(false);
         getUserId();
         setCode("");
-        api["success"]({ message: "Registration Success!" });
+        api["success"]({ message: t('header.bindSuccess') });
         setTimeout(() => {
           dispatch({ type: "CHANGE_REMODAL", payload: false });
         }, 2000);
       })
       .catch((err) => {
         setSignUpLoading(false);
-        api["error"]({ message: "Registration failed!" });
+        api["error"]({ message:t('header.bindFail') });
         console.log(err);
       });
   };
@@ -428,8 +428,8 @@ const Header = () => {
 
   const [mintLoading, setMintLoading] = useState(false);
   const mintUSDT = async () => {
-    if (!await checkNetWork()) {
-      return open({view: 'Networks'})
+    if (!(await checkNetWork())) {
+      return open({ view: "Networks" });
     }
     const usdt = await getContract(
       walletProvider,
@@ -547,7 +547,9 @@ const Header = () => {
 
         {isConnected && (
           <button
-            className="_border rounded-full p-2 text-sm mr-2 flex items-center"
+            className={`rounded-full p-2 text-sm mr-2 flex items-center border ${
+              !selectNetworkIcon(chainId) ? "border-red-700" : "_border"
+            }`}
             onClick={() => open({ view: "Networks" })}
           >
             {selectNetworkIcon(chainId) ? (
@@ -557,7 +559,17 @@ const Header = () => {
                 alt=""
               />
             ) : (
-              <span className="px-2 text-red-600">{t('header.WrongNetwork')}</span>
+              <>
+                <img
+                  className="w-5 _hiddenP"
+                  src={require("../../asserts/img/warning.png")}
+                  alt=""
+                />
+
+                <span className="px-2 text-red-500 _hiddenM">
+                  {t("header.WrongNetwork")}
+                </span>
+              </>
             )}
           </button>
         )}

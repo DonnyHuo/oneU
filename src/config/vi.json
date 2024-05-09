@@ -103,7 +103,9 @@
     "CopiedSuccess": "Đã sao chép thành công!",
     "YouGotDeserve": "hoa hồng bạn kiếm được",
     "ClaimSuccess": "Đã nhận thành công!",
-    "ClaimFail": "Không thể thu thập!"
+    "ClaimFail": "Không thể thu thập!",
+    "GetCodeSuccess": "Mã mời đã được tạo thành công!",
+    "GetCodeFail": "Không tạo được mã mời! Vui lòng thử lại!"
   },
   "tutorials": {
     "title1": "Dễ dàng, minh bạch,",
@@ -140,10 +142,10 @@
     "BridgeAndSwap": "Cầu chuyển mạch",
     "hadRegister": "Đã đăng ký, không thể ràng buộc mã mời!",
     "JoinUs": "Tham gia với chúng tôi",
-    "JoinUsDesc": "Đăng ký thông qua mã mời của bạn bè hoặc đăng ký trực tiếp.",
-    "SignUp": "Đăng ký",
+    "JoinUsDesc": "Nhận mã mời từ người dùng hiện tại để ràng buộc mối quan hệ lời mời.",
+    "SignUp": "trói buộc",
     "Language": "Ngôn ngữ",
-    "EnterInviteCode": "Nhập mã mời",
+    "EnterInviteCode": "Nhập mã mời của bạn bè",
     "OneUSDTTestnetFaucet": "Vòi thử nghiệm OneUSDT",
     "TestnetFaucetDesc1":"Dựa trên vòi Ethereum SEPOLIA",
     "TestnetFaucetDesc2":"Nhận cho mình một số USDT",
@@ -151,7 +153,9 @@
     "GetUSDT": "Đi nhận 1000 USDT",
     "getSuccess": "đạt được thành công!",
     "getFail": "Không thể lấy được!",
-    "WrongNetwork": "Mạng sai"
+    "WrongNetwork": "Mạng sai",
+    "bindSuccess": "Ràng buộc thành công!",
+    "bindFail": "Ràng buộc không thành công! Vui lòng thử lại!"
   },
   "footer": {
     "Terms": "Điều khoản",

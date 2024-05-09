@@ -103,7 +103,9 @@
     "CopiedSuccess": "Copied Success!",
     "YouGotDeserve": "You Got Deserve",
     "ClaimSuccess": "Claim Success!",
-    "ClaimFail": "Claim Fail!"
+    "ClaimFail": "Claim Fail!",
+    "GetCodeSuccess": "Successfully generated invitation code!",
+    "GetCodeFail": "Failed to generate invitation code! Please try again!"
   },
   "tutorials": {
     "title1": "Earn crypto lotteries",
@@ -140,10 +142,10 @@
     "BridgeAndSwap": "Bridge and Swap",
     "hadRegister": "Already registered, cannot bind invitation code！",
     "JoinUs": "Join Us",
-    "JoinUsDesc": "Get an invite code from an existing user to sign up or sign up directly.",
-    "SignUp": "Sign Up",
+    "JoinUsDesc": "Get an invite code from an existing user to bind an invitation relationship.",
+    "SignUp": "Bind",
     "Language": "Language",
-    "EnterInviteCode": "Enter Invite Code",
+    "EnterInviteCode": "Enter your friend's invite code",
     "OneUSDTTestnetFaucet": "OneUSDT Testnet Faucet",
     "TestnetFaucetDesc1":"Based on ETHEREUM SEPOLIA FAUCET",
     "TestnetFaucetDesc2":"Get some USDT for yourself",
@@ -151,7 +153,9 @@
     "GetUSDT": "Get 1000 USDT",
     "getSuccess": "Get Success!",
     "getFail": "Get Fail!",
-    "WrongNetwork": "Wrong Network"
+    "WrongNetwork": "Wrong Network",
+    "bindSuccess": "Binding successful!",
+    "bindFail": "Binding failed! Please try again!"
   },
   "footer": {
     "Terms": "Terms",

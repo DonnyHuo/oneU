@@ -103,7 +103,9 @@
     "CopiedSuccess": "複製成功!",
     "YouGotDeserve": "您獲得的傭金",
     "ClaimSuccess": "領取成功!",
-    "ClaimFail": "領取失敗!"
+    "ClaimFail": "領取失敗!",
+    "GetCodeSuccess": "成功產生邀請碼!",
+    "GetCodeFail": "產生邀請碼失敗！請重試!"
   },
   "tutorials": {
     "title1": "简单、透明、公平地赚取",
@@ -140,10 +142,10 @@
     "BridgeAndSwap": "跨鏈橋",
     "hadRegister": "已註冊，無法綁定邀請碼！",
     "JoinUs": "加入我們",
-    "JoinUsDesc": "通過好友邀請碼進行註冊或直接註冊。",
-    "SignUp": "註冊",
+    "JoinUsDesc": "向已有使用者取得邀請碼，綁定邀請關係。",
+    "SignUp": "綁定",
     "Language": "語言",
-    "EnterInviteCode": "輸入邀請碼",
+    "EnterInviteCode": "輸入您朋友的邀請碼",
     "OneUSDTTestnetFaucet": "OneUSDT 測試水龍頭",
     "TestnetFaucetDesc1":"基於以太坊 SEPOLIA 水龍頭",
     "TestnetFaucetDesc2":"為自己獲取一些 USDT",
@@ -151,7 +153,9 @@
     "GetUSDT": "去獲取 1000 USDT",
     "getSuccess": "獲取成功!",
     "getFail": "獲取失敗!",
-    "WrongNetwork": "網路錯誤"
+    "WrongNetwork": "網路錯誤",
+    "bindSuccess": "綁定成功！",
+    "bindFail": "綁定失敗！ 請重試！"
   },
   "footer": {
     "Terms": "條款",

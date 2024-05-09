@@ -25,13 +25,56 @@ function Referral() {
     maxCount: 10,
   });
   const { open } = useWeb3Modal();
+
+  const getUserId = async () => {
+    const userId = await getContract(
+      walletProvider,
+      inviteContract,
+      inviteAbi,
+      "getUserId",
+      address
+    );
+    dispatch({ type: "CHANGE_USER", payload: userId.toString() });
+  };
+  const [signUpLoading, setSignUpLoading] = useState(false);
   const copyInfo = (msg) => {
     if (!address) {
       return open();
     }
     if (userId * 1 > 0) {
-      api["success"]({ message: t('referral.CopiedSuccess') });
+      api["success"]({ message: t("referral.CopiedSuccess") });
       navigator.clipboard.writeText(msg);
+    } else {
+      setSignUpLoading(true);
+      getWriteContractLoad(
+        walletProvider,
+        inviteContract,
+        inviteAbi,
+        "signUp",
+        0
+      )
+        .then((res) => {
+          setSignUpLoading(false);
+          api["success"]({ message: t('referral.GetCodeSuccess') });
+          getUserId()
+        })
+        .catch((err) => {
+          setSignUpLoading(false);
+          api["error"]({ message: t('referral.GetCodeFail') });
+          console.log(err);
+        });
+    }
+  };
+
+  const BindFun = () => {
+    if (!address) {
+      return open();
+    }
+    if (userId * 1 > 0) {
+      notification.open({
+        message: "You have bound the invitation relationship!",
+        duration: 5,
+      });
     } else {
       dispatch({ type: "CHANGE_REMODAL", payload: true });
     }
@@ -93,8 +136,8 @@ function Referral() {
   // collectReferralReward
   const [rewardLoading, setRewardLoading] = useState(false);
   const collectReferralReward = async () => {
-    if (!await checkNetWork()) {
-      return open({view: 'Networks'})
+    if (!(await checkNetWork())) {
+      return open({ view: "Networks" });
     }
     setRewardLoading(true);
     await getWriteContractLoad(
@@ -107,14 +150,14 @@ function Referral() {
       .then((res) => {
         setRewardLoading(false);
         api["success"]({
-          message: t('referral.ClaimSuccess'),
+          message: t("referral.ClaimSuccess"),
         });
         referralRewardAccumulated();
       })
       .catch((err) => {
         setRewardLoading(false);
         api["error"]({
-          message: t('referral.ClaimFail'),
+          message: t("referral.ClaimFail"),
         });
         console.log(err);
       });
@@ -186,7 +229,8 @@ function Referral() {
                 <span className="px-4 py-3 leading-5 text-sm">{`${
                   window.location.origin
                 }?code=${userId * 1 > 0 ? userId : "--"}`}</span>
-                <button
+                <Button
+                  loading={signUpLoading}
                   onClick={() =>
                     copyInfo(`${window.location.origin}?code=${userId}`)
                   }
@@ -198,6 +242,12 @@ function Referral() {
                     : userId * 1 <= 0
                     ? t("referral.GetCode")
                     : t("referral.CopyLink")}
+                </Button>
+              </div>
+              <div className="flex items-center justify-between mt-4">
+                <span>Bind Friend‘s code</span>
+                <button className="_active" onClick={() => BindFun()}>
+                  Go To Bind{">"}{" "}
                 </button>
               </div>
             </div>
@@ -353,7 +403,7 @@ function Referral() {
         </div>
       </div>
       <Modal
-        title={t('referral.YouGotDeserve')}
+        title={t("referral.YouGotDeserve")}
         centered
         destroyOnClose={true}
         open={isWonOpen}
