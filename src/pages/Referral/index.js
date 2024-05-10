@@ -234,8 +234,8 @@ function Referral() {
                   onClick={() =>
                     copyInfo(`${window.location.origin}?code=${userId}`)
                   }
-                  className="px-4 _background-gradient2 absolute rounded-r-md"
-                  style={{ top: "-1px", right: "-1px", height: "46px" }}
+                  className="px-4 _background-gradient2 absolute rounded-none rounded-r-md"
+                  style={{ top: "-1px", right: "-1px", height: "46px", }}
                 >
                   {!address
                     ? t("referral.ConnectWallet")
