@@ -244,12 +244,12 @@ function Referral() {
                     : t("referral.CopyLink")}
                 </Button>
               </div>
-              <div className="flex items-center justify-between mt-4">
+              {/* <div className="flex items-center justify-between mt-4">
                 <span>{t('referral.BindCode')}</span>
                 <button className="_active" onClick={() => BindFun()}>
                 {t('referral.GoToBind')}{">"}{" "}
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="pr-4 _hiddenM">
