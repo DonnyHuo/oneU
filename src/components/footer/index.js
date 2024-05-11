@@ -15,7 +15,7 @@ const Footer = () => {
           </Link>
           <div className="w-80 flex items-center justify-around h-32 text-sm _title _footerList">
             <Link to="/terms">{t("footer.Terms")}</Link>
-            <Link to="/policy" className="ml-8">
+            <Link to="/policy" className="ml-6">
             {t("footer.PrivacyPolicy")}
             </Link>
           </div>
