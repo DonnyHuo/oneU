@@ -1877,7 +1877,7 @@ function Lottery() {
               behavior: "smooth",
             })
           }
-          className="_hiddenP fixed bottom-10 right-8 bg-gray-800 w-9 h-9 rounded-full flex items-center justify-center border border-neutral-500"
+          className="_hiddenP fixed bottom-10 right-8 bg-gray-900 w-9 h-9 rounded-full flex items-center justify-center border border-neutral-500"
         >
           <img className="w-3.5" src={require("../../asserts/img/upTop.png")} />
         </button>
