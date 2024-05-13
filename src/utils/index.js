@@ -123,7 +123,6 @@ export async function getContract(
   funcName,
   ...params
 ) {
-  console.log('1111111111')
   const isTrueNetWork = await checkNetWork();
   const provider =
     walletProvider && isTrueNetWork

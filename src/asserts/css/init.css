@@ -26,6 +26,10 @@ a:hover {
   color: #a851ff;
   font-family: Poppins-Medium;
 }
+._active:hover {
+  color: #a851ff;
+}
+
 ._nav-title {
   color: #827f92;
 }

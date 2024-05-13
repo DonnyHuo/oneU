@@ -1,4 +1,3 @@
-
 export const chainList = [
   // {
   //   chainId: 1,
@@ -15,6 +14,8 @@ export const chainList = [
   //   url: "https://cryptologos.cc/logos/arbitrum-arb-logo.png?v=029",
   //   explorerUrl: "https://arbiscan.io",
   //   rpcUrl: "https://arb1.arbitrum.io/rpc",
+  //   inviteContract: "0xd085ffeB0719134DB8E117C5b6106aBC35bBe20C",
+  //   poolManager: "0x1532214641bF5FFE476EFbd7cEb3B36aB37Cc952",
   // },
   {
     chainId: 11155111,
@@ -23,5 +24,7 @@ export const chainList = [
     url: require("../asserts/img/ETH.png"),
     explorerUrl: "https://sepolia.etherscan.io",
     rpcUrl: "https://rpc.sepolia.org",
+    inviteContract: "0xd085ffeB0719134DB8E117C5b6106aBC35bBe20C",
+    poolManager: "0x1532214641bF5FFE476EFbd7cEb3B36aB37Cc952",
   },
 ];

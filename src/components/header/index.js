@@ -92,8 +92,8 @@ const Header = () => {
 
   const [api, contextHolder] = notification.useNotification({
     placement: "topRight",
+    duration: 3,
     top: openUserAccount ? 320 : 0,
-    duration: 5,
     maxCount: 10,
     zIndex: 100000,
   });
@@ -112,7 +112,7 @@ const Header = () => {
           if (openTips) {
             notification.open({
               message: t("header.hadRegister"),
-              duration: 5,
+              duration: 3,
             });
           }
           dispatch({ type: "CHANGE_REMODAL", payload: false });
@@ -531,20 +531,21 @@ const Header = () => {
         </Popover>
       </div>
       <div className="flex items-center">
-        <button
-          className="_border rounded-full p-2 text-sm mr-2 flex items-center"
-          onClick={() => {
-            isConnected ? setFaucetModalOpen(true) : open();
-          }}
-        >
-          <img
-            className="h-5"
-            src={require("../../asserts/img/faucets.png")}
-            alt=""
-          />
-          {/* <span className="ml-2 _hiddenM">{t("header.Faucets")}</span> */}
-        </button>
-
+        {chainId == 11155111 && (
+          <button
+            className="_border rounded-full p-2 text-sm mr-2 flex items-center"
+            onClick={() => {
+              isConnected ? setFaucetModalOpen(true) : open();
+            }}
+          >
+            <img
+              className="h-5"
+              src={require("../../asserts/img/faucets.png")}
+              alt=""
+            />
+            {/* <span className="ml-2 _hiddenM">{t("header.Faucets")}</span> */}
+          </button>
+        )}
         {isConnected && (
           <button
             className={`rounded-full p-2 text-sm mr-2 flex items-center border ${
@@ -567,7 +568,7 @@ const Header = () => {
                 />
 
                 <Popover
-                  content={t('header.NetworkUnsupported')}
+                  content={t("header.NetworkUnsupported")}
                   trigger="hover"
                   placement="bottom"
                   color={"#1C172A"}

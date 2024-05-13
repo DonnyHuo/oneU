@@ -625,6 +625,7 @@ function Lottery() {
     if (!(await checkNetWork())) {
       return open({ view: "Networks" });
     }
+
     const reg = /^[1-9]\d*$/;
 
     if (!reg.test(ticketAmount * 1)) {
@@ -632,11 +633,13 @@ function Lottery() {
         message: t("lottery.EnterCorrectAmount"),
       });
     }
+
     if (amount * 1 > accountBalance * 1) {
       return api["error"]({
         message: t("lottery.InsufficientBalance"),
       });
     }
+    
     if (amount * 1 > selectPool.roundInfo.leftTickets * 1) {
       return api["error"]({
         message: t("lottery.NotEnoughTicketsRemaining"),

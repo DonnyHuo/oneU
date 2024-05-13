@@ -36,6 +36,11 @@ function Referral() {
     );
     dispatch({ type: "CHANGE_USER", payload: userId.toString() });
   };
+
+  useEffect(() => {
+    address && getUserId();
+  }, [address]);
+
   const [signUpLoading, setSignUpLoading] = useState(false);
   const copyInfo = (msg) => {
     if (!address) {
@@ -55,12 +60,12 @@ function Referral() {
       )
         .then((res) => {
           setSignUpLoading(false);
-          api["success"]({ message: t('referral.GetCodeSuccess') });
-          getUserId()
+          api["success"]({ message: t("referral.GetCodeSuccess") });
+          getUserId();
         })
         .catch((err) => {
           setSignUpLoading(false);
-          api["error"]({ message: t('referral.GetCodeFail') });
+          api["error"]({ message: t("referral.GetCodeFail") });
           console.log(err);
         });
     }
@@ -72,7 +77,7 @@ function Referral() {
     }
     if (userId * 1 > 0) {
       notification.open({
-        message: t('header.hadRegister'),
+        message: t("header.hadRegister"),
         duration: 5,
       });
     } else {
@@ -213,7 +218,7 @@ function Referral() {
             <div className="mt-10 _marginAutoM" style={{ maxWidth: "500px" }}>
               <div className="flex items-center justify-between">
                 <div className="font-bold">{t("referral.InviteFriends")}</div>
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <span className="_text">{t("referral.InviteCode")}:</span>
                   <span className="mx-2 _active">
                     {userId * 1 > 0 ? userId : "--"}
@@ -223,7 +228,7 @@ function Referral() {
                     className="w-4 cursor-pointer"
                     src={require("../../asserts/img/copyS.png")}
                   />
-                </div>
+                </div> */}
               </div>
               <div className="flex items-center justify-between mt-3 border rounded-md _borderS1 relative text-nowrap">
                 <span className="px-4 py-3 leading-5 text-sm">{`${
@@ -235,7 +240,7 @@ function Referral() {
                     copyInfo(`${window.location.origin}?code=${userId}`)
                   }
                   className="px-4 _background-gradient2 absolute rounded-none rounded-r-md"
-                  style={{ top: "-1px", right: "-1px", height: "46px", }}
+                  style={{ top: "-1px", right: "-1px", height: "46px" }}
                 >
                   {!address
                     ? t("referral.ConnectWallet")

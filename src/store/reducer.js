@@ -24,6 +24,16 @@ const reducer = (state = initState, action) => {
         ...state,
         reModalOpen: action.payload,
       };
+    case "CHANGE_INVITE_CONTRACT":
+      return {
+        ...state,
+        inviteContract: action.payload,
+      };
+    case "CHANGE_POOL_MANAGER":
+      return {
+        ...state,
+        poolManager: action.payload,
+      };
     default:
       return state;
   }
