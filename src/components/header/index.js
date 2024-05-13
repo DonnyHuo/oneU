@@ -152,6 +152,7 @@ const Header = () => {
         setCode("");
         api["success"]({ message: t("header.bindSuccess") });
         setTimeout(() => {
+          setOpenTips(false)
           dispatch({ type: "CHANGE_REMODAL", payload: false });
         }, 2000);
       })
