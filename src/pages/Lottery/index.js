@@ -1631,7 +1631,7 @@ function Lottery() {
             {t("lottery.Max")}
           </button>
         </div>
-        <div className="flex items-center justify-between mt-3 _nav-title">
+        <div className="flex items-center justify-between flex-wrap mt-3 _nav-title">
           <span>
             {t("lottery.RemainingTickets")}:{" "}
             <span className="_active">
