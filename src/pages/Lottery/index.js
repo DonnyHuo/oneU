@@ -108,9 +108,7 @@ function Lottery() {
     setPools(newArr);
   };
 
-  const poolManager = useSelector(
-    (state) => state.poolManager
-  );
+  const poolManager = useSelector((state) => state.poolManager);
   const address = useSelector((state) => state.address);
 
   const [loading, setLoading] = useState(true);
