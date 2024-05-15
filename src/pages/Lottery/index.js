@@ -217,11 +217,15 @@ function Lottery() {
     setAccountBalance(balance);
   };
 
+  useEffect(() => {
+    address ? getAccountBalance() : setAccountBalance(0);
+  }, [address]);
+
   useInterval(
     () => {
       address ? getAccountBalance() : setAccountBalance(0);
     },
-    2000,
+    5000,
     { immediate: true }
   );
 
@@ -479,11 +483,9 @@ function Lottery() {
     setPools(pools);
   };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     getPoolList();
-  },[])
-
+  }, []);
 
   useInterval(() => {
     getPoolList();
@@ -622,6 +624,7 @@ function Lottery() {
       setIsShareOpen(false);
       return open();
     }
+
     if (!(await checkNetWork())) {
       return open({ view: "Networks" });
     }
@@ -639,7 +642,7 @@ function Lottery() {
         message: t("lottery.InsufficientBalance"),
       });
     }
-    
+
     if (amount * 1 > selectPool.roundInfo.leftTickets * 1) {
       return api["error"]({
         message: t("lottery.NotEnoughTicketsRemaining"),
@@ -823,6 +826,10 @@ function Lottery() {
 
   useEffect(() => {
     address ? getParticipationRecords() : setParticipationRecords([]);
+    address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
+    address
+      ? getWonParticipationRecords()
+      : setWonParticipationRecords({ totalPrizes: 0, records: [] });
   }, [address]);
 
   useInterval(
@@ -840,9 +847,30 @@ function Lottery() {
         ? getWonParticipationRecords()
         : setWonParticipationRecords({ totalPrizes: 0, records: [] });
     },
-    2000,
+    5000,
     { immediate: true }
   );
+
+  useEffect(() => {
+    const jsConfetti = new JSConfetti();
+    jsConfetti
+      .addConfetti({
+        // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
+        confettiColors: [
+          "#FDB630",
+          "#32F7B0",
+          "#3BCB97",
+          "#0F87D0",
+          "#FD3B86",
+          "#FECD3F",
+        ],
+        // confettiRadius: 6,
+        confettiNumber: 2000,
+      })
+      .then(() => {
+        setIsWonOpen(true);
+      });
+  }, [unclaimedPrizes]);
 
   // claim prize
   const [claimLoading, setClaimLoading] = useState(false);
@@ -897,6 +925,7 @@ function Lottery() {
     if (!address) {
       return open();
     }
+
     if (!(await checkNetWork())) {
       return open({ view: "Networks" });
     }
@@ -1024,23 +1053,23 @@ function Lottery() {
             className="_border px-6 rounded-xl _widthP _marginAuto0 _widthM _borderNo _paddingNo"
             ref={stickyRef}
           >
-            <div className="h-16">
+            <div className="h-16 mt-4 mb-2">
               <div className={`_background4 ${stickyShow ? "sticky" : ""}`}>
-                <div className="flex items-center text-lg _justA z-50 h-16">
-                  <div className="flex items-center font-bold">
+                <div className="flex items-center justify-center text-lg _justA z-50 h-16">
+                  <div className="_tabsBg text-sm font-bold">
                     <button
-                      className={!tab ? "_title" : "_text"}
+                      className={`${!tab ? "_tabActive" : "_text"} px-6 py-3`}
                       onClick={() => setTabFun(0)}
                     >
                       {t("lottery.tabs.OngoingLotteries")}
                     </button>
+                    <button
+                      onClick={() => setTabFun(1)}
+                      className={`${tab ? "_tabActive" : "_text"} px-6 py-3`}
+                    >
+                      {t("lottery.tabs.MyReward")}
+                    </button>
                   </div>
-                  <button
-                    onClick={() => setTabFun(1)}
-                    className={`${tab ? "_title" : "_text"} ml-5 font-bold`}
-                  >
-                    {t("lottery.tabs.MyReward")}
-                  </button>
                 </div>
               </div>
             </div>
@@ -1792,22 +1821,29 @@ function Lottery() {
             src={require("../../asserts/img/Congratulations.png")}
             alt=""
           />
-          <div className="flex flex-wrap items-center justify-between mt-10 _title _flexM2">
-            <div className="flex-auto">
-              {t("lottery.YouGot")}{" "}
-              <span className="_active">{openingRound.prize}</span> {USDTSymbol}
-              !
+          {openingRound.prize ? (
+            <div className="flex flex-wrap items-center justify-between mt-10 _title _flexM2">
+              <div className="flex-auto">
+                {t("lottery.YouGot")}{" "}
+                <span className="_active">{openingRound.prize}</span>{" "}
+                {USDTSymbol}!
+              </div>
+              <div className="flex-auto">
+                {t("lottery.WinningNumber")}:{" "}
+                <span className="_active">
+                  {getNewTickets(
+                    openingRound.winNumber * 1,
+                    openingRound.totalTickets * 1
+                  )}
+                </span>
+              </div>
             </div>
-            <div className="flex-auto">
-              {t("lottery.WinningNumber")}:{" "}
-              <span className="_active">
-                {getNewTickets(
-                  openingRound.winNumber * 1,
-                  openingRound.totalTickets * 1
-                )}
-              </span>
+          ) : (
+            <div className="mt-2">
+              {t('lottery.Unclaimed',{unclaimedPrizes})}
             </div>
-          </div>
+          )}
+
           <Link
             to="/?reward"
             onClick={() => {

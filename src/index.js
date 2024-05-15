@@ -52,14 +52,6 @@ createWeb3Modal({
     "--w3m-z-index": 10000,
   },
 });
-// const checkNetWork = async () => {
-//   const chainId = await window.ethereum.request({ method: "eth_chainId" });
-//   const chainIdNow = parseInt(chainId, 16);
-//   const chainIdList = chainList.map((list) => list.networkId);
-//   console.log(chainIdList[2] == chainIdNow);
-//   return chainIdList[2] == chainIdNow;
-// };
-// await checkNetWork();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -102,10 +102,16 @@ export function getContractPrice(contractAddress, abi, funcName, ...params) {
 }
 
 export const checkNetWork = async () => {
-  const chainId = await window.ethereum.request({ method: "eth_chainId" });
-  const chainIdNow = parseInt(chainId, 16);
-  const chainIdList = chainList.filter((list) => list.chainId == chainIdNow);
-  return chainIdList.length ? true : false;
+  if (window.ethereum) {
+    const chainId = await window.ethereum.request({ method: "eth_chainId" });
+    const chainIdNow = parseInt(chainId, 16);
+    console.log('chainIdNow', chainIdNow)
+    const chainIdList = chainList.filter((list) => list.chainId == chainIdNow);
+    return chainIdList.length ? true : false;
+  } else {
+    return false
+  }
+  
 };
 
 /**

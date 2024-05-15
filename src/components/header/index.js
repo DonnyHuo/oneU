@@ -152,7 +152,7 @@ const Header = () => {
         setCode("");
         api["success"]({ message: t("header.bindSuccess") });
         setTimeout(() => {
-          setOpenTips(false)
+          setOpenTips(false);
           dispatch({ type: "CHANGE_REMODAL", payload: false });
         }, 2000);
       })
@@ -208,12 +208,17 @@ const Header = () => {
     setUSDTBalance(balance);
   };
 
+  useEffect(() => {
+    address ? getBalance() : setETHBalance("--");
+    address ? getUSDTBalance() : setUSDTBalance("--");
+  }, [address]);
+
   useInterval(
     () => {
       address ? getBalance() : setETHBalance("--");
       address ? getUSDTBalance() : setUSDTBalance("--");
     },
-    2000,
+    5000,
     { immediate: true }
   );
 

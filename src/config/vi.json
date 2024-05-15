@@ -79,7 +79,8 @@
     "Unfortunately": "Rất tiếc...",
     "BetterLuckNextTime": "Chúc bạn may mắn lần sau",
     "Close": "Đóng",
-    "CurrentRound":"Vòng hiện tại"
+    "CurrentRound":"Vòng hiện tại",
+    "Unclaimed": "Bạn có {{unclaimedPrizes}} USDT đang chờ bạn nhận. Hãy nhận tiền thưởng ngay bây giờ!"
   },
   "referral": {
     "title1": "Mời bạn bè. Kiếm được",

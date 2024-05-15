@@ -79,7 +79,8 @@
     "Unfortunately": "Unfortunately...",
     "BetterLuckNextTime": "Better luck next time",
     "Close": "Close",
-    "CurrentRound": "Current Round"
+    "CurrentRound": "Current Round",
+    "Unclaimed": " You have {{unclaimedPrizes}} USDT waiting for you to claim, Get your bonus now!"
   },
   "referral": {
     "title1": "Invite friends. Earn 3% ",

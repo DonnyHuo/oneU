@@ -124,7 +124,7 @@ a:hover {
   color: #fff;
   border-radius: 30px;
   width: 70px;
-  border-color: #6c697b;
+  border-color: #3D3952;
 }
 .epochSelect {
   color: #111;
@@ -135,10 +135,10 @@ a:hover {
     .ant-select-customize-input
   ):not(.ant-pagination-size-changer)
   .ant-select-selector {
-  border-color: #6e6e6f;
+  border-color: #3D3952;
 }
 .ant-select-selector:hover {
-  border-color: #6e6e6f !important;
+  border-color: #3D3952 !important;
 }
 
 .ant-select-dropdown {
@@ -597,6 +597,14 @@ a:hover {
 .wrongNetwork .ant-popover-inner {
   padding: 8px 10px;
 }
+._tabsBg {
+  background-color: #191428;
+  border-radius: 30px;
+}
+._tabActive {
+  border-radius: 30px;
+  background: linear-gradient(90deg, rgba(206, 0, 255, 0.8) 0%, rgba(127, 0, 255, 0.8) 100%);
+}
 
 @media screen and (min-width: 0px) and (max-width: 500px) {
   ._mt-6 {
@@ -938,7 +946,6 @@ a:hover {
 
 
 @media screen and (min-width: 500px) and (max-width: 5000px) {
-  
   .ant-modal-root .ant-modal-centered .ant-modal {
     width: 420px;
   }

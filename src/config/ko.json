@@ -79,7 +79,8 @@
     "Unfortunately": "아쉽네요...",
     "BetterLuckNextTime": "행운을 빕니다",
     "Close": "닫기",
-    "CurrentRound": "현재 라운드"
+    "CurrentRound": "현재 라운드",
+    "Unclaimed": "{{unclaimedPrizes}} USDT 가 청구되기를 기다리고 있습니다. 지금 보너스를 받으세요!"
   },
   "referral": {
     "title1": "친구를 초대하여 각각의",

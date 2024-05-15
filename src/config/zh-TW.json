@@ -79,7 +79,8 @@
     "Unfortunately": "很遺憾...",
     "BetterLuckNextTime": "下次好運",
     "Close": "關閉",
-    "CurrentRound": "本輪"
+    "CurrentRound": "本輪",
+    "Unclaimed": "您還有{{unclaimedPrizes}} USDT等您領取，立即領取獎金！"
   },
   "referral": {
     "title1": "邀請朋友, 每個好友的參與",
