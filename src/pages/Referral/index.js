@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { notification, Button, Modal } from "antd";
 import { getContract, getWriteContractLoad, checkNetWork } from "../../utils";
-import { useWeb3ModalProvider, useWeb3Modal } from "@web3modal/ethers5/react";
+import {
+  useWeb3ModalProvider,
+  useWeb3Modal,
+  useWeb3ModalAccount,
+} from "@web3modal/ethers5/react";
 import poolManagerAbi from "../../asserts/abi/poolManagerAbi.json";
 import inviteAbi from "../../asserts/abi/inviteAbi.json";
 import erc20Abi from "../../asserts/abi/erc20Abi.json";
@@ -17,6 +21,7 @@ function Referral() {
   const union = require("../../asserts/img/union.png");
   const address = useSelector((state) => state.address);
   const userId = useSelector((state) => state.userId);
+  const inviteContract = useSelector((state) => state.inviteContract);
 
   const dispatch = useDispatch();
   const [api, contextHolder] = notification.useNotification({
@@ -38,8 +43,8 @@ function Referral() {
   };
 
   useEffect(() => {
-    address && getUserId();
-  }, [address]);
+    address && inviteContract && getUserId();
+  }, [address, inviteContract]);
 
   const [signUpLoading, setSignUpLoading] = useState(false);
   const copyInfo = (msg) => {
@@ -130,9 +135,13 @@ function Referral() {
     setRewardAccrued(ethers.utils.formatUnits(rewardAccrued, decimals) * 1);
   };
 
+  useEffect(() => {
+    address && inviteContract && referralRewardAccumulated();
+  }, [address, inviteContract]);
+
   useInterval(
     () => {
-      address && referralRewardAccumulated();
+      address && inviteContract &&  referralRewardAccumulated();
     },
     2000,
     { immediate: true }
@@ -169,7 +178,6 @@ function Referral() {
   };
 
   const [childrenCountOf, setChildrenCountOf] = useState(0);
-  const inviteContract = useSelector((state) => state.inviteContract);
   //获取参与人数
   const getChildrenCountOf = async () => {
     const childrenCountOf = await getContract(
@@ -184,7 +192,7 @@ function Referral() {
 
   useInterval(
     () => {
-      address && userId > 0 ? getChildrenCountOf() : setChildrenCountOf("--");
+      address && userId > 0 && inviteContract ? getChildrenCountOf() : setChildrenCountOf("--");
     },
     2000,
     { immediate: true }

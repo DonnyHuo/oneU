@@ -76,11 +76,6 @@ export const getNewTickets = (tickets, total = 100) => {
   }
 };
 
-const infuraProvider = new ethers.providers.InfuraProvider(
-  "sepolia",
-  "f9eae046939d4b969a42a377d109d17a"
-);
-
 export function getContractPrice(contractAddress, abi, funcName, ...params) {
   const provider = new ethers.providers.InfuraProvider(
     "mainnet",
@@ -105,13 +100,20 @@ export const checkNetWork = async () => {
   if (window.ethereum) {
     const chainId = await window.ethereum.request({ method: "eth_chainId" });
     const chainIdNow = parseInt(chainId, 16);
-    console.log('chainIdNow', chainIdNow)
     const chainIdList = chainList.filter((list) => list.chainId == chainIdNow);
     return chainIdList.length ? true : false;
   } else {
-    return false
+    return false;
   }
-  
+};
+
+export const netWorkNow = async () => {
+  if (window.ethereum) {
+    const chainId = await window.ethereum.request({ method: "eth_chainId" });
+    const chainIdNow = parseInt(chainId, 16);
+    const chainIdList = chainList.filter((list) => list.chainId == chainIdNow);
+    return { infuraRpc: chainIdList[0].infuraRpc, chainId: chainIdNow };
+  }
 };
 
 /**
@@ -130,10 +132,11 @@ export async function getContract(
   ...params
 ) {
   const isTrueNetWork = await checkNetWork();
+  const { infuraRpc } = await netWorkNow();
   const provider =
     walletProvider && isTrueNetWork
       ? new ethers.providers.Web3Provider(walletProvider)
-      : infuraProvider;
+      : new ethers.providers.JsonRpcProvider(infuraRpc);
   const contract = new ethers.Contract(contractAddress, abi, provider);
   return new Promise((resolve, reject) => {
     contract[funcName](...params).then(
@@ -157,16 +160,17 @@ export async function getContract(
  * @param  {...any} params 传入的参数
  * @returns promise
  */
-export function getWriteContract(
+export async function getWriteContract(
   walletProvider,
   contractAddress,
   abi,
   funcName,
   ...params
 ) {
+  const { infuraRpc } = await netWorkNow();
   const provider = walletProvider
     ? new ethers.providers.Web3Provider(walletProvider)
-    : infuraProvider;
+    : new ethers.providers.JsonRpcProvider(infuraRpc);
   const contract = new ethers.Contract(contractAddress, abi, provider);
   const contractWithSigner = contract.connect(provider.getSigner());
   return new Promise((resolve, reject) => {
@@ -189,16 +193,17 @@ export function getWriteContract(
  * @param  {...any} params 传入的参数
  * @returns promise
  */
-export function getContractLoad(
+export async function getContractLoad(
   walletProvider,
   contractAddress,
   abi,
   funcName,
   ...params
 ) {
+  const { infuraRpc } = await netWorkNow();
   const provider = walletProvider
     ? new ethers.providers.Web3Provider(walletProvider)
-    : infuraProvider;
+    : new ethers.providers.JsonRpcProvider(infuraRpc);
   const contract = new ethers.Contract(contractAddress, abi, provider);
   return new Promise((resolve, reject) => {
     contract[funcName](...params).then(
@@ -243,16 +248,17 @@ export function getContractLoad(
  * @param  {...any} params 传入的参数
  * @returns promise
  */
-export function getWriteContractLoad(
+export async function getWriteContractLoad(
   walletProvider,
   contractAddress,
   abi,
   funcName,
   ...params
 ) {
+  const { infuraRpc } = await netWorkNow();
   const provider = walletProvider
     ? new ethers.providers.Web3Provider(walletProvider)
-    : infuraProvider;
+    : new ethers.providers.JsonRpcProvider(infuraRpc);
   const contract = new ethers.Contract(contractAddress, abi, provider);
   const contractWithSigner = contract.connect(provider.getSigner());
   return new Promise((resolve, reject) => {

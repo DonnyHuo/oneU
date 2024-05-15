@@ -1,5 +1,5 @@
 import Header from "./components/header";
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Lottery from "./pages/Lottery";
 import Referral from "./pages/Referral";
@@ -12,22 +12,23 @@ import { chainList } from "./utils/config";
 import { useDispatch } from "react-redux";
 
 function App() {
-  const { chainId, isConnected } = useWeb3ModalAccount();
+  const { chainId } = useWeb3ModalAccount();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('isConnected', isConnected)
-    isConnected && 
-      chainList.map((chain) => {
-        if (chain.chainId == chainId) {
-          dispatch({
-            type: "CHANGE_INVITE_CONTRACT",
-            payload: chain.inviteContract,
-          });
-          dispatch({ type: "CHANGE_POOL_MANAGER", payload: chain.poolManager });
-        }
-      });
-  }, [isConnected]);
+  useLayoutEffect(() => {
+    chainId && chainList.map((chain) => {
+      if (chain.chainId == chainId) {
+        dispatch({
+          type: "CHANGE_INVITE_CONTRACT",
+          payload: chain.inviteContract,
+        });
+        dispatch({
+          type: "CHANGE_POOL_MANAGER",
+          payload: chain.poolManager,
+        });
+      }
+    });
+  }, [chainId]);
 
   return (
     <BrowserRouter>

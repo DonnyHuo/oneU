@@ -78,7 +78,9 @@ const Header = () => {
 
   useEffect(() => {
     // get userId
-    address ? getUserId() : dispatch({ type: "CHANGE_USER", payload: "--" });
+    address && chainId
+      ? getUserId()
+      : dispatch({ type: "CHANGE_USER", payload: "--" });
     // save address
     dispatch({ type: "CHANGE_ADDRESS", payload: address });
   }, [address, chainId]);
@@ -209,9 +211,9 @@ const Header = () => {
   };
 
   useEffect(() => {
-    address ? getBalance() : setETHBalance("--");
-    address ? getUSDTBalance() : setUSDTBalance("--");
-  }, [address]);
+    address && chainId ? getBalance() : setETHBalance("--");
+    address && chainId ? getUSDTBalance() : setUSDTBalance("--");
+  }, [address, chainId]);
 
   useInterval(
     () => {

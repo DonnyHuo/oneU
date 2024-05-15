@@ -108,7 +108,9 @@ function Lottery() {
     setPools(newArr);
   };
 
-  const poolManager = useSelector((state) => state.poolManager);
+  const poolManager = useSelector(
+    (state) => state.poolManager
+  );
   const address = useSelector((state) => state.address);
 
   const [loading, setLoading] = useState(true);
@@ -218,12 +220,12 @@ function Lottery() {
   };
 
   useEffect(() => {
-    address ? getAccountBalance() : setAccountBalance(0);
-  }, [address]);
+    address && poolManager ? getAccountBalance() : setAccountBalance(0);
+  }, [address, poolManager]);
 
   useInterval(
     () => {
-      address ? getAccountBalance() : setAccountBalance(0);
+      address && poolManager ? getAccountBalance() : setAccountBalance(0);
     },
     5000,
     { immediate: true }
@@ -239,28 +241,30 @@ function Lottery() {
       "getAllPoolIds"
     );
     const newRememberSelect = [];
-    for (let i = 0; i < allPools.length; i++) {
-      const pool = await getContract(
-        walletProvider,
-        poolManager,
-        poolManagerAbi,
-        "getPoolInfo",
-        allPools[i]
-      );
-      const roundInformation = {
-        contractAddress: allPools[i].toString(),
-        selectRound: pool.currentRound.toString(),
-        showMore: false,
-      };
-      newRememberSelect.push(roundInformation);
+    if (allPools.length > 0) {
+      for (let i = 0; i < allPools.length; i++) {
+        const pool = await getContract(
+          walletProvider,
+          poolManager,
+          poolManagerAbi,
+          "getPoolInfo",
+          allPools[i]
+        );
+        const roundInformation = {
+          contractAddress: allPools[i].toString(),
+          selectRound: pool.currentRound.toString(),
+          showMore: false,
+        };
+        newRememberSelect.push(roundInformation);
+      }
     }
     setRememberSelect(newRememberSelect);
     // 初始化select后 执行
     getPoolList();
   };
   useEffect(() => {
-    upDataSelectRound();
-  }, []);
+    poolManager && upDataSelectRound();
+  }, [poolManager]);
 
   const [rememberOldTickets, setRememberOldTickets] = useState(-1);
   const [isWonOpen, setIsWonOpen] = useState(false);
@@ -395,10 +399,11 @@ function Lottery() {
   };
 
   useInterval(() => {
-    openingRoundFun();
+    poolManager && openingRoundFun();
   }, 3000);
 
   const getPoolList = async () => {
+    console.log("poolManager", poolManager);
     // 获取所有池子的信息
     const pools = [];
     const allPools = await getContract(
@@ -431,64 +436,69 @@ function Lottery() {
     );
 
     setUSDTDecimals(decimals.toString());
+    if (allPools.length > 0) {
+      for (let i = 0; i < allPools.length; i++) {
+        const pool = await getContract(
+          walletProvider,
+          poolManager,
+          poolManagerAbi,
+          "getPoolInfo",
+          allPools[i]
+        );
 
-    for (let i = 0; i < allPools.length; i++) {
-      const pool = await getContract(
-        walletProvider,
-        poolManager,
-        poolManagerAbi,
-        "getPoolInfo",
-        allPools[i]
-      );
+        const roundInfos = await getContract(
+          walletProvider,
+          poolManager,
+          poolManagerAbi,
+          "getRoundInfo",
+          allPools[i],
+          rememberSelect[i]?.selectRound || pool.currentRound
+        );
 
-      const roundInfos = await getContract(
-        walletProvider,
-        poolManager,
-        poolManagerAbi,
-        "getRoundInfo",
-        allPools[i],
-        rememberSelect[i]?.selectRound || pool.currentRound
-      );
-
-      const resetPool = {
-        USDTAddress: usdt,
-        contractAddress: allPools[i],
-        currentRound: pool.currentRound.toString(),
-        pricePerTicket: ethers.utils.formatUnits(pool.pricePerTicket, decimals),
-        prize: ethers.utils.formatUnits(pool.prize, decimals),
-        roundDuration: pool.roundDuration.toString(),
-        roundGapTime: pool.roundGapTime.toString(),
-        totalTickets: pool.totalTickets.toString(),
-        showMore: rememberSelect[i]?.showMore || false,
-        rewardSymbol: symbol,
-        roundInfo: {
-          endTime: roundInfos.endTime.toString(),
-          status: getStatus(
-            allPools[i],
-            rememberSelect[i]?.selectRound,
-            roundInfos
+        const resetPool = {
+          USDTAddress: usdt,
+          contractAddress: allPools[i],
+          currentRound: pool.currentRound.toString(),
+          pricePerTicket: ethers.utils.formatUnits(
+            pool.pricePerTicket,
+            decimals
           ),
-          isClaimed: roundInfos.isClaimed,
-          leftTickets: roundInfos.leftTickets.toString(),
-          startTime: roundInfos.startTime.toString(),
-          vrfRequestId: roundInfos.vrfRequestId.toString(),
-          winNumber: roundInfos.winNumber.toString(),
-        },
-      };
+          prize: ethers.utils.formatUnits(pool.prize, decimals),
+          roundDuration: pool.roundDuration.toString(),
+          roundGapTime: pool.roundGapTime.toString(),
+          totalTickets: pool.totalTickets.toString(),
+          showMore: rememberSelect[i]?.showMore || false,
+          rewardSymbol: symbol,
+          roundInfo: {
+            endTime: roundInfos.endTime.toString(),
+            status: getStatus(
+              allPools[i],
+              rememberSelect[i]?.selectRound,
+              roundInfos
+            ),
+            isClaimed: roundInfos.isClaimed,
+            leftTickets: roundInfos.leftTickets.toString(),
+            startTime: roundInfos.startTime.toString(),
+            vrfRequestId: roundInfos.vrfRequestId.toString(),
+            winNumber: roundInfos.winNumber.toString(),
+          },
+        };
 
-      pools.push(resetPool);
+        pools.push(resetPool);
+      }
     }
+
     setLoading(false);
 
     setPools(pools);
   };
 
   useEffect(() => {
-    getPoolList();
-  }, []);
+    poolManager && getPoolList();
+  }, [poolManager]);
 
   useInterval(() => {
-    getPoolList();
+    poolManager && getPoolList();
   }, 5000);
 
   const epochOptions = (list) => {
@@ -825,16 +835,20 @@ function Lottery() {
   };
 
   useEffect(() => {
-    address ? getParticipationRecords() : setParticipationRecords([]);
-    address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
-    address
+    address && poolManager
+      ? getParticipationRecords()
+      : setParticipationRecords([]);
+    address && poolManager ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
+    address && poolManager
       ? getWonParticipationRecords()
       : setWonParticipationRecords({ totalPrizes: 0, records: [] });
-  }, [address]);
+  }, [address, poolManager]);
 
   useInterval(
     () => {
-      address ? getParticipationRecords() : setParticipationRecords([]);
+      address && poolManager
+        ? getParticipationRecords()
+        : setParticipationRecords([]);
     },
     5000,
     { immediate: true }
@@ -842,8 +856,8 @@ function Lottery() {
 
   useInterval(
     () => {
-      address ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
-      address
+      address && poolManager ? getUnclaimedPrizes() : setUnclaimedPrizes(0);
+      address && poolManager
         ? getWonParticipationRecords()
         : setWonParticipationRecords({ totalPrizes: 0, records: [] });
     },

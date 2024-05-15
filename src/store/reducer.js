@@ -1,8 +1,8 @@
 const initState = {
   address: "",
   userId: -1,
-  inviteContract: "0xd085ffeB0719134DB8E117C5b6106aBC35bBe20C",
-  poolManager: "0x1532214641bF5FFE476EFbd7cEb3B36aB37Cc952",
+  inviteContract: "0x28aAec993079403D82d7Ec6A0d8b5bB16317E08b",
+  poolManager: "0x6Ea249D3087F64472e689036648416c3FF685FBa",
   reModalOpen: false,
 };
 
