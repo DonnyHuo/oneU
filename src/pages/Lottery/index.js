@@ -852,24 +852,26 @@ function Lottery() {
   );
 
   useEffect(() => {
-    const jsConfetti = new JSConfetti();
-    jsConfetti
-      .addConfetti({
-        // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
-        confettiColors: [
-          "#FDB630",
-          "#32F7B0",
-          "#3BCB97",
-          "#0F87D0",
-          "#FD3B86",
-          "#FECD3F",
-        ],
-        // confettiRadius: 6,
-        confettiNumber: 2000,
-      })
-      .then(() => {
-        setIsWonOpen(true);
-      });
+    if (unclaimedPrizes * 1 > 0) {
+      const jsConfetti = new JSConfetti();
+      jsConfetti
+        .addConfetti({
+          // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸', '🐎'],
+          confettiColors: [
+            "#FDB630",
+            "#32F7B0",
+            "#3BCB97",
+            "#0F87D0",
+            "#FD3B86",
+            "#FECD3F",
+          ],
+          // confettiRadius: 6,
+          confettiNumber: 2000,
+        })
+        .then(() => {
+          setIsWonOpen(true);
+        });
+    }
   }, [unclaimedPrizes]);
 
   // claim prize
@@ -1840,7 +1842,7 @@ function Lottery() {
             </div>
           ) : (
             <div className="mt-2">
-              {t('lottery.Unclaimed',{unclaimedPrizes})}
+              {t("lottery.Unclaimed", { unclaimedPrizes })}
             </div>
           )}
 
