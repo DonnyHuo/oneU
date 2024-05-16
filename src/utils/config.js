@@ -13,7 +13,7 @@ export const chainList = [
     currency: "ETH",
     url: "https://cryptologos.cc/logos/arbitrum-arb-logo.png?v=029",
     explorerUrl: "https://arbiscan.io",
-    rpcUrl: "https://arb1.arbitrum.io/rpc",
+    rpcUrl: "https://arbitrum-mainnet.infura.io/v3/f9eae046939d4b969a42a377d109d17a",
     inviteContract: "0x28aAec993079403D82d7Ec6A0d8b5bB16317E08b",
     poolManager: "0x6Ea249D3087F64472e689036648416c3FF685FBa",
     infuraRpc: "https://arbitrum-mainnet.infura.io/v3/f9eae046939d4b969a42a377d109d17a"
@@ -24,7 +24,7 @@ export const chainList = [
     currency: "SepoliaETH",
     url: require("../asserts/img/ETH.png"),
     explorerUrl: "https://sepolia.etherscan.io",
-    rpcUrl: "https://rpc.sepolia.org",
+    rpcUrl: "https://sepolia.infura.io/v3/f9eae046939d4b969a42a377d109d17a",
     inviteContract: "0xd085ffeB0719134DB8E117C5b6106aBC35bBe20C",
     poolManager: "0x1532214641bF5FFE476EFbd7cEb3B36aB37Cc952",
     infuraRpc: "https://sepolia.infura.io/v3/f9eae046939d4b969a42a377d109d17a"

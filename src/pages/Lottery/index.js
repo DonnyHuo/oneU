@@ -1072,14 +1072,14 @@ function Lottery() {
                 <div className="flex items-center justify-center text-lg _justA z-50 h-16">
                   <div className="_tabsBg text-sm font-bold">
                     <button
-                      className={`${!tab ? "_tabActive" : "_text"} px-6 py-3`}
+                      className={`${!tab ? "_tabActive" : "_text"} px-6 py-3 w-48`}
                       onClick={() => setTabFun(0)}
                     >
                       {t("lottery.tabs.OngoingLotteries")}
                     </button>
                     <button
                       onClick={() => setTabFun(1)}
-                      className={`${tab ? "_tabActive" : "_text"} px-6 py-3`}
+                      className={`${tab ? "_tabActive" : "_text"} px-6 py-3 w-48`}
                     >
                       {t("lottery.tabs.MyReward")}
                     </button>

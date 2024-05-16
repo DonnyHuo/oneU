@@ -113,6 +113,7 @@ export const netWorkNow = async () => {
     const chainIdNow = parseInt(chainId, 16);
     const chainIdList = chainList.filter((list) => list.chainId == chainIdNow);
     return { infuraRpc: chainIdList[0].infuraRpc, chainId: chainIdNow };
+    
   }
 };
 
