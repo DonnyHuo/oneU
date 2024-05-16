@@ -946,6 +946,7 @@ a:hover {
 
 
 @media screen and (min-width: 500px) and (max-width: 5000px) {
+ 
   .ant-modal-root .ant-modal-centered .ant-modal {
     width: 420px;
   }
