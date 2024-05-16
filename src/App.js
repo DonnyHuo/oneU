@@ -15,19 +15,44 @@ function App() {
   const { chainId } = useWeb3ModalAccount();
   const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
-    chainId && chainList.map((chain) => {
-      if (chain.chainId == chainId) {
-        dispatch({
-          type: "CHANGE_INVITE_CONTRACT",
-          payload: chain.inviteContract,
+  const checkChain = async () => {
+    if (window.ethereum) {
+      if (chainId) {
+        chainList.map((chain) => {
+          if (chain.chainId == chainId) {
+            dispatch({
+              type: "CHANGE_INVITE_CONTRACT",
+              payload: chain.inviteContract,
+            });
+            dispatch({
+              type: "CHANGE_POOL_MANAGER",
+              payload: chain.poolManager,
+            });
+          }
         });
-        dispatch({
-          type: "CHANGE_POOL_MANAGER",
-          payload: chain.poolManager,
+      } else {
+        const chainId = await window.ethereum.request({
+          method: "eth_chainId",
+        });
+        const chainIdNow = parseInt(chainId, 16);
+        chainList.map((chain) => {
+          if (chain.chainId == chainIdNow) {
+            dispatch({
+              type: "CHANGE_INVITE_CONTRACT",
+              payload: chain.inviteContract,
+            });
+            dispatch({
+              type: "CHANGE_POOL_MANAGER",
+              payload: chain.poolManager,
+            });
+          }
         });
       }
-    });
+    }
+  }
+
+  useLayoutEffect(()=>{
+    checkChain()
   }, [chainId]);
 
   return (

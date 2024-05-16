@@ -107,13 +107,13 @@ export const checkNetWork = async () => {
   }
 };
 
+
 export const netWorkNow = async () => {
   if (window.ethereum) {
     const chainId = await window.ethereum.request({ method: "eth_chainId" });
     const chainIdNow = parseInt(chainId, 16);
     const chainIdList = chainList.filter((list) => list.chainId == chainIdNow);
     return { infuraRpc: chainIdList[0].infuraRpc, chainId: chainIdNow };
-    
   }
 };
 
