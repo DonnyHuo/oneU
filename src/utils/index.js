@@ -77,10 +77,7 @@ export const getNewTickets = (tickets, total = 100) => {
 };
 
 export function getContractPrice(contractAddress, abi, funcName, ...params) {
-  const provider = new ethers.providers.InfuraProvider(
-    "mainnet",
-    "f9eae046939d4b969a42a377d109d17a"
-  );
+  const provider = new ethers.providers.JsonRpcProvider('https://arbitrum-mainnet.infura.io/v3/f9eae046939d4b969a42a377d109d17a');
   const contract = new ethers.Contract(contractAddress, abi, provider);
   return new Promise((resolve, reject) => {
     contract[funcName](...params).then(
@@ -114,6 +111,8 @@ export const netWorkNow = async () => {
     const chainIdNow = parseInt(chainId, 16);
     const chainIdList = chainList.filter((list) => list.chainId == chainIdNow);
     return { infuraRpc: chainIdList[0].infuraRpc, chainId: chainIdNow };
+  } else {
+    return { infuraRpc: chainList[0].infuraRpc, chainId: chainList[0].chainId };
   }
 };
 

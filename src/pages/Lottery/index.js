@@ -171,16 +171,16 @@ function Lottery() {
   const getPriceList = async () => {
     // BTC
     const btcPrice = await getPrice(
-      "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c"
+      "0x6ce185860a4963106506C203335A2910413708e9"
     );
     // ETH
     const ethPrice = await getPrice(
-      "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419"
+      "0x639Fe6ab55C921f74e7fac1ee960C0B6293ba612"
     );
 
     // SOL
     const solPrice = await getPrice(
-      "0x4ffC43a60e009B551865A93d232E33Fce9f01507"
+      "0x24ceA4b8ce57cdA5058b924B9B9987992450590c"
     );
 
     setPrices([btcPrice, ethPrice, solPrice]);
@@ -401,7 +401,6 @@ function Lottery() {
   }, 3000);
 
   const getPoolList = async () => {
-    console.log("poolManager", poolManager);
     // 获取所有池子的信息
     const pools = [];
     const allPools = await getContract(
