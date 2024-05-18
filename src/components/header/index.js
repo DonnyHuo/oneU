@@ -355,7 +355,7 @@ const Header = () => {
 
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    setIsMobile(window.innerWidth <= 768);
+    setIsMobile(window.innerWidth <= 800);
   }, [window.innerWidth]);
 
   const LangList = () => {

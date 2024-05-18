@@ -606,7 +606,7 @@ a:hover {
   background: linear-gradient(90deg, rgba(206, 0, 255, 0.8) 0%, rgba(127, 0, 255, 0.8) 100%);
 }
 
-@media screen and (min-width: 0px) and (max-width: 500px) {
+@media screen and (min-width: 0px) and (max-width: 800px) {
   ._mt-6 {
     margin-top: 40px;
   }
@@ -945,7 +945,7 @@ a:hover {
 }
 
 
-@media screen and (min-width: 500px) and (max-width: 5000px) {
+@media screen and (min-width: 800px) and (max-width: 5000px) {
  
   .ant-modal-root .ant-modal-centered .ant-modal {
     width: 420px;
