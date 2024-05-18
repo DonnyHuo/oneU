@@ -34,7 +34,7 @@ import moment from "moment";
 import CountDown from "../../components/countDown";
 import Footer from "../../components/footer";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import { useInterval, useTimeout } from "ahooks";
+import { useInterval, useLocalStorageState } from "ahooks";
 import JSConfetti from "js-confetti";
 import { useTranslation } from "react-i18next";
 
@@ -89,7 +89,7 @@ function Lottery() {
 
   const [noWon, setNoWon] = useState(false);
 
-  const [pools, setPools] = useState([]);
+  const [pools, setPools] = useLocalStorageState("pools", { defaultValue: [] });
 
   const setShowMoreInfoFun = (index) => {
     const newArr = pools.map((list, ind) => {
@@ -113,7 +113,7 @@ function Lottery() {
 
   const [loading, setLoading] = useState(true);
 
-  const [rows, setRows] = useState(2);
+  const [rows, setRows] = useState(0);
 
   const [accountBalance, setAccountBalance] = useState(0);
 
@@ -166,7 +166,9 @@ function Lottery() {
     );
   };
 
-  const [prices, setPrices] = useState([]);
+  const [prices, setPrices] = useLocalStorageState("coinPrices", {
+    defaultValue: [],
+  });
 
   const getPriceList = async () => {
     // BTC
@@ -229,7 +231,10 @@ function Lottery() {
     { immediate: true }
   );
 
-  const [rememberSelect, setRememberSelect] = useState([]);
+  const [rememberSelect, setRememberSelect] = useLocalStorageState(
+    "selectRound",
+    { defaultValue: [] }
+  );
 
   const upDataSelectRound = async () => {
     const allPools = await getContract(
@@ -262,7 +267,7 @@ function Lottery() {
   };
   useEffect(() => {
     poolManager && upDataSelectRound();
-  }, [poolManager]);
+  }, [poolManager, chainId]);
 
   const [rememberOldTickets, setRememberOldTickets] = useState(-1);
   const [isWonOpen, setIsWonOpen] = useState(false);
@@ -402,14 +407,14 @@ function Lottery() {
 
   const getPoolList = async () => {
     // 获取所有池子的信息
-    const pools = [];
+    const _pools = [];
     const allPools = await getContract(
       walletProvider,
       poolManager,
       poolManagerAbi,
       "getAllPoolIds"
     );
-    setRows(allPools.length);
+    setRows(pools.length > 0 ? 0 : allPools.length);
 
     // 获取usdt信息
     const usdt = await getContract(
@@ -481,13 +486,12 @@ function Lottery() {
           },
         };
 
-        pools.push(resetPool);
+        _pools.push(resetPool);
       }
     }
 
     setLoading(false);
-
-    setPools(pools);
+    setPools(_pools);
   };
 
   useEffect(() => {
@@ -496,7 +500,7 @@ function Lottery() {
 
   useInterval(() => {
     poolManager && getPoolList();
-  }, 5000);
+  }, 3000);
 
   const epochOptions = (list) => {
     const options = [];
