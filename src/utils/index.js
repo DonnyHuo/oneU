@@ -109,8 +109,13 @@ export const netWorkNow = async () => {
   if (window.ethereum) {
     const chainId = await window.ethereum.request({ method: "eth_chainId" });
     const chainIdNow = parseInt(chainId, 16);
+    console.log('chainIdNow', chainIdNow)
     const chainIdList = chainList.filter((list) => list.chainId == chainIdNow);
-    return { infuraRpc: chainIdList[0].infuraRpc, chainId: chainIdNow };
+    if (chainIdList.length === 0) {
+      return { infuraRpc: chainList[0].infuraRpc, chainId: chainList[0].chainId }
+    } else {
+      return { infuraRpc: chainIdList[0].infuraRpc, chainId: chainIdNow };
+    }
   } else {
     return { infuraRpc: chainList[0].infuraRpc, chainId: chainList[0].chainId };
   }
